@@ -1,0 +1,3 @@
+Weboldal: https://kgaming.ddns.net/suli/a/
+Github: https://github.com/ELTE-EVP-Webshop
+Adatbázis modellező: https://dbdiagram.io/d

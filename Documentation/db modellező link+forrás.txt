@@ -1,0 +1,121 @@
+https://dbdiagram.io/d
+
+Table webshop.user{
+  id int [pk, increment]
+  username varchar [not null]
+  password varchar [not null]
+  email varchar [not null]
+  gender tinyint [not null, note: '0-1-2']
+  phone varchar
+  country varchar [note: 'Ország']
+  country_1 varchar [note: 'Megye']
+  city varchar
+  post_code smallint [note: 'Legnagyobb Mo. ir.szám: 9985']
+  street varchar
+  house_number varchar [note: 'vchar, mert  1/B pl.']
+  post_other varchar [note: 'emelet / ajtó, egyéb']
+  mail_confirmed bool [not null]
+}
+
+Table webshop.product{
+  id int [pk, increment]
+  name varchar [not null]
+  description varchar
+  price int [not null]
+  sale_price int
+  stock int [not null, default: 0]
+  visible bool [not null, default: true]
+}
+
+Table webshop.product_images{
+  product_id int [not null, ref: > webshop.product.id]
+  image_url varchar [not null]
+  priority tinyint [not null, default: 0]
+  indexes{
+    (product_id, image_url) [pk]
+  }
+}
+
+Table webshop.categories{
+  id int [pk, increment]
+  category varchar [not null]
+  description varchar
+  priority tinyint [not null, default: 0]
+}
+
+Table webshop.product_category{
+  product_id int [not null, ref: > webshop.product.id]
+  category_id int [not null, ref: > webshop.categories.id]
+  indexes{
+    (product_id, category_id) [pk]
+  }
+}
+
+Table webshop.keywords{
+  product_id int [not null, ref: > webshop.product.id]
+  keyword varchar [not null]
+  indexes{
+    (product_id, keyword) [pk]
+  }
+}
+
+Table webshop.variations{
+  id int [pk, increment]
+  name varchar [not null]
+}
+
+Table webshop.product_variations {
+  variation_id int [not null, ref: > webshop.variations.id]
+  product_id int [not null, ref: > webshop.product.id]
+  small_desc varchar
+  indexes{
+    (variation_id, product_id) [pk]
+  }
+}
+
+Table webshop.orders{
+  id int [pk, increment]
+  user_id int [not null, ref: > webshop.user.id]
+  order_date datetime [not null, note:'default: NOW()']
+  order_state tinyint [not null, note:'programban kezelt enum alapján']
+  payment_method tinyint [not null, note:'programban kezelt enum alapján']
+  payment_state tinyint [not null, note: 'programban kezelt enum alapján']
+  phone varcahr [not null]
+  country varchar [not null, note: 'Ország']
+  country_1 varchar [not null, note: 'Megye']
+  city varchar [not null]
+  post_code smallint [note: 'Legnagyobb Mo. ir.szám: 9985']
+  street varchar [not null]
+  house_number varchar [not null, note: 'vchar, mert  1/B pl.']
+  post_other varchar [not null, note: 'emelet / ajtó, egyéb']
+}
+
+Table webshop.order_products{
+  order_id int [not null, ref: > webshop.orders.id]
+  product_id int [not null, ref: > webshop.product.id]
+  count int [not null, default: 1]
+  price int [not null]
+  sale_price int [not null]
+  indexes {
+    (order_id, product_id) [pk]
+  }
+}
+
+Table webshop.basket{
+  user_id int [not null, ref: > webshop.user.id]
+  product_id int [not null, ref: > webshop.product.id]
+  count int [not null, default: 1]
+  expire datetime
+  indexes{
+    (user_id, product_id) [pk]
+  }
+}
+
+Table webshop.tokens{
+  token varchar [pk, not null]
+  type tinyint [not null, note:'programban kezelt enum alapján']
+  value int [not null, default: 1]
+  remaining int [not null, default: -1]
+  expire datetime
+  description varchar
+}

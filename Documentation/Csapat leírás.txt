@@ -1,0 +1,10 @@
+Csapatnév: n+1.csapat
+
+Tagok (Ex NTSZKI brigád):
+	- Harkai Martin
+	- Rába Krisztián
+	- Vass-Horváth Balázs
+		
+Weboldal: https://kgaming.ddns.net/suli/a/
+
+Project: Budget webshop: IK Webshop

@@ -1,0 +1,17 @@
+10.01
+	- Weboldal (R.K)
+	- MYSQL szerver (R.K)
+	- Prezentáció (V.H.B, H.M)
+	- Jegyzőkönyv (H.M, R.K, V.H.B)
+	- Specifikáció(H.M, R.K)
+	- Github repo létrehozás + tagok felvétele (V.H.B)
+10.08
+	- Megbeszélés (H.M, R.K, V.H.B)
+	- Netbeans telepítés/frissítés (H.M, R.K, V.H.B)
+	- Java ismeretek felfrissítése (H.M, R.K, V.H.B)
+10.16
+	- Adatbázis tervezés (V.H.B)
+	- Adatbázis létrehozás (V.H.B)
+	- Github organization (V.H.B)
+	- Csapatleírás, todo, előmenetel doksi létrehozás (V.H.B)
+	- Rövid megbeszélés (H.M, R.K, V.H.B)

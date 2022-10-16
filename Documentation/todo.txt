@@ -1,0 +1,5 @@
+DB CHECK hozzáadása:
+	-orders.order_state
+	-orders.payment_method
+	-orders.payment_state
+	-tokens.type
