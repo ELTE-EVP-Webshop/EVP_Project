@@ -15,3 +15,5 @@
 	- Github organization (V.H.B)
 	- Csapatleírás, todo, előmenetel doksi létrehozás (V.H.B)
 	- Rövid megbeszélés (H.M, R.K, V.H.B)
+10.20
+	- Gantt dia (HM,RK,VHB)
