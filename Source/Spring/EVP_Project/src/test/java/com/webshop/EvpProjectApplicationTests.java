@@ -1,10 +1,10 @@
-package com.webshop.evp;
+package com.webshop;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class EvpApplicationTests {
+class EvpProjectApplicationTests {
 
 	@Test
 	void contextLoads() {
