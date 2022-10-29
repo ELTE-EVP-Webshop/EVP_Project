@@ -1,2 +1,0 @@
-Adatbázis adatok: application.properties fileban
-Java: 17, Maven (java) project

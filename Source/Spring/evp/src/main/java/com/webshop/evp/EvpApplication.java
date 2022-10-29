@@ -1,12 +1,13 @@
-package com.webshop;
+package com.webshop.evp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EvpProjectApplication{
+public class EvpApplication {
+
 	public static void main(String[] args) {
-		SpringApplication.run(EvpProjectApplication.class, args);
+		SpringApplication.run(EvpApplication.class, args);
 	}
 
 }

@@ -17,7 +17,3 @@
 	- Rövid megbeszélés (H.M, R.K, V.H.B)
 10.20
 	- Gantt dia (HM,RK,VHB)
-10.29
-	- Project (újra) létrehozása, spring, maven
-	- "Adatbázisra kötés"
-	- UserController -> RestApi (GetAll, Get, Post, *Put*, *Delete*)
