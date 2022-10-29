@@ -2,4 +2,4 @@ Weboldal: https://kgaming.ddns.net/suli/a/
 Github: https://github.com/ELTE-EVP-Webshop
 Adatbázis modellező: https://dbdiagram.io/d
 Spring web services: https://www.youtube.com/watch?v=th3uIP7D8nk&ab_channel=JavaGuides
-Gantt dia exvel: https://www.vertex42.com/Files/download2/themed.php?file=simple-gantt-chart_ms.xlsx
+Gantt dia excel: https://www.vertex42.com/Files/download2/themed.php?file=simple-gantt-chart_ms.xlsx

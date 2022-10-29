@@ -3,3 +3,6 @@ DB CHECK hozzáadása:
 	-orders.payment_method
 	-orders.payment_state
 	-tokens.type
+
+Spring app
+	- User model -> Db adatok
