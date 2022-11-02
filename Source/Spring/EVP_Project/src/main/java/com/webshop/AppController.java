@@ -14,16 +14,39 @@ import org.springframework.web.bind.annotation.RestController;
 public class AppController {
 	
 	@Autowired
-	private UserRepository repo;
+	private UserRepository userRepo;
+	@Autowired
+	private ProductRepository productRepo;
+	@Autowired
+	private OrdersRepository ordersRepo;
+	@Autowired
+	private BasketRepository basketRepo;
+	@Autowired
+	private OrderProductsRepository orderProductsRepo;
+	@Autowired
+	private ProductVariationsRepository productVariationsRepo;
+	@Autowired
+	private ProductImagesRepository productImagesRepo;
+	@Autowired
+	private ProductCategoryRepository productCategoryRepo;
+	@Autowired
+	private KeywordsRepository keywordsRepo;
+	@Autowired
+	private TokensRepository tokensRepo;
+	@Autowired
+	private ProductCategoriesRepository productCategoriesRepo;
+	@Autowired
+	private VariationsRepository variationsRepo;
 	
+	//User
 	@GetMapping("/users")
-	public List<User> all() {
-		return repo.findAll();
+	public List<User> allUser() {
+		return userRepo.findAll();
 	}
 	
 	@GetMapping("/users/{id}")
-	User byId(@PathVariable Long id) {
-	    return repo.findById(id).orElseThrow();
+	User userById(@PathVariable Long id) {
+	    return userRepo.findById(id).orElseThrow();
 	  }
 	
 	@PutMapping("/users/{id}")
@@ -32,7 +55,31 @@ public class AppController {
 	}
 	
 	@DeleteMapping("/users/{id}")
-	  void deleteEmployee(@PathVariable Long id) {
+	  void deleteUser(@PathVariable Long id) {
 	    
 	  }
+	
+	
+	//Product
+	@GetMapping("/products")
+	public List<Product> allProduct() {
+		return productRepo.findAll();
+	}
+	
+	@GetMapping("/products/{id}")
+	Product ProductById(@PathVariable Long id) {
+	    return productRepo.findById(id).orElseThrow();
+	  }
+	
+	@PutMapping("/products/{id}")
+	Product updateProduct(@RequestBody Product newProduct, @PathVariable Long id) {
+		return null;
+	}
+	
+	@DeleteMapping("/products/{id}")
+	  void deleteProduct(@PathVariable Long id) {
+	    
+	  }
+	
+	
 }
