@@ -1,59 +1,50 @@
 export default function Header() {
     return(
         <header>
-         <div class="header">
-            <div class="container-fluid">
-               <div class="row">
-                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
-                     <div class="full">
-                        <div class="center-desk">
-                           <div class="logo">
-                              <a href="index.html"><img src="images/logo.png" alt="#" /></a>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
-                     <nav class="navigation navbar navbar-expand-md navbar-dark ">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarsExample04">
-                           <ul class="navbar-nav mr-auto">
-                              <li class="nav-item active">
-                                 <a class="nav-link" href="index.html">Főoldal</a>
-                              </li>
-                              <li class="nav-item">
-                                 <a class="nav-link" href="about.html">Rúlunk</a>
-                              </li>
-                              <li class="nav-item">
-                                 <a class="nav-link" href="computer.html">Asztali PC</a>
-                              </li>
-                              <li class="nav-item">
-                                 <a class="nav-link" href="laptop.html">Laptop</a>
-                              </li>
-                              <li class="nav-item">
-                                 <a class="nav-link" href="product.html">Termékek</a>
-                              </li>
-                              <li class="nav-item">
-                                 <a class="nav-link" href="contact.html">Kapcsolat</a>
-                              </li>
-                              <li class="nav-item d_none">
-                                 <a class="nav-link" href="#"><i class="fa fa-search" aria-hidden="true"></i></a>
-                              </li>
-                              <li class="nav-item d_none">
-                                 <a class="nav-link" href="#">Bejelentkezés</a>
-                              </li>
-                              <li class="nav-item d_none">
-                                 <a class="nav-link" href="#">Regisztráció</a>
-                              </li>
-                           </ul>
-                        </div>
-                     </nav>
-                  </div>
-               </div>
+          <div class="site-navbar" role="banner">
+
+          <div class="container">
+            <div class="row align-items-center">
+              
+              <div class="col-11 col-xl-2">
+                <h1 class="mb-0 site-logo"><a href="index.html" class="text-white mb-0">IK webshop</a></h1>
+              </div>
+              <div class="col-12 col-md-10 d-none d-xl-block">
+                <nav class="site-navigation position-relative text-right" role="navigation">
+
+                  <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                    <li class="active"><a href="index.html"><span>Home</span></a></li>
+                    <li class="has-children">
+                      <a href="about.html"><span>Dropdown</span></a>
+                      <ul class="dropdown arrow-top">
+                        <li><a href="#">Menu One</a></li>
+                        <li><a href="#">Menu Two</a></li>
+                        <li><a href="#">Menu Three</a></li>
+                        <li class="has-children">
+                          <a href="#">Dropdown</a>
+                          <ul class="dropdown">
+                            <li><a href="#">Menu One</a></li>
+                            <li><a href="#">Menu Two</a></li>
+                            <li><a href="#">Menu Three</a></li>
+                            <li><a href="#">Menu Four</a></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li><a href="listings.html"><span>Listings</span></a></li>
+                    <li><a href="about.html"><span>About</span></a></li>
+                    <li><a href="blog.html"><span>Blog</span></a></li>
+                    <li><a href="contact.html"><span>Contact</span></a></li>
+                  </ul>
+                </nav>
+              </div>
+
+
+              
+              </div>
+
             </div>
-         </div>
+          </div>
       </header>
     );
 }

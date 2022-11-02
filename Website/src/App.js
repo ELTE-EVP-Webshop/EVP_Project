@@ -1,4 +1,8 @@
 import './App.css';
+//import './css/owl.carousel.min.css';
+import './css/bootstrap.min.css';
+import './css/headerstyle.css';
+import './css/footerstyle.css';
 
 import Header from './components/Header';
 import Banner from './components/Banner';
@@ -11,10 +15,10 @@ function App() {
   return (
     <>
       <Header></Header>
-      <Banner></Banner>
+      {/*<Banner></Banner>
       <ChoiceBoxes></ChoiceBoxes>
       <Products></Products>
-      <Discount></Discount>
+      <Discount></Discount>*/}
       <Footer></Footer>
       </>
   );
