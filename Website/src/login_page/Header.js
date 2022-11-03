@@ -11,7 +11,7 @@ export default function Header() {
                 <div class="col-12 col-md-10 d-none d-xl-block">
                   <nav class="site-navigation position-relative text-right" role="navigation">
                     <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
-                      <li class="nav-item active"><a href="#"><span>Főoldal</span></a></li>
+                      <li class="nav-item"><a href="#"><span>Főoldal</span></a></li>
                       <li class="has-children nav-item">
                         <a href="#"><span>Kategóriák</span></a>
                         <ul class="dropdown arrow-top">
@@ -33,7 +33,7 @@ export default function Header() {
                       
                       <li class="nav-item"><a href="#"><span>Rólunk</span></a></li>
                       <li class="nav-item"><a href="#"><span>Kapcsolat</span></a></li>
-                      <li class="nav-item"><a href="/login"><span class='login-button'>Bejelentkezés</span></a></li>
+                      <li class="nav-item active"><a href="#"><span class='login-button'>Bejelentkezés</span></a></li>
                     </ul>
                   </nav>
                 </div>

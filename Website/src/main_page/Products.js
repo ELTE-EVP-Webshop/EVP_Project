@@ -2,6 +2,7 @@
 export default function Products() {
     return(
       <body>
+         <div class="products">
          <div className="container">
             <div className="row">
                <div className="col-md-12">
@@ -61,6 +62,7 @@ export default function Products() {
                   </div>
                </div>
             </div>
+         </div>
          </div>
          </body>
 
