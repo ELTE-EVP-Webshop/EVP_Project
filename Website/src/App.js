@@ -4,6 +4,7 @@ import './css/bootstrap.min.css';
 import './css/headerstyle.css';
 import './css/footerstyle.css';
 import './fonts/icomoon/style.css';
+import './css/productsstyle.css';
 
 import Header from './components/Header';
 import Banner from './components/Banner';
@@ -17,9 +18,9 @@ function App() {
     <>
       <Header></Header>
       {/*<Banner></Banner>
-      <ChoiceBoxes></ChoiceBoxes>
+      <ChoiceBoxes></ChoiceBoxes>*/}
       <Products></Products>
-      <Discount></Discount>*/}
+      {/*<Discount></Discount>*/}
       <Footer></Footer>
       </>
   );
