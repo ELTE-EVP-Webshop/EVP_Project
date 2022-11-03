@@ -42,6 +42,7 @@ public class AppController {
 	@GetMapping("/users")
 	public List<User> allUser() {
 		return userRepo.findAll();
+		
 	}
 	
 	@GetMapping("/users/{id}")
