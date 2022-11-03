@@ -1,0 +1,42 @@
+@startuml
+actor Customer
+actor WebshopAdmin
+rectangle OrderMethod{
+  (Browse Products)
+  (Search Products)
+  (Browse Products) --> (Add items to cart)
+  (Search Products) --> (Add items to cart)
+  (Add items to cart) .> (Login) : include
+  (Add items to cart) -left.> (Check is exist) : extend
+  (Add items to cart) --> (Browse Products)
+  (Add items to cart) --> (Search Products)
+  (Add items to cart) --> (Order)
+  (Order) .> (Choose delivery method) : include
+  (Order) .> (Choose payment method) : include
+  (Choose payment method) --> (Pay)
+  (Choose delivery method) .> (Check delivery address) : extend
+}
+
+rectangle AcceptOrder{
+  (Check new Order)
+  (Check new Order) --> (Pack order)
+  (Pack order) .> (Check if paid) : include
+  (Pack order) --> (Delivery)
+  (Delivery) .> (Check choosed delivery method) : extend
+  (Delivery) --> (Close order)
+}
+
+rectangle ManageWebshop{
+  (Add new product) --> (Fill data /Name, description, price.../)
+  (Remove *hide* old product)
+  (Update Exist products) --> (Price, count, description...)
+  (Price, count, description...) --> (Save update)
+  (Discount products)
+  (Manage categories /New, Add product to/)
+}
+Customer --> OrderMethod
+WebshopAdmin --> AcceptOrder
+OrderMethod --> AcceptOrder
+WebshopAdmin --> ManageWebshop
+
+@enduml

@@ -26,7 +26,7 @@ CREATE TABLE `webshop`.`product` (
   `sale_price` int,
   `stock` int NOT NULL DEFAULT 0,
   `visible` bool NOT NULL DEFAULT true,
-  CHECK (`price` < 0)
+  CHECK (`price` > 0)
 );
 
 CREATE TABLE `webshop`.`product_images` (
