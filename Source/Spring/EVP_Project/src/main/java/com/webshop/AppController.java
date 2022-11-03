@@ -81,5 +81,9 @@ public class AppController {
 	    
 	  }
 	
-	
+	//Product
+		@GetMapping("/testDebug")
+		public String getDebug() {
+			return "Szia :)";
+		}
 }
