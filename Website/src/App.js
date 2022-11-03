@@ -6,12 +6,12 @@ import './css/footerstyle.css';
 import './fonts/icomoon/style.css';
 import './css/productsstyle.css';
 
-import Header from './components/Header';
-import Banner from './components/Banner';
-import ChoiceBoxes from './components/ChoiceBoxes';
-import Products from './components/Products';
-import Discount from './components/Discount';
-import Footer from './components/Footer';
+import Header from './main_page/Header';
+import Banner from './main_page/Banner';
+import ChoiceBoxes from './main_page/ChoiceBoxes';
+import Products from './main_page/Products';
+import Discount from './main_page/Discount';
+import Footer from './main_page/Footer';
 
 function App() {
   return (
