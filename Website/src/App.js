@@ -1,8 +1,9 @@
 import './App.css';
-//import './css/owl.carousel.min.css';
+
 import './css/bootstrap.min.css';
 import './css/headerstyle.css';
 import './css/footerstyle.css';
+import './fonts/icomoon/style.css';
 
 import Header from './components/Header';
 import Banner from './components/Banner';
