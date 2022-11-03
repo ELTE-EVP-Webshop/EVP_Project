@@ -1,3 +1,4 @@
+
 export default function Header() {
     return(
         <header>
@@ -7,13 +8,13 @@ export default function Header() {
             <div class="row align-items-center">
               
               <div class="col-11 col-xl-2">
-                <h1 class="mb-0 site-logo"><a href="index.html" class="text-white mb-0">IK webshop</a></h1>
+                <h1 class="mb-0 site-logo"><a href="/" class="text-white mb-0">IK webshop</a></h1>
               </div>
               <div class="col-12 col-md-10 d-none d-xl-block">
                 <nav class="site-navigation position-relative text-right" role="navigation">
 
                   <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
-                    <li class="active"><a href="index.html"><span>Home</span></a></li>
+                    <li><a href="/"><span>Főoldal</span></a></li>
                     <li class="has-children">
                       <a href="about.html"><span>Dropdown</span></a>
                       <ul class="dropdown arrow-top">
@@ -31,10 +32,10 @@ export default function Header() {
                         </li>
                       </ul>
                     </li>
-                    <li><a href="listings.html"><span>Listings</span></a></li>
-                    <li><a href="about.html"><span>About</span></a></li>
+                    <li><a href="/products"><span>Termékek</span></a></li>
+                    <li><a href="about.html"><span>Bejelentkezés/Regisztráció</span></a></li>
                     <li><a href="blog.html"><span>Blog</span></a></li>
-                    <li><a href="contact.html"><span>Contact</span></a></li>
+                    <li><a href="contact.html"><span>Kapcsolat</span></a></li>
                   </ul>
                 </nav>
               </div>

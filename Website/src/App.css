@@ -5,6 +5,8 @@ body {
     background-image: linear-gradient(to bottom right, rgb(13, 0, 255), rgba(0, 119, 255, 0.711)) !important;
     height:100vh;
     position: relative; 
+    overflow: hidden;
+    
 }
 body:before {
     content: "";
@@ -21,3 +23,8 @@ body:before {
     visibility: hidden;
     z-index: 1; 
 }
+
+header {
+    padding-bottom: 7%;
+}
+
