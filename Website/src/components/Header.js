@@ -25,6 +25,7 @@ export default function Header() {
                               <li><a href="#">Ram</a></li>
                               <li><a href="#">Tápegység</a></li>
                               <li><a href="#">Videókártya</a></li>
+                              <li><a href="#">adatbázisból majd listázva</a></li>
                             </ul>
                           </li>
                         </ul>
