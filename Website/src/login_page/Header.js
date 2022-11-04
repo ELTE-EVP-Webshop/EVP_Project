@@ -1,3 +1,6 @@
+import {
+  Link,
+} from "react-router-dom";
 export default function Header() {
     return(
         <header class="site-navbar" role="banner">
@@ -11,7 +14,7 @@ export default function Header() {
                 <div class="col-12 col-md-10 d-none d-xl-block">
                   <nav class="site-navigation position-relative text-right" role="navigation">
                     <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
-                      <li class="nav-item"><a href="/"><span>Főoldal</span></a></li>
+                      <li class="nav-item"><a><span><Link to="/">Főoldal</Link></span></a></li>
                       <li class="has-children nav-item">
                         <a href="#"><span>Kategóriák</span></a>
                         <ul class="dropdown arrow-top">
@@ -33,7 +36,7 @@ export default function Header() {
                       
                       <li class="nav-item"><a href="#"><span>Rólunk</span></a></li>
                       <li class="nav-item"><a href="#"><span>Kapcsolat</span></a></li>
-                      <li class="nav-item active"><a href="#"><span class='login-button'>Bejelentkezés</span></a></li>
+                      <li class="nav-item active"><a><span class='login-button'><Link to="/login">Bejelentkezés</Link></span></a></li>
                     </ul>
                   </nav>
                 </div>
