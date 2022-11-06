@@ -1,5 +1,6 @@
 package com.webshop;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -11,11 +12,12 @@ import javax.persistence.Table;
 @Table(name="product_category")
 public class ProductCategory {
 	@Id
-	private long product_id;
+	@Column(name="product_id")
+	private long productid;
 	@Id
 	private long category_id;
-	public long getProduct_id() {
-		return product_id;
+	public long getProductid() {
+		return productid;
 	}
 	public long getCategory_id() {
 		return category_id;

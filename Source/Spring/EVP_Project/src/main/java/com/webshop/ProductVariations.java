@@ -1,5 +1,6 @@
 package com.webshop;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -12,7 +13,8 @@ public class ProductVariations {
 	@Id
 	private long variation_id;
 	@Id
-	private long product_id;
+	@Column(name="product_id")
+	private long productid;
 	private String small_desc;
 	public String getSmall_desc() {
 		return small_desc;
@@ -23,8 +25,8 @@ public class ProductVariations {
 	public long getVariation_id() {
 		return variation_id;
 	}
-	public long getProduct_id() {
-		return product_id;
+	public long getProductid() {
+		return productid;
 	}
 	
 }

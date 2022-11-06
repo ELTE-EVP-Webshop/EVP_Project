@@ -1,5 +1,6 @@
 package com.webshop;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -10,7 +11,8 @@ import javax.persistence.Table;
 @Table(name="product_images")
 public class ProductImages {
 	@Id
-	private long product_id;
+	@Column(name = "product_id")
+	private long productid;
 	@Id
 	private String image_url;
 	private byte priority;
@@ -20,8 +22,8 @@ public class ProductImages {
 	public void setPriority(byte priority) {
 		this.priority = priority;
 	}
-	public long getProduct_id() {
-		return product_id;
+	public long getProductid() {
+		return productid;
 	}
 	public String getImage_url() {
 		return image_url;

@@ -5,15 +5,15 @@ import java.util.Objects;
 
 public class ProductVariationsId implements Serializable {
 	private long variation_id;
-	private long product_id;
+	private long productid;
 	
 	public ProductVariationsId() {
 		
 	}
 	
-	public ProductVariationsId(long variation_id, long product_id) {
+	public ProductVariationsId(long variation_id, long productid) {
         this.variation_id = variation_id;
-        this.product_id = product_id;
+        this.productid = productid;
     }
 
     @Override
@@ -21,11 +21,11 @@ public class ProductVariationsId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductVariationsId variationId = (ProductVariationsId) o;
-        return (this.variation_id == variationId.variation_id && this.product_id == variationId.product_id);
+        return (this.variation_id == variationId.variation_id && this.productid == variationId.productid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(variation_id, product_id);
+        return Objects.hash(variation_id, productid);
     }
 }

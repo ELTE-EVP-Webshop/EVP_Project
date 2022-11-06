@@ -4,16 +4,16 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class ProductCategoryId implements Serializable {
-	private long product_id;
+	private long productid;
 	private long category_id;
 	
 	public ProductCategoryId() {
 		
 	}
 	
-	public ProductCategoryId(long category_id, long product_id) {
+	public ProductCategoryId(long category_id, long productid) {
         this.category_id = category_id;
-        this.product_id = product_id;
+        this.productid = productid;
     }
 
     @Override
@@ -21,11 +21,11 @@ public class ProductCategoryId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductCategoryId categoryId = (ProductCategoryId) o;
-        return (this.category_id == categoryId.category_id && this.product_id == categoryId.product_id);
+        return (this.category_id == categoryId.category_id && this.productid == categoryId.productid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(category_id, product_id);
+        return Objects.hash(category_id, productid);
     }
 }

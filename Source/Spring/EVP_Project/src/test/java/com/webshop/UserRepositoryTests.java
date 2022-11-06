@@ -2,6 +2,9 @@ package com.webshop;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -10,6 +13,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @Rollback(false)
@@ -17,6 +23,8 @@ public class UserRepositoryTests {
 	
 	@Autowired
 	private UserRepository repo;
+	@Autowired
+	private ProductRepository productRepo;
 	
 	@Autowired
 	private TestEntityManager entityManager;
@@ -43,6 +51,23 @@ public class UserRepositoryTests {
 		User existUser = entityManager.find(User.class, savedUser.getId());
 		
 		assertThat(existUser.getEmail()).isEqualTo(user.getEmail());
+	}
+	
+	@Test
+	public void testMethod() {
+		List<ProductResponseModel> list = new ArrayList<>();
+		for(Product p :productRepo.findAll()) {
+			ProductResponseModel m = new ProductResponseModel(p);
+			//m.setImages(productImagesRepo.findByproduct_id(p.getId()));
+			list.add(m);
+		}
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			mapper.writeValueAsString(list);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			
+		}
 	}
 	
 }

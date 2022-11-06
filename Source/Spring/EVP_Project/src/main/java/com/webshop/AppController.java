@@ -1,5 +1,6 @@
 package com.webshop;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import ch.qos.logback.core.net.ObjectWriter;
 
 @RestController
 public class AppController {
@@ -82,9 +88,34 @@ public class AppController {
 	    
 	  }
 	
-	//Product
+	//test
 		@GetMapping("/testDebug")
 		public String getDebug() {
 			return "Szia :)";
 		}
+		
+		@GetMapping("/productCategories")
+		public List<ProductCategories> allCategories() {
+			return productCategoriesRepo.findAll();
+		}
+		
+		@GetMapping("/productsListing")
+		public String productsListing() {
+			List<ProductResponseModel> list = new ArrayList<>();
+			for(Product p : productRepo.findAll()) {
+				ProductResponseModel m = new ProductResponseModel(p);
+				m.setImages(productImagesRepo.findAllByProductid(p.getId()));
+				m.setVariations(productVariationsRepo.findAllByProductid(p.getId()));
+				m.setCategories(productCategoryRepo.findAllByProductid(p.getId()));
+				list.add(m);
+			}
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				return mapper.writeValueAsString(list);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+				return "ERROR";
+			}
+		}
+		
 }
