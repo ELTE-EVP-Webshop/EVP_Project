@@ -112,6 +112,16 @@ CREATE TABLE `webshop`.`tokens` (
   `description` varchar(255)
 );
 
+CREATE TABLE `webshop`.`roles`(
+	`id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`name` varchar(50) NOT NULL
+);
+
+CREATE TABLE `webshop`.`user_roles`(
+	`user_id` int NOT NULL,
+	`role_id` int NOT NULL
+);
+
 ALTER TABLE `webshop`.`product_images` ADD FOREIGN KEY (`product_id`) REFERENCES `webshop`.`product` (`id`);
 
 ALTER TABLE `webshop`.`product_category` ADD FOREIGN KEY (`product_id`) REFERENCES `webshop`.`product` (`id`);
@@ -133,3 +143,7 @@ ALTER TABLE `webshop`.`order_products` ADD FOREIGN KEY (`product_id`) REFERENCES
 ALTER TABLE `webshop`.`basket` ADD FOREIGN KEY (`user_id`) REFERENCES `webshop`.`user` (`id`);
 
 ALTER TABLE `webshop`.`basket` ADD FOREIGN KEY (`product_id`) REFERENCES `webshop`.`product` (`id`);
+
+ALTER TABLE `webshop`.`user_roles` ADD FOREIGN KEY (`user_id`) REFERENCES `webshop`.`user` (`id`);
+
+ALTER TABLE `webshop`.`user_roles` ADD FOREIGN KEY (`role_id`) REFERENCES `webshop`.`roles` (`id`);
