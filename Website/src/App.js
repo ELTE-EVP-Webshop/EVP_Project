@@ -1,5 +1,5 @@
 import React from 'react';
-import MainProducts from './main_page/Products'
+import MainProducts from './main_page/ProductComponent'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import './css/bootstrap.min.css';
