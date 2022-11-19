@@ -1,5 +1,5 @@
 import React from 'react';
-//import MainProducts from './main_page/ProductComponent'
+import MainProducts from './main_page/ProductComponent'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import './components/font-awesome-4.7.0/css/font-awesome.min.css';
@@ -33,7 +33,7 @@ function App() {
           element={
           <>
           <MainHeader/>
-          
+          <MainProducts/>
           </>
         }/>
     
