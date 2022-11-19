@@ -4,65 +4,134 @@ class ProductComponent extends React.Component {
 
 
         state = {
-            products:[]
+                products: []
         };
 
 
-   async componentDidMount() {
-    const response = await fetch('/productsListing')
-    const body = await response.json();
-    this.setState({products: body});
-    //console.log(body);
-        
-    }
-    
+        async componentDidMount() {
+                const response = await fetch('/productsListing')
+                const body = await response.json();
+                this.setState({ products: body });
+                //console.log(body);
 
-    render(){
-        const {products} = this.state;
-        return (
-            
-            <div>
-                <table className='table table-striped'>
-                    <thead>
-                        <tr>
-                            <td>
-                                Termék ID
-                            </td>
-                            <td>
-                                Termék neve
-                            </td>
-                            <td>
-                                Leírás
-                            </td>
-                            <td>
-                                Ár
-                            </td>
-                            <td>
-                                Készleten
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            products.map(
-                                product =>
-                                <tr key={product.p.id}>
-                                    <td>{product.p.id}</td>
-                                    <td>{product.p.name}</td>
-                                    <td>{product.p.description}</td>
-                                    <td>{product.p.price}</td>
-                                    <td>{product.p.sale_price}</td>
-
-                                </tr>
-                            )
-                            
-                        }
-                    </tbody>
-                </table>
-            </div>
-        )
         }
-    
+
+
+        render() {
+                const { products } = this.state;
+                return (
+
+                        <div>
+                                <section class="section-products">
+                                        <div class="container">
+                                                <div class="row justify-content-center text-center">
+                                                        <div class="col-md-8 col-lg-6">
+                                                                <div class="header">
+                                                                        <h2 class="new">Új termékek</h2>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                                <div class="row">
+                                                        {
+                                                                products.map(
+                                                                        product =>
+                                                                                <div key={product.p.id} class="col-md-6 col-lg-4 col-xl-3">
+                                                                                        <div id={product.p.id} class="single-product">
+                                                                                                <div class="part-1">
+                                                                                                        <span class="new">new</span>
+                                                                                                        <span class="discount">15% off</span>
+                                                                                                        <ul>
+                                                                                                                <li><a href="#"><i class="fa fa-cart-plus" aria-hidden="true"></i></a></li>
+                                                                                                        </ul>
+                                                                                                </div>
+                                                                                                <div class="part-2">
+                                                                                                        <h3 class="product-title">{product.p.name}</h3>
+                                                                                                        <h4 class="product-old-price">{product.p.sale_price}</h4>
+                                                                                                        <h4 class="product-price">{product.p.price}</h4>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                </div>
+                                                                )
+
+                                                        }        <div class="col-md-6 col-lg-4 col-xl-3">
+                                                                <div id="product-3" class="single-product">
+                                                                        <div class="part-1">
+                                                                                <ul>
+                                                                                        <li><a href="#"><i class="fa fa-cart-plus" aria-hidden="true"></i></a></li>
+                                                                                </ul>
+                                                                        </div>
+                                                                        <div class="part-2">
+                                                                                <h3 class="product-title">Here Product Title</h3>
+                                                                                <h4 class="product-old-price">$79.99</h4>
+                                                                                <h4 class="product-price">$49.99</h4>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-lg-4 col-xl-3">
+                                                                <div id="product-3" class="single-product">
+                                                                        <div class="part-1">
+                                                                                <ul>
+                                                                                        <li><a href="#"><i class="fa fa-cart-plus" aria-hidden="true"></i></a></li>
+                                                                                </ul>
+                                                                        </div>
+                                                                        <div class="part-2">
+                                                                                <h3 class="product-title">Here Product Title</h3>
+                                                                                <h4 class="product-old-price">$79.99</h4>
+                                                                                <h4 class="product-price">$49.99</h4>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-lg-4 col-xl-3">
+                                                                <div id="product-3" class="single-product">
+                                                                        <div class="part-1">
+                                                                                <ul>
+                                                                                        <li><a href="#"><i class="fa fa-cart-plus" aria-hidden="true"></i></a></li>
+                                                                                </ul>
+                                                                        </div>
+                                                                        <div class="part-2">
+                                                                                <h3 class="product-title">Here Product Title</h3>
+                                                                                <h4 class="product-old-price">$79.99</h4>
+                                                                                <h4 class="product-price">$49.99</h4>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-lg-4 col-xl-3">
+                                                                <div id="product-3" class="single-product">
+                                                                        <div class="part-1">
+                                                                                <ul>
+                                                                                        <li><a href="#"><i class="fa fa-cart-plus" aria-hidden="true"></i></a></li>
+                                                                                </ul>
+                                                                        </div>
+                                                                        <div class="part-2">
+                                                                                <h3 class="product-title">Here Product Title</h3>
+                                                                                <h4 class="product-old-price">$79.99</h4>
+                                                                                <h4 class="product-price">$49.99</h4>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-lg-4 col-xl-3">
+                                                                <div id="product-3" class="single-product">
+                                                                        <div class="part-1">
+                                                                                <ul>
+                                                                                        <li><a href="#"><i class="fa fa-cart-plus" aria-hidden="true"></i></a></li>
+                                                                                </ul>
+                                                                        </div>
+                                                                        <div class="part-2">
+                                                                                <h3 class="product-title">Here Product Title</h3>
+                                                                                <h4 class="product-old-price">$79.99</h4>
+                                                                                <h4 class="product-price">$49.99</h4>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </section>
+
+
+                        </div>
+                )
+        }
+
 }
 
 

@@ -28,7 +28,7 @@ a {
 .site-navbar {
   margin-bottom: 0px;
   z-index: 1999;
-  position: absolute;
+  position: relative;
   top: 2rem;
   width: 100%; }
   .site-navbar.transparent {
