@@ -1,3 +1,4 @@
+import React from "react";
 export default function Footer() {
     return(
         <div class="footer">
@@ -6,7 +7,7 @@ export default function Footer() {
               <div class="container">
                  <div class="row">
                     <div class="col-md-12">
-                       <p>© 2022 Minden jog fenntartva. <a>n+1 csapat</a></p>
+                       <p>© 2022 Minden jog fenntartva. <a href="#">n+1 csapat</a></p>
                     </div>
                  </div>
               </div>
