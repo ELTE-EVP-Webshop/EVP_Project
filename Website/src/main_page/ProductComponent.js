@@ -9,7 +9,7 @@ class ProductComponent extends React.Component {
 
 
         async componentDidMount() {
-                const response = await fetch('/productsListing')
+                const response = await fetch('http://localhost:8080/api/app/productsListing')
                 const body = await response.json();
                 this.setState({ products: body });
                 //console.log(body);
@@ -19,6 +19,7 @@ class ProductComponent extends React.Component {
 
         render() {
                 const { products } = this.state;
+                var result = Object.values(products)
                 return (
 
                         <div>
@@ -33,7 +34,7 @@ class ProductComponent extends React.Component {
                                                 </div>
                                                 <div class="row">
                                                         {
-                                                                products.map(
+                                                                result.map(
                                                                         product =>
                                                                                 <div key={product.p.id} class="col-md-6 col-lg-4 col-xl-3">
                                                                                         <div id={product.p.id} class="single-product">
