@@ -47,7 +47,6 @@ export default function Header() {
                       <li class="nav-item"><a><span><Link to="/about">Rólunk</Link></span></a></li>
                       <li class="nav-item"><a><span><Link to="/contact">Kapcsolat</Link></span></a></li>
                       <li class="nav-item active"><a><span class='login-button'><Link to="/login">Bejelentkezés</Link></span></a></li>
-                      <li class="nav-item active"><a><span class='login-button'><Link to="/register">Regisztráció</Link></span></a></li>
                     </ul>
                   </nav>
                 </div>
