@@ -2,9 +2,15 @@
 import {
   Link,
 } from "react-router-dom";
-import React from "react";
 
+
+
+import React, { useEffect, useState } from "react";
 export default function Header() {
+  
+
+
+ 
     return(
         <header class="site-navbar" role="banner">
 
@@ -17,13 +23,14 @@ export default function Header() {
                 <div class="col-12 col-md-10 d-none d-xl-block">
                   <nav class="site-navigation position-relative text-right" role="navigation">
                     <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                                 
                       <li class="nav-item"><a><span><Link to="/">Főoldal</Link></span></a></li>
                       <li class="has-children nav-item">
                         <a href="#"><span>Kategóriák</span></a>
                         <ul class="dropdown arrow-top">
                           <li><a href="#">Laptop</a></li>
                           <li><a href="#">Vibrátor</a></li>
-                          <li><a href="#">Karácsonyfadísz</a></li>
+                          <li><a href="#">Karácsonyfaszerkezet</a></li>
                           <li class="has-children">
                             <a href="#">PC Alkatrészek</a>
                             <ul class="dropdown">
@@ -37,9 +44,10 @@ export default function Header() {
                         </ul>
                       </li>
                       
-                      <li class="nav-item"><a href="#"><span>Rólunk</span></a></li>
-                      <li class="nav-item"><a href="#"><span>Kapcsolat</span></a></li>
+                      <li class="nav-item"><a><span><Link to="/about">Rólunk</Link></span></a></li>
+                      <li class="nav-item"><a><span><Link to="/contact">Kapcsolat</Link></span></a></li>
                       <li class="nav-item active"><a><span class='login-button'><Link to="/login">Bejelentkezés</Link></span></a></li>
+                      <li class="nav-item active"><a><span class='login-button'><Link to="/register">Regisztráció</Link></span></a></li>
                     </ul>
                   </nav>
                 </div>

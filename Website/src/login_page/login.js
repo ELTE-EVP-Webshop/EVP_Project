@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
-//import { useNavigate } from "react-router-dom";
-import Form from "react-validation";
-import Input from "react-validation";
-import CheckButton from "react-validation";
+import { useNavigate } from "react-router-dom";
+//import Form from "react-validation";
+//import Input from "react-validation";
+//import CheckButton from "react-validation";
 
 import AuthService from "../services/AuthService";
 
@@ -10,7 +10,7 @@ const required = (value) => {
   if (!value) {
     return (
       <div className="invalid-feedback d-block">
-        This field is required!
+        Ezt ki kell tölteni he!
       </div>
     );
   }
@@ -25,7 +25,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const onChangeUsername = (e) => {
     const username = e.target.value;
@@ -48,9 +48,8 @@ const Login = () => {
 
       AuthService.login(username, password).then(
         () => {
-        //  navigate("/");
-         // window.location.reload();
-		 console.log("csá")
+          navigate("/");
+          window.location.reload();
         },
         (error) => {
           const resMessage =
@@ -99,7 +98,7 @@ const Login = () => {
             <div class="text-right p-t-13 p-b-23">
                 <span class="txt1">Elfelejtett     </span>
 
-                <a href="#" class="txt2">   Felhasználónév / Jelszó?</a>
+                <a href="#" class="txt2">Felhasználónév / Jelszó?</a>
             </div>
 
             <div class="container-login100-form-btn">
@@ -113,7 +112,7 @@ const Login = () => {
                     Nincs fiókja?
                 </span>
 
-                <a href="#" class="txt3">
+                <a href="/register" class="txt3">
                     Regisztráljon egyet!
                 </a>
             </div>
