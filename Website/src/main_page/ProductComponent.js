@@ -20,6 +20,18 @@ class ProductComponent extends React.Component {
         render() {
                 const { products } = this.state;
                 var result = Object.values(products)
+                try {
+                      
+                        result.map((product, index) =>
+
+                               
+                                console.log(product.p.name+ " "+product.images[index].image_url)
+                        )
+                
+                }
+                catch{
+                        console.log("A picsába")
+                }
                 return (
 
                         <div>
@@ -34,8 +46,8 @@ class ProductComponent extends React.Component {
                                                 </div>
                                                 <div class="row">
                                                         {
-                                                                result.map(
-                                                                        product =>
+                                                                result.map((product, index) =>
+                                                                        
                                                                                 <div key={product.p.id} class="col-md-6 col-lg-4 col-xl-3">
                                                                                         <div id={product.p.id} class="single-product">
                                                                                                 <div class="part-1">
@@ -48,7 +60,9 @@ class ProductComponent extends React.Component {
                                                                                                 <div class="part-2">
                                                                                                         <h3 class="product-title">{product.p.name}</h3>
                                                                                                         <h4 class="product-old-price">{product.p.sale_price}</h4>
-                                                                                                        <h4 class="product-price">{product.p.price}</h4>
+                                                                                                        {product && product.images[index] && product.images[index].image_url && product.images[index].image_url ? <h4 class="product-price"><img src={product.images[index].image_url} alt="cs"></img></h4>
+                                                                                                         : <h4 class="product-price"><img src={"https://scontent-vie1-1.xx.fbcdn.net/v/t1.15752-9/315525617_8446883712052537_3749600802692198844_n.png?_nc_cat=110&ccb=1-7&_nc_sid=ae9488&_nc_ohc=3YI2AXwMWMcAX8GqxsA&_nc_ht=scontent-vie1-1.xx&oh=03_AdSq7n75lIIsQU1HfMzsPajMQc6lEac0uEODDOqwZLE5_g&oe=63B1C739"} alt="cs"></img></h4>}
+                                                                                                       
                                                                                                 </div>
                                                                                         </div>
                                                                                 </div>
