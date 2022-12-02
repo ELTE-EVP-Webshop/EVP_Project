@@ -160,14 +160,6 @@ export default function Header() {
               </Link>
               
             </li>
-
-            <li className="nav-item">
-            
-              <Link to={"/register"} className="nav-link">
-              <span class='login-button'>Regisztráció</span>
-              </Link>
-              
-            </li>
             </ul>
                   </nav>
                 </div>
