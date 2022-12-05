@@ -14,8 +14,27 @@ class ProductComponent extends React.Component {
                 this.setState({ products: body });
 
         }
-
-
+        ModaliuszLeviosza = (a) => {
+                        var modal = document.getElementById("myModal");
+                        modal.style.display = "block";
+                        document.getElementById("myModal").innerHTML="<div class='modal-content'>"+
+                                                                                "<span class='close' id='close' name='close'>&times;</span>"+
+                                                                                "<p>Some text in the Modal..</p>"+
+                                                                                "<H1>PID: "+ a.product.p.id+"</H1>"+
+                                                                                "<H1> név: "+ a.product.p.name+"</H1>"+
+                                                                                "<H1> Ár "+ a.product.p.price+"</H1>"+
+                                                                        "</div>";   
+                        document.getElementsByClassName("close")[0].addEventListener("click",function() {
+                                modal.style.display = "none";
+                        });     
+                        var modal = document.getElementById("myModal");
+                        window.addEventListener("click",function(event) {
+                                if (event.target == modal) {
+                                        modal.style.display = "none";
+                                      }
+                        });            
+              }
+                
         render() {
                 const { products } = this.state;
                 var result = Object.values(products)
@@ -29,8 +48,9 @@ class ProductComponent extends React.Component {
                 
                 }
                 catch{
-                        console.log("A picsába")
+                        console.log("A picsába");
                 }
+                
                 return (
 
                         <div>
@@ -51,26 +71,33 @@ class ProductComponent extends React.Component {
                                                                                 <div key={product.p.id} class="col-md-6 col-lg-4 col-xl-3">
                                                                                         <div id={product.p.id}  class="single-product">
                                                                                                
-                                                                                                <div class="part-1" style={{ backgroundImage: `url(${product && product.images[index] && product.images[index].image_url && product.images[index].image_url  ? product.images[index].image_url : 'https://thumbs.dreamstime.com/b/error-not-found-symbol-logo-design-vector-232023001.jpg'})` ,backgroundRepeat:'no-repeat',backgroundPosition:'center',backgroundSize:'cover'}}>
+                                                                                                <div onClick={() => this.ModaliuszLeviosza({"product":product})} 
+                                                                                                class="part-1" 
+                                                                                                style={{ backgroundImage: `url(${product && product.images[index] && product.images[index].image_url && product.images[index].image_url  ? product.images[index].image_url : 'https://thumbs.dreamstime.com/b/error-not-found-symbol-logo-design-vector-232023001.jpg'})` ,backgroundRepeat:'no-repeat',backgroundPosition:'center',backgroundSize:'cover'}}>
+                                                                                                        {/*  if bejelentkezett akkor ez megjelenik*/}
                                                                                                         <ul>
-                                                                                                                <Link to={"/cart"} class="nav-item">
-                                                                                                                        <hidden name="productID" id="productID" value={product.p.id}></hidden>
                                                                                                                         <li><a href="#"><i class="fa fa-lg fa-cart-plus" aria-hidden="true"></i></a></li>
-                                                                                                                </Link>
+                                                                                                                
                                                                                                         </ul>
+                                                                                                        {/*  if vége  */}
                                                                                                         <span class="new">new</span>
                                                                                                 </div>
                                                                                                 <div class="part-2">
                                                                                                         <h3 class="product-title">{product.p.name}</h3>
-                                                                                                        <h4 class="product-price">{product.p.sale_price}Ft.</h4>
+                                                                                                        <h4 class="product-price">{product.p.price}Ft.</h4>
                                                                                                         {/*{product && product.images[index] && product.images[index].image_url && product.images[index].image_url ? <h4 class="product-price"><img src={product.images[index].image_url} alt="cs"></img></h4>
                                                                                                          : <h4 class="product-price"><img alt="cs"></img></h4>}*/}
                                                                                                        
                                                                                                 </div>
                                                                                         </div>
                                                                                 </div>
+                                                                                
                                                                 )          
                                                         }
+                                                        
+                                                                <div id="myModal" class="modal">
+                                                                        
+                                                                </div>
 
                                                                <div class="col-md-6 col-lg-4 col-xl-3">
                                                                 <div id="product-3" class="single-product">

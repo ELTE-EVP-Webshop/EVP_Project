@@ -30,7 +30,8 @@ a {
   z-index: 1999;
   position: relative;
   top: 2rem;
-  width: 100%; }
+  width: 100%;
+  padding-bottom: 0%; }
   .site-navbar.transparent {
     background: transparent; }
   .site-navbar.absolute {
@@ -43,7 +44,7 @@ a {
     left: 0;
     font-size: 24px !important; }
   .site-navbar .site-navigation .site-menu {
-    margin-bottom: 0; }
+    margin-bottom: 10%; }
     .site-navbar .site-navigation .site-menu .active > a span {
       background: #007bff;
       color: #fff;
