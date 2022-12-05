@@ -2,17 +2,22 @@ package com.webshop;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(value = { "userid", "expire" })
 @Entity
 @IdClass(BasketId.class)
 @Table(name="basket")
 public class Basket {
 	@Id
-	private long user_id;
+	@Column(name="user_id")
+	private long userid;
 	@Id
 	private long product_id;
 	private int count;
@@ -29,10 +34,19 @@ public class Basket {
 	public void setExpire(LocalDateTime expire) {
 		this.expire = expire;
 	}
-	public long getUser_id() {
-		return user_id;
+	public long getuserid() {
+		return userid;
 	}
 	public long getProduct_id() {
 		return product_id;
+	}
+	public Basket(long userid, long product_id, int count) {
+		this.userid = userid;
+		this.product_id = product_id;
+		this.count = count;
+		this.expire = null;
+	}
+	public Basket() {
+		
 	}
 }

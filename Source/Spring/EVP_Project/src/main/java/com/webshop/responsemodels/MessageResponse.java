@@ -6,7 +6,11 @@ public class MessageResponse {
 	public MessageResponse(String message) {
 	    this.message = message;
 	  }
-
+	
+	
+	public MessageResponse() {
+	  }
+	
 	public String getMessage() {
 		return message;
 	}
