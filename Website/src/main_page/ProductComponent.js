@@ -49,19 +49,22 @@ class ProductComponent extends React.Component {
                                                                 result.map((product, index) =>
                                                                         
                                                                                 <div key={product.p.id} class="col-md-6 col-lg-4 col-xl-3">
-                                                                                        <div id={product.p.id}  class="single-product"  style={{ backgroundImage: `url(${product.images=== undefined  ? product.images[0].image_url : 'https://thumbs.dreamstime.com/b/error-not-found-symbol-logo-design-vector-232023001.jpg'})` ,backgroundRepeat:'no-repeat',backgroundPosition:'center',backgroundSize:'cover'}}>
+                                                                                        <div id={product.p.id}  class="single-product">
                                                                                                
-                                                                                                <div class="part-1">
+                                                                                                <div class="part-1" style={{ backgroundImage: `url(${product && product.images[index] && product.images[index].image_url && product.images[index].image_url  ? product.images[index].image_url : 'https://thumbs.dreamstime.com/b/error-not-found-symbol-logo-design-vector-232023001.jpg'})` ,backgroundRepeat:'no-repeat',backgroundPosition:'center',backgroundSize:'cover'}}>
                                                                                                         <ul>
-                                                                                                                <li><a href="#"><i class="fa fa-cart-plus" aria-hidden="true"></i></a></li>
+                                                                                                                <Link to={"/cart"} class="nav-item">
+                                                                                                                        <hidden name="productID" id="productID" value={product.p.id}></hidden>
+                                                                                                                        <li><a href="#"><i class="fa fa-lg fa-cart-plus" aria-hidden="true"></i></a></li>
+                                                                                                                </Link>
                                                                                                         </ul>
                                                                                                         <span class="new">new</span>
                                                                                                 </div>
                                                                                                 <div class="part-2">
                                                                                                         <h3 class="product-title">{product.p.name}</h3>
-                                                                                                        <h4 class="product-old-price">{product.p.sale_price}</h4>
-                                                                                                        {product && product.images[index] && product.images[index].image_url && product.images[index].image_url ? <h4 class="product-price"><img src={product.images[index].image_url} alt="cs"></img></h4>
-                                                                                                         : <h4 class="product-price"><img alt="cs"></img></h4>}
+                                                                                                        <h4 class="product-price">{product.p.sale_price}Ft.</h4>
+                                                                                                        {/*{product && product.images[index] && product.images[index].image_url && product.images[index].image_url ? <h4 class="product-price"><img src={product.images[index].image_url} alt="cs"></img></h4>
+                                                                                                         : <h4 class="product-price"><img alt="cs"></img></h4>}*/}
                                                                                                        
                                                                                                 </div>
                                                                                         </div>

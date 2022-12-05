@@ -66,8 +66,8 @@ a:hover {
 		transition: all 0.3s;
 }
 
-.section-products .single-product:hover .part-1::before {
-		transform: scale(1.2,1.2) rotate(5deg);
+.section-products .single-product:hover .part-1 {
+		transform:  rotate(2deg);
        
 }
 .section-products .single-product .part-1::before {
@@ -124,9 +124,9 @@ a:hover {
 
 .section-products .single-product .part-1 ul li a {
     display: inline-block;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
+    width: 60px;
+    height:60px;
+    line-height: 60px;
     background-color: #ffffff;
     color: #444444;
     text-align: center;
