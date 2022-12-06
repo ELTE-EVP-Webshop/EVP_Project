@@ -2,6 +2,7 @@ package com.webshop;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.webshop.responsemodels.MessageResponse;
+import com.webshop.responsemodels.UserDeliveryInfoResponse;
 
 import ch.qos.logback.core.net.ObjectWriter;
 
@@ -149,4 +151,52 @@ public class UserController {
 			}
 		}
 		
+		@PostMapping("/updateDeliveryAddress")
+		public MessageResponse updateDeliveryAddress(String phone, String country, String country_l, String city, short post_code, String street, String house_number, String post_other) {
+			MessageResponse mr = new MessageResponse();
+			UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Long userId = userDetails.getId();
+			User u = userRepo.findById(userId).get();
+			
+			if(phone != null && !phone.isEmpty()) {
+				u.setPhone(phone);
+			}
+			if(country != null && !country.isEmpty()) {
+				u.setCountry(country);
+			}
+			if(country_l != null && !country_l.isEmpty()) {
+				u.setCountry_1(country_l);
+			}
+			if(city != null && !city.isEmpty()) {
+				u.setCity(city);
+			}
+			if(street != null && !street.isEmpty()) {
+				u.setStreet(street);
+			}
+			if(house_number != null && !house_number.isEmpty()) {
+				u.setHouseNumber(house_number);
+			}
+			if(post_other != null && !post_other.isEmpty()) {
+				u.setPostOther(post_other);
+			}
+			userRepo.save(u);
+			mr.setMessage("Sikeres módosítás!");
+			return mr;
+		}
+		
+		@GetMapping("/getDeliveryAddress")
+		public String getDeliveryAddress() {
+			String response;
+			UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Long userId = userDetails.getId();
+			User u = userRepo.findById(userId).get();
+			UserDeliveryInfoResponse udi = new UserDeliveryInfoResponse(u);
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				return mapper.writeValueAsString(udi);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+				return "ERROR";
+			}
+		}
 }
