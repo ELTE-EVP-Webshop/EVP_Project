@@ -4,6 +4,7 @@ import AuthService from '../services/AuthService';
 import {
   Link,
 } from "react-router-dom";
+export const user = AuthService.getCurrentUser();
 export default function Header() {
 
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -11,7 +12,7 @@ export default function Header() {
   const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(() => {
-    const user = AuthService.getCurrentUser();
+    
 
     if (user) {
       setCurrentUser(user);
@@ -68,7 +69,7 @@ export default function Header() {
                   <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
                   <li className="nav-item">
                           <Link to={"/user"} class="nav-item">
-                           <span>Felhasználó:</span> 
+                          
                           </Link>
                         </li>
             <li className="nav-item">
@@ -78,6 +79,7 @@ export default function Header() {
             </li>
   
             <li class="nav-item active"><a href="/"><span>Főoldal</span></a></li>
+            <li class="nav-item"><a><span><Link to="/cart">Kosár</Link></span></a></li>
                       <li class="has-children nav-item">
                         <a href="#"><span>Kategóriák</span></a>
                         <ul class="dropdown arrow-top">

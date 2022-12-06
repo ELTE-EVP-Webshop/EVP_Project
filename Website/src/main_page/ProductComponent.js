@@ -1,17 +1,20 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import {user} from './Header'
+
 
 class ProductComponent extends React.Component {
-
+        
 
         state = {
                 products: []
         };
-
+        
 
         async componentDidMount() {
                 const response = await fetch('http://localhost:8080/api/app/productsListing')
                 const body = await response.json();
                 this.setState({ products: body });
+                
 
         }
         ModaliuszLeviosza = (a) => {
@@ -38,7 +41,11 @@ class ProductComponent extends React.Component {
         render() {
                 const { products } = this.state;
                 var result = Object.values(products)
+                if(user !== null)  {
+                        console.log(user.username)
+                } else console.log("A macska rúgja meg!")
                 try {
+                        
                       
                         result.map((product, index) =>
 
@@ -48,7 +55,7 @@ class ProductComponent extends React.Component {
                 
                 }
                 catch{
-                        console.log("A picsába");
+                        console.log("Azért a banánnak is van ám vége!");
                 }
                 
                 return (
@@ -67,21 +74,26 @@ class ProductComponent extends React.Component {
                                                         
                                                         {
                                                                 result.map((product, index) =>
-                                                                        
+                                                                
                                                                                 <div key={product.p.id} class="col-md-6 col-lg-4 col-xl-3">
                                                                                         <div id={product.p.id}  class="single-product">
                                                                                                
                                                                                                 <div onClick={() => this.ModaliuszLeviosza({"product":product})} 
                                                                                                 class="part-1" 
                                                                                                 style={{ backgroundImage: `url(${product && product.images[index] && product.images[index].image_url && product.images[index].image_url  ? product.images[index].image_url : 'https://thumbs.dreamstime.com/b/error-not-found-symbol-logo-design-vector-232023001.jpg'})` ,backgroundRepeat:'no-repeat',backgroundPosition:'center',backgroundSize:'cover'}}>
-                                                                                                        {/*  if bejelentkezett akkor ez megjelenik*/}
+                                                                                                    {user !== null && (                   
+                                                                                                                
                                                                                                         <ul>
                                                                                                                         <li><a href="#"><i class="fa fa-lg fa-cart-plus" aria-hidden="true"></i></a></li>
                                                                                                                 
                                                                                                         </ul>
-                                                                                                        {/*  if vége  */}
+                                                                                                    )}
+                                                                                                     
                                                                                                         <span class="new">new</span>
+                                                                                                    
+                                                                                                                 
                                                                                                 </div>
+                                                                                                    
                                                                                                 <div class="part-2">
                                                                                                         <h3 class="product-title">{product.p.name}</h3>
                                                                                                         <h4 class="product-price">{product.p.price}Ft.</h4>

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {user} from './main_page/Header'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import './components/font-awesome-4.7.0/css/font-awesome.min.css';
@@ -22,7 +22,7 @@ import User from './user/BoardUser'
 import Profile from './user/profile'
 import Contact from './main_page/Contact';
 import About from './main_page/About'
-
+import ShoppingCart from './main_page/ShoppingCart'
 
 
 
@@ -40,6 +40,21 @@ function App() {
           <MainHeader/>
           
           <MainProducts/>
+          </>
+        }/>
+
+<Route path="/cart"
+          element={
+          <>
+
+          <MainHeader/>
+          {user !== null ?(
+          <ShoppingCart/>
+          ) :(
+          <h1 className='text-center pt-3'>Nincs jogosítványod, hogy elérd ezt az oldalt!</h1>
+  )}
+
+          
           </>
         }/>
 
@@ -66,8 +81,18 @@ function App() {
           <Route path="/login"
           element={
           <>
+          {user == null ?(
+            <>
           <LoginHeader/>
           <LoginMain/>
+          </>
+          ) : (
+            <>
+            <MainHeader/>
+          
+            <MainProducts/>
+            </>
+          )}
           </>
 
           
@@ -85,10 +110,20 @@ function App() {
         <Route path="/user"
           element={
           <>
-
+      {user !== null ?(
+            <>
           <MainHeader/>
           
           <User/>
+          </>
+          ) : (
+            <>
+            <MainHeader/>
+          
+            <MainProducts/>
+            </>
+          )}
+          
           </>
         }/>
 
@@ -96,9 +131,19 @@ function App() {
           element={
           <>
 
+{user !== null ?(
+            <>
+          <MainHeader/>
           
-    <MainHeader/>
           <Profile/>
+          </>
+          ) : (
+            <>
+            <MainHeader/>
+          
+            <MainProducts/>
+            </>
+          )}
           </>
         }/>
         </Routes>
