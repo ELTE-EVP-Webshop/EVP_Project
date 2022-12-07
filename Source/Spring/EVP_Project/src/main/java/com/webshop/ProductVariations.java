@@ -28,5 +28,10 @@ public class ProductVariations {
 	public long getProductid() {
 		return productid;
 	}
-	
+	public void setVariation_id(long variation_id) {
+		this.variation_id = variation_id;
+	}
+	public void setProductid(long productid) {
+		this.productid = productid;
+	}
 }

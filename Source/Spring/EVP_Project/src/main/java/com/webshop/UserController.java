@@ -133,7 +133,6 @@ public class UserController {
 		
 		@GetMapping("/getBasketProducts")
 		public String getBasketProducts() {
-			String response;
 			UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			Long userId = userDetails.getId();
 			

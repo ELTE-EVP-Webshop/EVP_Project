@@ -22,6 +22,12 @@ public class ProductCategory {
 	public long getCategory_id() {
 		return category_id;
 	}
+	public void setProductid(long productid) {
+		this.productid = productid;
+	}
+	public void setCategory_id(long category_id) {
+		this.category_id = category_id;
+	}
 	
 	
 }
