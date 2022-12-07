@@ -1,6 +1,6 @@
 import React from 'react';
 import {user} from './main_page/Header'
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes  } from 'react-router-dom';
 import './App.css';
 import './components/font-awesome-4.7.0/css/font-awesome.min.css';
 import './css/bootstrap.min.css';
@@ -23,7 +23,7 @@ import Profile from './user/profile'
 import Contact from './main_page/Contact';
 import About from './main_page/About'
 import ShoppingCart from './main_page/ShoppingCart'
-
+import Admin from './main_page/Admin'
 
 
 function App() {
@@ -118,14 +118,34 @@ function App() {
           </>
           ) : (
             <>
-            <MainHeader/>
+             <h1 className='text-center pt-3'>Nincs jogosítványod, hogy elérd ezt az oldalt!</h1>
+            </>
+          )}
           
+          </>
+        }/>
+
+
+<Route path="/admin"
+          element={
+          <>
+      {user !== null ?(
+            <>
+          <MainHeader/>
+          
+          <Admin/>
+          </>
+          ) : (
+            
+            <>
+            <MainHeader/>
             <MainProducts/>
             </>
           )}
           
           </>
         }/>
+        
 
       <Route path="/profile"
           element={
@@ -140,8 +160,7 @@ function App() {
           ) : (
             <>
             <MainHeader/>
-          
-            <MainProducts/>
+             <h1 className='text-center pt-3'>Nincs jogosítványod, hogy elérd ezt az oldalt!</h1>
             </>
           )}
           </>
