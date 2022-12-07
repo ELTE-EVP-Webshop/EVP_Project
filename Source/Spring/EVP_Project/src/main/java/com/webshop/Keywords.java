@@ -11,6 +11,9 @@ import javax.persistence.Table;
 public class Keywords {
 	@Id
 	private long product_id;
+	public void setProduct_id(long product_id) {
+		this.product_id = product_id;
+	}
 	@Id
 	private String keyword;
 	public String getKeyword() {
