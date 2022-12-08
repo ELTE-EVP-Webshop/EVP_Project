@@ -5,6 +5,11 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+/**
+ * keywords adatbázis táblát leíró JPA modell
+ * @author BalazsPC
+ *
+ */
 @Entity
 @IdClass(KeywordsId.class)
 @Table(name="keywords")

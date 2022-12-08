@@ -2,6 +2,11 @@ package com.webshop.responsemodels;
 
 import com.webshop.User;
 
+/**
+ * Felhasználó szállítási adatainak lekérdezéséhez / módosításához készült modell
+ * @author BalazsPC
+ *
+ */
 public class UserDeliveryInfoResponse {
 	private String phone;
 	private String country;

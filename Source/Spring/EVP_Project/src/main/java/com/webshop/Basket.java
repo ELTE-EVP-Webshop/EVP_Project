@@ -10,6 +10,11 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * basket adatbázis táblához tartozó JPA modell
+ * @author BalazsPC
+ *
+ */
 @JsonIgnoreProperties(value = { "userid", "expire" })
 @Entity
 @IdClass(BasketId.class)

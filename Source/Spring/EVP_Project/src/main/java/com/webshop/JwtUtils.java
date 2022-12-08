@@ -14,6 +14,11 @@ import org.springframework.web.util.WebUtils;
 
 import io.jsonwebtoken.*;
 
+/**
+ * JWT token generálást leíró osztály 
+ * @author BalazsPC
+ *
+ */
 @Component
 public class JwtUtils {
   private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
@@ -27,6 +32,11 @@ public class JwtUtils {
   @Value("${webshop.app.jwtCookieName}")
   private String jwtCookie;
 
+  /**
+   * JWT token kikeresése a sütikből
+   * @param request HttpServletRequest, kliens szerver felé intézett kérése
+   * @return String, a JWT token süti értéke
+   */
   public String getJwtFromCookies(HttpServletRequest request) {
     Cookie cookie = WebUtils.getCookie(request, jwtCookie);
     if (cookie != null) {
@@ -36,21 +46,40 @@ public class JwtUtils {
     }
   }
 
+  /**
+   * JWT süti generálása
+   * @param userPrincipal UserDetailsImpl, ezen osztály adatai nyerhetők ki a tokenből, ezek alapján állítjuk elő
+   * @return ResponseCookie, a tokent tartalmazó süti
+   */
   public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
     String jwt = generateTokenFromUsername(userPrincipal.getUsername());
     ResponseCookie cookie = ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(24 * 60 * 60).httpOnly(true).build();
     return cookie;
   }
 
+  /**
+   * JWT süti törlése
+   * @return ResponseCookie, "tiszta", érték nélküli token süti
+   */
   public ResponseCookie getCleanJwtCookie() {
     ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path("/api").build();
     return cookie;
   }
 
+  /**
+   * Felhasználónév keresés JWT tokenből
+   * @param token String, a token, amiből ki szeretnénk nyerni az adatot
+   * @return String, kinyert adat, felhasználónév
+   */
   public String getUserNameFromJwtToken(String token) {
     return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
   }
 
+  /**
+   * JWT token érvényességének ellenőrzése
+   * @param authToken String, validálni kívánt token
+   * @return boolean, érvényes, vagy nem érvényes
+   */
   public boolean validateJwtToken(String authToken) {
     try {
       Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
@@ -70,6 +99,11 @@ public class JwtUtils {
     return false;
   }
   
+  /**
+   * Token generálása a felhasználónévből
+   * @param username String, a felhasználónév amiből tokent generálunk
+   * @return String, generált token
+   */
   public String generateTokenFromUsername(String username) {
     return Jwts.builder()
         .setSubject(username)

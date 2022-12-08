@@ -2,6 +2,11 @@ package com.webshop.requestmodels;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * Bejelentkezési modell
+ * @author BalazsPC
+ *
+ */
 public class LoginRequest {
 	@NotBlank
 	private String username;

@@ -7,11 +7,20 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * UserDetailsService implementációja
+ * Célja, hogy a felhasználót betöltsük a felhasználónév alapján
+ * @author BalazsPC
+ *
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
   @Autowired
   UserRepository userRepository;
 
+  /**
+   * @param username String, a keresett fiókhoz tartozó felhasználónév
+   */
   @Override
   @Transactional
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

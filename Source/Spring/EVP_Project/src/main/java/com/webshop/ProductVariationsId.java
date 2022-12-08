@@ -3,6 +3,11 @@ package com.webshop;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * ProductVariations modellhez tartozó id osztály
+ * @author BalazsPC
+ *
+ */
 public class ProductVariationsId implements Serializable {
 	private long variation_id;
 	private long productid;

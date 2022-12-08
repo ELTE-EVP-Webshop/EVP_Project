@@ -6,6 +6,11 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+/**
+ * product_variations adatbázis táblához tartozó JPA modell
+ * @author BalazsPC
+ *
+ */
 @Entity
 @IdClass(ProductVariationsId.class)
 @Table(name="product_variations")

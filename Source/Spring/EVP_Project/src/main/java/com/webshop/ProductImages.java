@@ -6,6 +6,11 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+/**
+ * product_images adatbázis táblát leíró JPA modell
+ * @author BalazsPC
+ *
+ */
 @Entity
 @IdClass(ProductImagesId.class)
 @Table(name="product_images")

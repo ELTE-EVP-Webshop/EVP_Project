@@ -1,5 +1,10 @@
 package com.webshop.requestmodels;
 
+/**
+ * ProductReqRep modellhez tárgycsoport modell
+ * @author BalazsPC
+ *
+ */
 public class variationReqRepModel {
 	private int variation;
 	private String description;

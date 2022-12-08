@@ -6,6 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * tokens adatbázis táblához tartozó JPA modell
+ * @author BalazsPC
+ *
+ */
 @Entity
 @Table(name="tokens")
 public class Tokens {

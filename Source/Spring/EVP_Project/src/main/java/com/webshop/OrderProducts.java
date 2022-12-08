@@ -5,6 +5,11 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+/**
+ * order_products adatbázis táblát leíró JPA modell
+ * @author BalazsPC
+ *
+ */
 @Entity
 @IdClass(OrderProductsId.class)
 @Table(name="order_products")

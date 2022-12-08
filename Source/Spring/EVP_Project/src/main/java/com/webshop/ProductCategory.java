@@ -7,6 +7,11 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 //Adott termékre vonatkozó kategóriák
+/**
+ * product_category adatbázis táblát leíró JPA modell
+ * @author BalazsPC
+ *
+ */
 @Entity
 @IdClass(ProductCategoryId.class)
 @Table(name="product_category")

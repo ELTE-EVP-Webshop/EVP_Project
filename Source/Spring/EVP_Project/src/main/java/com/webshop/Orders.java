@@ -8,6 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * orders adatbázis táblát leíró JPA modell
+ * @author BalazsPC
+ *
+ */
 @Entity
 @Table(name="orders")
 public class Orders {

@@ -2,6 +2,11 @@ package com.webshop.requestmodels;
 
 import java.util.List;
 
+/**
+ * Termék hozzáadásához, listázásához készült modell (admin)
+ * @author BalazsPC
+ *
+ */
 public class ProductReqRep {
 	private String name;
 	private String description;

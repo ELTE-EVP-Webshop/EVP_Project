@@ -6,6 +6,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 //Összes létező kategória
+/**
+ * categories adatbázis táblához tartozó JPA modell
+ * @author BalazsPC
+ *
+ */
 @Entity
 @Table(name="categories")
 public class ProductCategories {

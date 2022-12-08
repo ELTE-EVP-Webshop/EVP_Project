@@ -6,6 +6,11 @@ import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * ProductResponse modell az összes termék listázásához
+ * @author BalazsPC
+ *
+ */
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ProductResponseModel  {
 	private Product p;
@@ -25,7 +30,6 @@ public class ProductResponseModel  {
 		Categories = categories;
 	}
 	public ProductResponseModel(Product p) {
-		super();
 		this.p = p;
 	}
 	public ProductResponseModel() {

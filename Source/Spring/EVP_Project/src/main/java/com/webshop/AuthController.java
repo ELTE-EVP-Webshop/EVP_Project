@@ -25,6 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.webshop.requestmodels.*;
 import com.webshop.responsemodels.*;
 
+/**
+ * Auth controller
+ * Autentikációs műveletek (Bejelentkezés, Regisztráció, Kijelentkezés).
+ * Eléréséhez nem szükséges jogosultság / bejelentkezés 
+ * @author BalazsPC
+ *
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
@@ -44,6 +51,12 @@ public class AuthController {
   @Autowired
   JwtUtils jwtUtils;
 
+  /**
+   * Bejelentkezés
+   * Felhasználó beléptetése, token generálása (id, felhasználónév, email, jogosultságok alapján)
+   * @param loginRequest
+   * @return ResponseEntity<?>, bejelentkezés eredmény, siker esetén token küldése sütikben, vagy sikertelen bejelentkezés oka. 
+   */
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -67,6 +80,12 @@ public class AuthController {
                                    roles));
   }
 
+  /**
+   * Regisztráció
+   * Felhasnzáló regisztrálása a rendszerben. Felhasználónév / Email unique adattag, ellenőrzés, adatok eltárolása.
+   * @param signUpRequest SignUpReques, a regisztrációs adatok RequestBody-ból.
+   * @return ResponseEntity<?> Regisztráció eredmény. Sikertelen regisztráció esetén a sikertelenség oka.
+   */
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -147,6 +166,11 @@ public class AuthController {
     return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
   }
 
+  
+  /**
+   * Kijelentkezés
+   * @return ResponseEntity<?>, kijelentkezés eredménye
+   */
   @PostMapping("/signout")
   public ResponseEntity<?> logoutUser() {
     ResponseCookie cookie = jwtUtils.getCleanJwtCookie();

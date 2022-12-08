@@ -4,6 +4,11 @@ import java.util.Set;
 
 import javax.validation.constraints.*;
  
+/**
+ * Regisztrációs modell
+ * @author BalazsPC
+ *
+ */
 public class SignupRequest {
     @NotBlank
     @Size(min = 3, max = 20)

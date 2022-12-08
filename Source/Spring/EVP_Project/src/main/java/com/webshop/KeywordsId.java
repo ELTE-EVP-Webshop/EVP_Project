@@ -3,6 +3,11 @@ package com.webshop;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Keywords osztályhoz tartozó id osztály
+ * @author BalazsPC
+ *
+ */
 public class KeywordsId implements Serializable {
 	private long product_id;
 	private String keyword;

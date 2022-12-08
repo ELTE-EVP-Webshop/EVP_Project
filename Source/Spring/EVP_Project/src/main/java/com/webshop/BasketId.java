@@ -3,6 +3,11 @@ package com.webshop;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Basket modellhez tartozó ID osztály
+ * @author BalazsPC
+ *
+ */
 public class BasketId implements Serializable {
 	private long userid;
 	private long product_id;

@@ -14,6 +14,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.*;
 
+/**
+ * user adatbázis táblához tartozó JPA modell
+ * @author BalazsPC
+ *
+ */
 @Entity
 @Table(name="user")
 public class User {

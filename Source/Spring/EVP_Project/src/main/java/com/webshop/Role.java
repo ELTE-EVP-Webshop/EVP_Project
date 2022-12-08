@@ -2,6 +2,11 @@ package com.webshop;
 
 import javax.persistence.*;
 
+/**
+ * roles adatbázis táblához tartozó JPA modell
+ * @author BalazsPC
+ *
+ */
 @Entity
 @Table(name = "roles")
 public class Role {

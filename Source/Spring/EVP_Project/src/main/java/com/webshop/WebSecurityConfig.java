@@ -16,6 +16,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.webshop.AuthEntryPointJwt;
+/**
+ * Api security konfigurációs osztály
+ * @author BalazsPC
+ *
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
@@ -34,6 +39,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     return new AuthTokenFilter();
   }
 
+  /**
+   * Jelszó hashelés
+   */
   @Override
   public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
     authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
@@ -50,6 +58,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
 
+  /**
+   * HTTP security konfigurálás:
+   * Elérési utak korlátozása (bejelentkezés, jogosultság)
+   */
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()
@@ -64,6 +76,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
   }
   
+  /**
+   * Web security elérési utak tiltása
+   */
   @Override
   public void configure(WebSecurity web) throws Exception {
       web.ignoring().antMatchers("/images/**", "/js/**", "/webjars/**"); 

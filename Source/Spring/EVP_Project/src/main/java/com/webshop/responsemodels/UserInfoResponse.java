@@ -2,6 +2,11 @@ package com.webshop.responsemodels;
 
 import java.util.List;
 
+/**
+ * Felhasználó fő adatait visszaadó modell (csak megjeleníthető adatokat tartalmaz, jelszó nélkül)
+ * @author BalazsPC
+ *
+ */
 public class UserInfoResponse {
 	private Long id;
 	private String username;

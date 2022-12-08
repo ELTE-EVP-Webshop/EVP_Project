@@ -1,5 +1,10 @@
 package com.webshop.requestmodels;
 
+/**
+ * ProductReqRep modellhez készült képleíró modell
+ * @author BalazsPC
+ *
+ */
 public class imageReqRepModel {
 	private String url;
 	private byte priority;

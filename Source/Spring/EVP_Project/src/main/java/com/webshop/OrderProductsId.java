@@ -3,6 +3,11 @@ package com.webshop;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * OrderProducts modellhez tartozó id osztály
+ * @author BalazsPC
+ *
+ */
 public class OrderProductsId implements Serializable {
 	private long order_id;
 	private long product_id;

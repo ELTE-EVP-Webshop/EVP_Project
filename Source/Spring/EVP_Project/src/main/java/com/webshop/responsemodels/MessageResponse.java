@@ -1,5 +1,10 @@
 package com.webshop.responsemodels;
 
+/**
+ * Válasz modell a kérésekre, 1 üzenetet tartalmaz (bővíthető)
+ * @author BalazsPC
+ *
+ */
 public class MessageResponse {
 	private String message;
 

@@ -3,6 +3,11 @@ package com.webshop;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * ProductImages adatbázis modellhez tartozó id osztály
+ * @author BalazsPC
+ *
+ */
 public class ProductImagesId implements Serializable {
 	private long productid;
 	private String image_url;
