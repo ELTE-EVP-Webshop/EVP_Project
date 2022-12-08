@@ -62,7 +62,7 @@ class ProductComponent extends React.Component {
 
                         <div>
                                 <section class="section-products">
-                                        <div class="container">
+                                        <div class="container-product">
                                                 <div class="row justify-content-center text-center">
                                                         <div class="col-md-8 col-lg-6">
                                                                 <div class="header">
@@ -119,7 +119,7 @@ class ProductComponent extends React.Component {
                                                                                 </ul>
                                                                         </div>
                                                                         <div class="part-2">
-                                                                                <h3 class="product-title">Here Product Title</h3>
+                                                                                <h3 class="product-title">Teszt</h3>
                                                                                 <h4 class="product-old-price">$79.99</h4>
                                                                                 <h4 class="product-price">$49.99</h4>
                                                                         </div>
@@ -133,7 +133,7 @@ class ProductComponent extends React.Component {
                                                                                 </ul>
                                                                         </div>
                                                                         <div class="part-2">
-                                                                                <h3 class="product-title">Here Product Title</h3>
+                                                                                <h3 class="product-title">Teszt</h3>
                                                                                 <h4 class="product-old-price">$79.99</h4>
                                                                                 <h4 class="product-price">$49.99</h4>
                                                                         </div>
@@ -147,7 +147,7 @@ class ProductComponent extends React.Component {
                                                                                 </ul>
                                                                         </div>
                                                                         <div class="part-2">
-                                                                                <h3 class="product-title">Here Product Title</h3>
+                                                                                <h3 class="product-title">Teszt</h3>
                                                                                 <h4 class="product-old-price">$79.99</h4>
                                                                                 <h4 class="product-price">$49.99</h4>
                                                                         </div>
@@ -161,7 +161,7 @@ class ProductComponent extends React.Component {
                                                                                 </ul>
                                                                         </div>
                                                                         <div class="part-2">
-                                                                                <h3 class="product-title">Here Product Title</h3>
+                                                                                <h3 class="product-title">Teszt</h3>
                                                                                 <h4 class="product-old-price">$79.99</h4>
                                                                                 <h4 class="product-price">$49.99</h4>
                                                                         </div>
@@ -175,7 +175,7 @@ class ProductComponent extends React.Component {
                                                                                 </ul>
                                                                         </div>
                                                                         <div class="part-2">
-                                                                                <h3 class="product-title">Here Product Title</h3>
+                                                                                <h3 class="product-title">Teszt</h3>
                                                                                 <h4 class="product-old-price">$79.99</h4>
                                                                                 <h4 class="product-price">$49.99</h4>
                                                                         </div>

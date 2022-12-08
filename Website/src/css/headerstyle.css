@@ -317,3 +317,11 @@ a {
 {
   background-color: rgba(58, 223, 8, 0.601);
 }
+
+@media (min-width:2200px) {
+  .container
+  {
+    margin-top: 2rem;
+    transform: scale(1.8);
+  }
+}

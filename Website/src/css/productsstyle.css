@@ -21,7 +21,7 @@ a:hover {
 
 .section-products {
     padding: 35px 0 54px;
-    min-height: 60vh;
+    min-height: 100ch;
 }
 
 .section-products .header {
@@ -53,6 +53,13 @@ a:hover {
     max-height: 290px;
     margin-bottom: 20px;
     overflow: hidden;
+}
+.container-product
+{
+    width: 70%;
+    margin-right: auto;
+    margin-left: auto;
+
 }
 
 .section-products .single-product .part-1::before {
