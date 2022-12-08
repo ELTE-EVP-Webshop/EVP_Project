@@ -17,7 +17,7 @@ export default function Header() {
     if (user) {
       setCurrentUser(user);
       setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
-      setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+      setShowAdminBoard(user.roles.includes("ROLE_ADMIN1") || user.roles.includes("ROLE_ADMIN2"));
     }
 
     EventBus.on("logout", () => {
@@ -49,7 +49,7 @@ export default function Header() {
                              {showAdminBoard && (
                         <li className="nav-item">
                           <Link to={"/admin"} class="nav-item">
-                           <span>Admin Board</span> 
+                           <span className="text-white">Admin Panel</span> 
                           </Link>
                         </li>
                       )}
