@@ -6,14 +6,17 @@ import './components/font-awesome-4.7.0/css/font-awesome.min.css';
 import './css/bootstrap.min.css';
 import './css/headerstyle.css';
 import './css/footerstyle.css';
+import './css/profile.css';
 import './fonts/icomoon/style.css';
 import './css/productsstyle.css';
 import './login_page/css/main.css';
 import './login_page/css/util.css';
 
 
+
 import MainProducts from './main_page/ProductComponent'
 import MainHeader from './main_page/Header';
+import ProfileHeader from './user/Header'
 import Footer from './main_page/Footer';
 import LoginHeader from './login_page/Header';
 import LoginMain from './login_page/login';
@@ -22,7 +25,8 @@ import User from './user/BoardUser'
 import Profile from './user/profile'
 import Contact from './main_page/Contact';
 import About from './main_page/About'
-import ShoppingCart from './main_page/ShoppingCart'
+import ShoppingCart from './cart/ShoppingCart'
+import ShoppingHeader from './cart/Header'
 import Admin from './main_page/Admin'
 
 
@@ -47,7 +51,7 @@ function App() {
           element={
           <>
 
-          <MainHeader/>
+          <ShoppingHeader/>
           {user !== null ?(
           <ShoppingCart/>
           ) :(
@@ -153,13 +157,13 @@ function App() {
 
 {user !== null ?(
             <>
-          <MainHeader/>
+          <ProfileHeader/>
           
           <Profile/>
           </>
           ) : (
             <>
-            <MainHeader/>
+            <ProfileHeader/>
              <h1 className='text-center pt-3'>Nincs jogosítványod, hogy elérd ezt az oldalt!</h1>
             </>
           )}

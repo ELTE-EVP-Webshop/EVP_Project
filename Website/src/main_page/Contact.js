@@ -6,6 +6,7 @@ class Contact extends React.Component {
 
                         <div>
                                <h1>Vedd fel velünk a kapcsolatot!</h1>
+                               <p style={{  color: 'transparent' }}>Tinder.com/Sanyika2000</p>
                         </div>
                 )
         }

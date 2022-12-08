@@ -69,7 +69,7 @@ export default function Header() {
                     <Link to={"/user"} class="nav-item"></Link>
                   </li>
 
-                  <li class="nav-item active">
+                  <li class="nav-item ">
                     <a href="/">
                       <span>Főoldal</span>
                     </a>
@@ -132,7 +132,7 @@ export default function Header() {
                       </span>
                     </a>
                   </li>
-                  <li class="has-children nav-item">
+                  <li class="has-children nav-item active">
                     <a href="#">
                       <span>{currentUser.username}</span>
                     </a>
