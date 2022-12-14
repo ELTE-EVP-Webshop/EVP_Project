@@ -29,6 +29,7 @@ public class EvpProjectApplication{
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/productsListing").allowedOrigins("http://localhost:3000");
+				registry.addMapping("/getBasketProducts").allowedOrigins("http://localhost:3000");
 			}
 		};
 	}
