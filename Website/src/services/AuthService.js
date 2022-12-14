@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3000/api/auth/";
+const API_URL = "http://localhost:8080/api/auth/";
+axios.defaults.withCredentials = true
 
 const register = (username, email, password) => {
   return axios.post(API_URL + "signup", {
@@ -15,7 +16,10 @@ const login = (username, password) => {
     .post(API_URL + "signin", {
       username,
       password,
-    })
+    }, {
+        withCredentials: true,
+        headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'
+    }})
     .then((response) => {
       if (response.data.username) {
         localStorage.setItem("user", JSON.stringify(response.data));
@@ -29,7 +33,10 @@ const login = (username, password) => {
 
 const logout = () => {
   localStorage.removeItem("user");
-  return axios.post(API_URL + "signout").then((response) => {
+  return axios.post(API_URL + "signout", {
+        withCredentials: true,
+		headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
+    }).then((response) => {
     return response.data;
   });
 };

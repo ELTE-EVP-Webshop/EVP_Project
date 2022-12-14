@@ -35,7 +35,7 @@ import ch.qos.logback.core.net.ObjectWriter;
  * Admin controller: Csak bejelentkezés után ROLE_ADMIN1, ROLE_ADMIN2 jogosultsággal érhető el
  * Összes repo elérhető belőle
  */
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600, allowCredentials = "true")
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
