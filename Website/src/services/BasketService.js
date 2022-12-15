@@ -20,22 +20,14 @@ const getBasketProduct = () => {
 const addBasketProduct = (productid, c) => {
    return axios
   .post(API_URL + "addItemToBasket",
-  
+	{},
     {
-      
-    },
-
-    {
-      withCredentials: true
-    },
-
-    {
-      params : {
-      Productid: productid,
-      Count:c
+		params: {
+			productId: productid,
+			count:c
+		},
+		withCredentials: true
     }
-  }
-      
 )
   .then((response) => {
     

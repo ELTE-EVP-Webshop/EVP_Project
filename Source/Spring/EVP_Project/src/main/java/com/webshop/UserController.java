@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -84,11 +85,19 @@ public class UserController {
 			response.setMessage("A rendelt mennyiség nem lehet kisebb 1-nél!");
 			return response;
 		}
+		if(!basketRepo.findById(new BasketId(userId, productId)).isEmpty()){
+			response.setMessage("A termék már szerepel a kosárban!");
+			return response;
+		}
+		if(productRepo.findById(productId).isEmpty()) {
+			response.setMessage("Ilyen termék nem létezik!");
+			return response;
+		}
 		try {
 			Basket b = new Basket(userId, productId, count);
 			if(basketRepo.save(b) != null) { response.setMessage("Tárgy sikeresen felvéve a korsárba!"); }
 			else { response.setMessage("A tárgyat nem sikerült a kosárhoz adni!"); }
-		}catch(Exception e){
+		} catch(Exception e){
 			System.out.println(e.getMessage());
 		}
 		return response;
