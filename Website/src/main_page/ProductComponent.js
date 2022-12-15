@@ -1,22 +1,50 @@
 import React, {useState, useEffect} from 'react'
 import {user} from './Header'
-
-
+import BasketService from "../services/BasketService";
+var listed = null
 class ProductComponent extends React.Component {
         
 
         state = {
-                products: []
+                products: [],
+                basket: []
         };
+        basket = BasketService.getBasketProduct();
         
-
         async componentDidMount() {
                 const response = await fetch('http://localhost:8080/api/app/productsListing')
                 const body = await response.json();
                 this.setState({ products: body });
                 
+                const { basket } = this.state;
+	        listed = Object.values(basket)
+                console.log(listed)
+                
 
         }
+
+        addToCart = (productid, count) => {
+               
+                let existInCart = false
+                
+                for(var i = 0; i < listed.length;i++) {
+                        if(listed.product_id == productid) {
+                                existInCart = true
+                        }
+                }
+
+                if(existInCart) {
+                        alert("Ilyen termék már létezik a kosárban!")
+                } else {
+                        BasketService.addBasketProduct(productid, count)
+                        alert("Termék kosárba rakva!")
+                }
+               
+                    
+            
+            
+           
+    }
         ModaliuszLeviosza = (a) => {
                         var modal = document.getElementById("myModal");
                         modal.style.display = "block";
@@ -40,7 +68,7 @@ class ProductComponent extends React.Component {
                 
         render() {
                 const { products } = this.state;
-                var result = Object.values(products)
+                const result = Object.values(products)
                 if(user !== null)  {
                         console.log(user.username)
                 } else console.log("A macska rúgja meg!")
@@ -84,7 +112,7 @@ class ProductComponent extends React.Component {
                                                                                                     {user !== null && (                   
                                                                                                                 
                                                                                                         <ul>
-                                                                                                                        <li><a href="#"><i class="fa fa-lg fa-cart-plus" aria-hidden="true"></i></a></li>
+                                                                                                                        <li><a onClick={()=> this.addToCart(product.p.id, 1)} href="#"><i class="fa fa-lg fa-cart-plus" aria-hidden="true"></i></a></li>
                                                                                                                 
                                                                                                         </ul>
                                                                                                     )}
