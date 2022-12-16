@@ -11,9 +11,9 @@ const getBasketProduct = () => {
 	})
     .then((response) => {
       
-	  console.log(response.data);
+	//  console.log(response.data);
 
-      return response;
+      return response.data;
     });
 };
 
@@ -31,16 +31,62 @@ const addBasketProduct = (productid, c) => {
 )
   .then((response) => {
     
-  console.log(response.data);
+  alert(response.data.message);
 
     return response;
   });
 };
 
+const removeBasketProduct = (productid) => {
+  return axios
+  .delete(API_URL + "removeItemFromBasket",
+	{},
+    {
+		data: {
+			productId: productid
+		},
+		withCredentials: true,
+    
+    headers : {
+      'Access-Control-Allow-Origin': '*'
+    },
+  }
+)
+  .then((response) => {
+    
+  alert(response.data.message);
+
+    return response;
+  });
+};
+
+const updateBasketProduct = (productid, c) => {
+  return axios
+  .post(API_URL + "updateProductCountInBasket",
+	{},
+    {
+		params: {
+			productId: productid,
+			newCount:c
+		},
+		withCredentials: true
+    }
+)
+  .then((response) => {
+    
+  alert(response.data.message);
+
+    return response;
+  });
+}
+
+
 
 const BasketService = {
   getBasketProduct,
-  addBasketProduct
+  addBasketProduct,
+  removeBasketProduct,
+  updateBasketProduct
 }
 
 export default BasketService;

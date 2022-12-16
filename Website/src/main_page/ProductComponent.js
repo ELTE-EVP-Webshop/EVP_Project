@@ -1,49 +1,35 @@
 import React, {useState, useEffect} from 'react'
 import {user} from './Header'
 import BasketService from "../services/BasketService";
-var listed = null
+import ProductService from '../services/ProductService';
 class ProductComponent extends React.Component {
         
 
         state = {
-                products: [],
-                basket: []
+                products: []
         };
         basket = BasketService.getBasketProduct();
         
+        
+
         async componentDidMount() {
-                const response = await fetch('http://localhost:8080/api/app/productsListing')
-                const body = await response.json();
-                this.setState({ products: body });
-                
-                const { basket } = this.state;
-	        listed = Object.values(basket)
-                console.log(listed)
-                
+                //Fetch verzió
+                //const response = await fetch('http://localhost:8080/api/app/productsListing')
+               // const body = await response.json();
+              //  this.setState({ products: body });
+
+              //Axios verzió
+              const data = await ProductService.getProducts();
+                this.setState({products: data});
+
+               // console.log(ProductService.getProducts())
 
         }
 
         addToCart = (productid, count) => {
-               
-                let existInCart = false
-                
-                for(var i = 0; i < listed.length;i++) {
-                        if(listed.product_id == productid) {
-                                existInCart = true
-                        }
-                }
 
-                if(existInCart) {
-                        alert("Ilyen termék már létezik a kosárban!")
-                } else {
                         BasketService.addBasketProduct(productid, count)
-                        alert("Termék kosárba rakva!")
-                }
-               
-                    
-            
-            
-           
+ 
     }
         ModaliuszLeviosza = (a) => {
                         var modal = document.getElementById("myModal");
@@ -67,8 +53,9 @@ class ProductComponent extends React.Component {
               }
                 
         render() {
-                const { products } = this.state;
-                const result = Object.values(products)
+               // const {products}= this.state
+                
+                const result = this.state.products
                 if(user !== null)  {
                         console.log(user.username)
                 } else console.log("A macska rúgja meg!")

@@ -28,7 +28,8 @@ import About from './main_page/About'
 import ShoppingCart from './cart/ShoppingCart'
 import ShoppingHeader from './cart/Header'
 import Admin from './main_page/Admin'
-
+import Payment from './payment/Payment'
+import PaymentHeader from './payment/Header'
 
 function App() {
 
@@ -59,6 +60,15 @@ function App() {
   )}
 
           
+          </>
+        }/>
+           <Route path="/payment"
+          element={
+          <>
+
+          <PaymentHeader/>
+          
+          <Payment/>
           </>
         }/>
 

@@ -1,12 +1,26 @@
 import axios from 'axios'
 
-const PRODUCTS_REST_API_URL = 'http://localhost:8080/productsListing';
+const PRODUCTS_REST_API_URL = 'http://localhost:8080/api/app/productsListing';
 
 
-class ProductService {
-    getProducts() {
-        axios.get(PRODUCTS_REST_API_URL);
-    }
-}
 
-export default new ProductService();
+
+    const getProducts = () => {
+        return axios
+          .get(PRODUCTS_REST_API_URL)
+
+          .then((response) => {
+            
+          //  console.log(response.data);
+      
+            return response.data;
+          });
+      };
+
+
+
+      const ProductService = {
+        getProducts
+      }
+
+      export default ProductService
