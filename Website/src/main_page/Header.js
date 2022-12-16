@@ -118,13 +118,7 @@ export default function Header() {
                     </ul>
                   </li>
 
-                  <li class="nav-item">
-                    <a>
-                      <span>
-                        <Link to="/about">Rólunk</Link>
-                      </span>
-                    </a>
-                  </li>
+                  
                   <li class="nav-item">
                     <a>
                       <span>
@@ -137,9 +131,9 @@ export default function Header() {
                       <span>{currentUser.username}</span>
                     </a>
                     <ul class="dropdown arrow-top">
-                        <li>
-                          <a href="/profile">Profil</a>
-                        </li>
+                      <li>
+                        <a href="/profile">Profil</a>
+                      </li>
                       <li>
                         <a href="/login" onClick={logOut}>
                           Kijelentkezés

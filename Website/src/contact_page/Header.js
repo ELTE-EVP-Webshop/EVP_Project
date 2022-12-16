@@ -81,13 +81,6 @@ export default function Header() {
                       </span>
                     </a>
                   </li>
-                  <li class="nav-item active">
-                    <a>
-                      <span>
-                        <Link to="/payment">Fizetés</Link>
-                      </span>
-                    </a>
-                  </li>
                   <li class="has-children nav-item">
                     <a href="#">
                       <span>Kategóriák</span>
@@ -125,21 +118,14 @@ export default function Header() {
                     </ul>
                   </li>
 
-                  <li class="nav-item">
-                    <a>
-                      <span>
-                        <Link to="/about">Rólunk</Link>
-                      </span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
+                  <li class="nav-item active">
                     <a>
                       <span>
                         <Link to="/contact">Kapcsolat</Link>
                       </span>
                     </a>
                   </li>
-                  <li class="has-children nav-item ">
+                  <li class="has-children nav-item">
                     <a href="#">
                       <span>{currentUser.username}</span>
                     </a>

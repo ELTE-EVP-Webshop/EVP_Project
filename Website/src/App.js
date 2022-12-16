@@ -11,23 +11,34 @@ import './fonts/icomoon/style.css';
 import './css/productsstyle.css';
 import './login_page/css/main.css';
 import './login_page/css/util.css';
+import './css/contact.css';
 
 
 
 import MainProducts from './main_page/ProductComponent'
 import MainHeader from './main_page/Header';
-import ProfileHeader from './user/Header'
 import Footer from './main_page/Footer';
+
+
+
+
 import LoginHeader from './login_page/Header';
 import LoginMain from './login_page/login';
-import RegMain from './login_page/register'
+
+import ProfileHeader from './user/Header'
 import User from './user/BoardUser'
 import Profile from './user/profile'
-import Contact from './main_page/Contact';
-import About from './main_page/About'
+
+import Admin from './main_page/Admin'
+
+import Contact from './contact_page/Contact';
+import ContactHeader from './contact_page/Header';
+
+import RegMain from './login_page/register'
+
 import ShoppingCart from './cart/ShoppingCart'
 import ShoppingHeader from './cart/Header'
-import Admin from './main_page/Admin'
+
 import Payment from './payment/Payment'
 import PaymentHeader from './payment/Header'
 
@@ -72,21 +83,13 @@ function App() {
           </>
         }/>
 
-    <Route path="/about"
-          element={
-          <>
-
-          <MainHeader/>
-          
-          <About/>
-          </>
-        }/>
+    
 
       <Route path="/contact"
           element={
           <>
 
-          <MainHeader/>
+          <ContactHeader/>
           
           <Contact/>
           </>
