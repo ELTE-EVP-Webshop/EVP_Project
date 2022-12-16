@@ -116,7 +116,7 @@ public class UserController {
 	 * @param productId long, Termék egyedi azonosítója
 	 * @return MessageResponse, eredmény
 	 */
-	@DeleteMapping("/removeItemFromBasket")
+	@PostMapping("/removeItemFromBasket")
 	public MessageResponse removeItemFromBasket(long productId) {
 		MessageResponse response = new MessageResponse();
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

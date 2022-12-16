@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author BalazsPC
  *
  */
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600, allowCredentials = "true")
 @RestController
 @RequestMapping("/api/app")
 public class AppController {

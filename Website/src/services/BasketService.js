@@ -39,18 +39,14 @@ const addBasketProduct = (productid, c) => {
 
 const removeBasketProduct = (productid) => {
   return axios
-  .delete(API_URL + "removeItemFromBasket",
+  .post(API_URL + "removeItemFromBasket",
 	{},
     {
-		data: {
+		params: {
 			productId: productid
 		},
-		withCredentials: true,
-    
-    headers : {
-      'Access-Control-Allow-Origin': '*'
-    },
-  }
+		withCredentials: true
+	}
 )
   .then((response) => {
     
