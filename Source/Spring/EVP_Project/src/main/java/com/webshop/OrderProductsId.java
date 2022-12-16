@@ -9,7 +9,7 @@ import java.util.Objects;
  *
  */
 public class OrderProductsId implements Serializable {
-	private long order_id;
+	private long orderid;
 	private long product_id;
 	
 	public OrderProductsId() {
@@ -17,7 +17,7 @@ public class OrderProductsId implements Serializable {
 	}
 	
 	public OrderProductsId(long order_id, long product_id) {
-        this.order_id = order_id;
+        this.orderid = order_id;
         this.product_id = product_id;
     }
 
@@ -26,11 +26,11 @@ public class OrderProductsId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderProductsId ordId = (OrderProductsId) o;
-        return (this.order_id == ordId.order_id && this.product_id == ordId.product_id);
+        return (this.orderid == ordId.orderid && this.product_id == ordId.product_id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(order_id, product_id);
+        return Objects.hash(orderid, product_id);
     }
 }

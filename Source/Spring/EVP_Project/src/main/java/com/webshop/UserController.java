@@ -1,11 +1,13 @@
 package com.webshop;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.webshop.Model.paymentMethods;
 import com.webshop.responsemodels.MessageResponse;
 import com.webshop.responsemodels.UserDeliveryInfoResponse;
 
@@ -91,6 +94,10 @@ public class UserController {
 		}
 		if(productRepo.findById(productId).isEmpty()) {
 			response.setMessage("Ilyen termék nem létezik!");
+			return response;
+		}
+		if(productRepo.findById(productId).get().getStock() < count) {
+			response.setMessage("A termékből jelenleg csak " + productRepo.findById(productId).get().getStock() + " darab érhető el!");
 			return response;
 		}
 		try {
@@ -242,7 +249,6 @@ public class UserController {
 	 */
 	@GetMapping("/getDeliveryAddress")
 	public String getDeliveryAddress() {
-		String response;
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Long userId = userDetails.getId();
 		User u = userRepo.findById(userId).get();
@@ -253,6 +259,145 @@ public class UserController {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 			return "ERROR";
+		}
+	}
+	
+	/**
+	 * Rendelés leadása
+	 * Kosárban lévő termékek megrendelése, rednelés létrehozása (ha van mindenből elég termék)
+	 * Adatok ellenőrzése, készlet ellenőrzése, Rendelés létrehozása, termékek áthelyezése a rendeléshez (készlet csökkentése), 
+	 * @param phone String, telefonszám
+	 * @param country Sring, ország
+	 * @param country_l String, megye
+	 * @param city String, város
+	 * @param post_code short, irányítószám
+	 * @param street String, utca
+	 * @param house_number String, házszám (teljes, pl.: 1/A)
+	 * @param post_other String, egyéb pl emelet, ajtó
+	 * @param paymentMethod short, fizetés módja (jelenleg 1-2-3)
+	 * @return MessageResponse, String adattípussal, rendelés eredménye (Sikeres / ha hiba miért) 
+	 */
+	@PostMapping("completeOrder")
+	public ResponseEntity<?> completeOrder(String phone, String country, String country_l, String city, short post_code, String street, String house_number, String post_other, short paymentMethod){
+		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Long userId = userDetails.getId();
+		
+		List<Basket> products = basketRepo.findAllByUserid(userId);
+		
+		if(products.size() < 1) {
+			return ResponseEntity.ok().body(new MessageResponse("A kosár üres!"));
+		}
+		if(phone == null || phone.isEmpty() || phone.isBlank()) {
+			return ResponseEntity.ok().body(new MessageResponse("A telefonszám mező nem lehet üres!"));
+		}
+		if(country == null || country.isEmpty() || country.isBlank()) {
+			return ResponseEntity.ok().body(new MessageResponse("Az ország mező nem lehet üres!"));
+		}
+		if(country_l == null || country_l.isEmpty() || country_l.isBlank()) {
+			return ResponseEntity.ok().body(new MessageResponse("A megye mező nem lehet üres!"));
+		}
+		if(city == null || city.isEmpty() || city.isBlank()) {
+			return ResponseEntity.ok().body(new MessageResponse("A város mező nem lehet üres!"));
+		}
+		if(street == null || street.isEmpty() || street.isBlank()) {
+			return ResponseEntity.ok().body(new MessageResponse("A város mező nem lehet üres!"));
+		}
+		if(house_number == null || house_number.isEmpty() || house_number.isBlank()) {
+			return ResponseEntity.ok().body(new MessageResponse("A házszám mező nem lehet üres!"));
+		}
+		if(!paymentMethods.isValidPaymentMethod(paymentMethod)) {
+			return ResponseEntity.ok().body(new MessageResponse("Hibás fizetési mód!"));
+		}
+		
+		for(Basket b : products) {
+			if(productRepo.findById(b.getProduct_id()).get().getStock() < b.getCount()) {
+				return ResponseEntity.ok().body(new MessageResponse(productRepo.findById(b.getProduct_id()).get().getName() + " nevű termékből csak " + productRepo.findById(b.getProduct_id()).get().getStock() + " db van raktáron."));
+			}
+		}
+		
+		Orders o = new Orders();
+		o.setPhone(phone);
+		o.setCountry(country);
+		o.setCountry_1(country_l);
+		o.setCity(city);
+		o.setPost_code(post_code);
+		o.setStreet(street);
+		o.setHouse_number(house_number);
+		o.setPost_other(post_other);
+		o.setPayment_method(paymentMethod);
+		o.setUser_id(userId);
+		o.setOrder_date(LocalDateTime.now());
+		o.setOrder_state((byte)0);
+		o.setPayment_state((byte)0);
+		
+		Orders actualOrder = ordersRepo.save(o);
+
+		for(Basket b : products) {
+			Product p = productRepo.findById(b.getProduct_id()).get();
+			p.setStock(p.getStock() - b.getCount());
+			productRepo.save(p);
+			OrderProducts op = new OrderProducts();
+			op.setCount(b.getCount());
+			op.setOrder_id(actualOrder.getId());
+			op.setProduct_id(b.getProduct_id());
+			op.setPrice(p.getPrice());
+			op.setSale_price(op.getSale_price());
+			orderProductsRepo.save(op);
+		}
+		basketRepo.deleteAllByUserid(userId);
+		
+		return ResponseEntity.ok().body(new MessageResponse("Rendelés sikeresen rögzítve az alábbi azonosítóval: "+actualOrder.getId()));
+	}
+	
+	/**
+	 * Felhasználó rendelés előzményeinek lekérése
+	 * Minden felhasználó csak a saját rendeléseit éri el
+	 * @return MessageResponse, tartalma siker esetén a rendelések JSON formátumban (List<Orders>), ha nem volt még rendelés, akkor üzenet, hiba esetén hiba leírás
+	 */
+	@GetMapping("getOrders")
+	public ResponseEntity<?> getOrders() {
+		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Long userId = userDetails.getId();
+		List<Orders> orders = ordersRepo.findAllByUserid(userId);
+		if(orders.isEmpty()) {
+			return ResponseEntity.ok().body(new MessageResponse("Nem található korábbi rendelés!"));
+		}
+		else {
+			try {
+				ObjectMapper mapper = new ObjectMapper();
+				return ResponseEntity.ok().body(new MessageResponse(mapper.writeValueAsString(orders)));
+			} catch (Exception e) {
+				return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+			}
+			
+		}
+		
+		
+	}
+	
+	/**
+	 * Rendeléshez tartozó termékek lekérése
+	 * Minden felhasználó csak a saját rendeléseihez tartozó adatokat látja
+	 * @param orderId A keresett rendelés azonosítója
+	 * @return MessageResponse String adattaggal, a rendeléshez tartozó termékek JSON formátumban, vagy hibaüzenet
+	 */
+	@GetMapping("getOrderProducts")
+	public ResponseEntity<?> getOrderProducts(long orderId) {
+		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Long userId = userDetails.getId();
+		if(ordersRepo.findById(orderId).isEmpty()) {
+			return ResponseEntity.status(404).body(new MessageResponse("Nem található rendelés ezzel az azonosítóval!"));
+		}
+		if(ordersRepo.findById(orderId).get().getUser_id() != userId) {
+			return ResponseEntity.status(403).body(new MessageResponse("A felhasználónak nincs jogosultsága megtekinteni ezt a rendelést!"));
+		}else {
+			List<OrderProducts> op = orderProductsRepo.findAllByOrderid(orderId);
+			try {
+			ObjectMapper mapper = new ObjectMapper();
+			return ResponseEntity.ok(new MessageResponse(mapper.writeValueAsString(op)));
+			} catch (Exception e) {
+				return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+			}
 		}
 	}
 }

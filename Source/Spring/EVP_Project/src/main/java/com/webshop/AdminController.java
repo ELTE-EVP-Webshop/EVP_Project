@@ -1,33 +1,24 @@
 package com.webshop;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.webshop.Model.orderStates;
 import com.webshop.requestmodels.ProductReqRep;
-import com.webshop.requestmodels.SignupRequest;
 import com.webshop.requestmodels.imageReqRepModel;
 import com.webshop.requestmodels.variationReqRepModel;
 import com.webshop.responsemodels.MessageResponse;
-import com.webshop.responsemodels.UserDeliveryInfoResponse;
-
-import ch.qos.logback.core.net.ObjectWriter;
 
 /**
  * 
@@ -363,4 +354,93 @@ public class AdminController {
 		
 		return mr;
 	}
+	
+	/**
+	 * Minden rendelés lekérdezése - Adminisztrátor
+	 * @return
+	 */
+	@GetMapping("getAllOrder")
+	public ResponseEntity<?> getOrders() {
+		List<Orders> orders = ordersRepo.findAll();
+		if(orders.isEmpty()) {
+			return ResponseEntity.ok().body(new MessageResponse("Nem található korábbi rendelés!"));
+		}
+		else {
+			try {
+				ObjectMapper mapper = new ObjectMapper();
+				return ResponseEntity.ok().body(new MessageResponse(mapper.writeValueAsString(orders)));
+			} catch (Exception e) {
+				return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+			}
+			
+		}
+		
+		
+	}
+	
+	/**
+	 * Rendelés keresése azonosító alapján - Admin
+	 * @param ordeId
+	 * @return
+	 */
+	@GetMapping("findOrderById")
+	public ResponseEntity<?> findOrderById(long ordeId) {
+		Optional<Orders> order = ordersRepo.findById(ordeId);
+		if(order.isEmpty()) {
+			return ResponseEntity.ok().body(new MessageResponse("Nem található rendelés ezzel az azonosítóval!"));
+		}
+		else {
+			try {
+				ObjectMapper mapper = new ObjectMapper();
+				return ResponseEntity.ok().body(new MessageResponse(mapper.writeValueAsString(order)));
+			} catch (Exception e) {
+				return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+			}
+			
+		}
+		
+		
+	}
+	
+	/**
+	 * Rendeléshez tartozó termékek lekérése - Admin
+	 * @param orderId A keresett rendelés azonosítója
+	 * @return MessageResponse String adattaggal, a rendeléshez tartozó termékek JSON formátumban, vagy hibaüzenet
+	 */
+	@GetMapping("getOrderProducts")
+	public ResponseEntity<?> getOrderProducts(long orderId) {
+		if(ordersRepo.findById(orderId).isEmpty()) {
+			return ResponseEntity.status(404).body(new MessageResponse("Nem található rendelés ezzel az azonosítóval!"));
+		}
+		
+		List<OrderProducts> op = orderProductsRepo.findAllByOrderid(orderId);
+		
+		try {
+		ObjectMapper mapper = new ObjectMapper();
+		return ResponseEntity.ok(new MessageResponse(mapper.writeValueAsString(op)));
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+		}
+	}
+	
+	/**
+	 * Rendelés státuszának módosítása
+	 * @param orderId long, rendelés azonosítója
+	 * @param newState byte, új státusz
+	 * @return MessageResponse, tartalma a módosítás eredmény (Siker / Ha sikertelen, miért)
+	 */
+	@PostMapping("updateOrderState")
+	public ResponseEntity<?> updateOrderState(long orderId, byte newState) {
+		if(ordersRepo.findById(orderId).isEmpty()) {
+			return ResponseEntity.status(400).body(new MessageResponse("Rendelés nem található!"));
+		}
+		if(!orderStates.isValidOrderState(newState)) {
+			return ResponseEntity.status(400).body(new MessageResponse("Hibás státuszkód!"));
+		}
+		Orders o = ordersRepo.findById(orderId).get();
+		o.setOrder_state(newState);
+		ordersRepo.save(o);
+		return ResponseEntity.ok().body(new MessageResponse("Sikeres módosítás!"));
+	}
+	
 }

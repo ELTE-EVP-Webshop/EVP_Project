@@ -2,8 +2,6 @@ package com.webshop;
 
 import java.util.List;
 
-import javax.persistence.Entity;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
