@@ -1,21 +1,23 @@
 import React from 'react'
 import BasketService from "../services/BasketService";
-import { result } from '../main_page/ProductComponent';
 import ProductService from '../services/ProductService';
 import { Link } from 'react-router-dom';
 const baskets = BasketService.getBasketProduct();
-
+export var subTotalPrice = 0
 class ShoppingCart extends React.Component {
 	state = {
                 products: [],
 		basket: [],
-                count : 1
+                count : 1,
+                subTotal : 0
 	};
 
         handleChange = (event) => {
                 this.setState({count: event.target.value})
+                
                // console.log(event.target.value)
               };
+        
         async componentDidMount() {
                 //Fetch verzió
                 //const response = await fetch('http://localhost:8080/api/app/productsListing')
@@ -28,10 +30,24 @@ class ShoppingCart extends React.Component {
                 const productsData = await ProductService.getProducts();
                 this.setState({products: productsData}) 
 
-               // console.log(ProductService.getProducts())
-
+               this.calculateSubTotal();
+            
         }
-  
+        calculateSubTotal =() => {
+                var basket = Object.values(this.state.basket)
+               var products = Object.values(this.state.products)
+               
+                var subtotal = 0;
+               for(var i = 0; i < products.length; i++) {
+                for(var j = 0; j < basket.length; j++) {
+                        if(products[i].p.id == basket[j].product_id) {
+                                subtotal += products[i].p.price * basket[j].count
+                        }
+                }
+               }
+               this.setState({subTotal : subtotal})
+              
+        }
 	
         render() {
                 
@@ -49,13 +65,15 @@ class ShoppingCart extends React.Component {
                               //  console.log(basketId)
 
                                products = (products.filter(ob => basketId.includes(ob.p.id)))
-                                
+                              
                               //console.log(basket)
                              //  console.log(basketId)
                             //products = products.filter(x => x.includes(basket.product_id));
 
 
-                      if(products) {
+                            if(this.state.products.length > 0) {
+                                subTotalPrice = this.state.subTotal
+                               // console.log(subTotalPrice)
                 return (
                         
                         <div>
@@ -106,7 +124,7 @@ class ShoppingCart extends React.Component {
                                                         )          
                                                 }
                                                  
-                                                {basket.map(b =>
+                                                {products.length > 0 && basket.map(b =>
                                                 <div key={b.product_id}>
                                                        <label for="pcount">Mennyiség:</label>
                                                 <input onChange={this.handleChange} id="pcount" type="number" defaultValue={b.count} onKeyPress={(event) => {
@@ -121,7 +139,13 @@ class ShoppingCart extends React.Component {
                                                        
                                                  
                                                 </div>
+                                                {products.length > 0 &&
+                                                <>
+                                                <h3>Végösszeg: {this.state.subTotal} HUF</h3>
                                                 <button type='button' class="btn btn-success"><Link to="/payment">Fizetés</Link></button>
+                                                </>
+                            }
+                            
                                         </div>
                                         </section>
                                 </div>

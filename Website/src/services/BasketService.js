@@ -51,7 +51,7 @@ const removeBasketProduct = (productid) => {
   .then((response) => {
     
   alert(response.data.message);
-
+    window.location.reload()
     return response;
   });
 };
@@ -71,7 +71,7 @@ const updateBasketProduct = (productid, c) => {
   .then((response) => {
     
   alert(response.data.message);
-
+  window.location.reload()
     return response;
   });
 }
