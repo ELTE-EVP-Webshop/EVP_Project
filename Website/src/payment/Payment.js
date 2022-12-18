@@ -9,6 +9,7 @@ export default function Payment() {
         const [street, setStreet] = useState("")
         const [housenumber, setHousenumber] = useState(1)
         const [paymethod, setPaymethod] = useState(1)
+        const [bankTranferVisible, setBankTransferVisible] = useState(true)
 
         const handleChange = (event, id) => {
                 //this.setState({count: event.target.value})
@@ -35,12 +36,15 @@ export default function Payment() {
                                 switch(event.target.value) {
                                         case 'BANKI_UTALAS':
                                                 setPaymethod(1);
+                                                setBankTransferVisible(true)
                                         break;
                                         case 'KP_UTANVET':
                                                 setPaymethod(2);
+                                                setBankTransferVisible(false)
                                         break;
                                         case 'KARTYAS_UTANVET':
                                                 setPaymethod(3);
+                                                setBankTransferVisible(false)
                                         break;
                                 }
                         break;
@@ -56,7 +60,7 @@ export default function Payment() {
 
         if(subTotalPrice != 0) {
         return (
-  
+                
                         <div>
                                <h1>Fizetés</h1>
                                <h3>Kérjük töltse ki az alábbi mezőket!</h3>
@@ -83,6 +87,15 @@ export default function Payment() {
                                         <option id="paymethod" value="KP_UTANVET">Készpénz utánvét</option>
                                         <option id="paymethod" value="KARTYAS_UTANVET">Kártyás utánvét</option>
                                 </select>
+                                {bankTranferVisible &&
+                                        <div>
+                                                <p>Kedvezményezett neve: <b>Incidens Kar Kft.</b></p>
+                                                <p>Számlavezető bank: <b>Incidens Bank</b></p>
+                                                <p>Számlaszám: <b>11709002-20650786-00000000</b></p>
+                                                <p>Közlemény: <b>[Kérem itt tüntesse fel megrendelése azonosítóját, rendelészámát]</b></p>
+   
+                                        </div>
+                                }
                                 <button onClick={()=> handlePay(phone, country, country2, city, street, housenumber, paymethod)} type="button" class="btn btn-success">Fizetés</button>
                                 </form>
                                 <h3>Végösszeg: {subTotalPrice} Ft</h3>

@@ -1,5 +1,11 @@
 import React from "react";
 
+const handleClick = (e) => {
+  e.preventDefault();
+  alert("Köszönjük, hogy felvette velünk a kapcsolatot! Reméljük csúszás nélkül fel tudjuk dolgozni a numerikusan tárolt üzenetét!")
+  window.location.assign("/")
+}
+
 class Contact extends React.Component {
   render() {
     return (
@@ -18,7 +24,7 @@ class Contact extends React.Component {
                         <div id="form-message-success" class="mb-4">
                           Email elküldve
                         </div>
-                        <form
+                        <form onSubmit={handleClick}
                           method="POST"
                           id="contactForm"
                           name="contactForm"
@@ -33,6 +39,7 @@ class Contact extends React.Component {
                                   name="name"
                                   id="name"
                                   placeholder="Név"
+                                  required
                                 ></input>
                               </div>
                             </div>
@@ -44,6 +51,7 @@ class Contact extends React.Component {
                                   name="email"
                                   id="email"
                                   placeholder="Email"
+                                  required
                                 ></input>
                               </div>
                             </div>
@@ -55,6 +63,7 @@ class Contact extends React.Component {
                                   name="subject"
                                   id="subject"
                                   placeholder="Tárgy"
+                                  required
                                 ></input>
                               </div>
                             </div>
@@ -67,6 +76,7 @@ class Contact extends React.Component {
                                   cols="30"
                                   rows="6"
                                   placeholder="Üzenet"
+                                  required
                                 ></textarea>
                               </div>
                             </div>
@@ -130,7 +140,7 @@ class Contact extends React.Component {
                           </div>
                           <div class="text pl-3">
                             <p>
-                              <span>Weboldal</span> <a href="#">IKshop.hu</a>
+                              <span>Weboldal</span> <a href="/">IKshop.hu</a>
                             </p>
                           </div>
                         </div>

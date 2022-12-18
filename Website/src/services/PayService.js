@@ -22,8 +22,8 @@ const completeOrder = (phone, country, country2, city, street, housenumber, paym
 		withCredentials: true
     })
     .then((response) => {
-      
-	  console.log(response.data);
+      alert(response.data.message)
+	
 
       return response.data;
     });

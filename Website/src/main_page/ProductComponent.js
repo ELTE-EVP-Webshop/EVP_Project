@@ -18,7 +18,7 @@ class ProductComponent extends React.Component {
     const data = await ProductService.getProducts();
     this.setState({ products: data });
 
-    // console.log(ProductService.getProducts()) 
+     console.log(ProductService.getProducts()) 
    
   }
  

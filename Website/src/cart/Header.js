@@ -121,13 +121,6 @@ export default function Header() {
                   <li class="nav-item">
                     <a>
                       <span>
-                        <Link to="/about">Rólunk</Link>
-                      </span>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a>
-                      <span>
                         <Link to="/contact">Kapcsolat</Link>
                       </span>
                     </a>
