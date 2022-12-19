@@ -12,6 +12,8 @@ import './css/productsstyle.css';
 import './login_page/css/main.css';
 import './login_page/css/util.css';
 import './css/contact.css';
+import './css/cartstyle.css';
+
 
 
 
