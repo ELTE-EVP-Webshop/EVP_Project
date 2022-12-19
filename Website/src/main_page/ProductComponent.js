@@ -29,7 +29,12 @@ class ProductComponent extends React.Component {
   vanekep = (product, index) => {
     
     return product &&product.images[index] &&product.images[index].image_url &&product.images[index].image_url? product.images[index].image_url: "https://thumbs.dreamstime.com/b/error-not-found-symbol-logo-design-vector-232023001.jpg"
-};
+	};
+	
+	getMainImage = (product) => {
+		if(product && product.images.length > 0) return product.images.sort((img1, img2) => img1.priority > img2.priority ? 1 : -1)[0].image_url;
+		return "https://thumbs.dreamstime.com/b/error-not-found-symbol-logo-design-vector-232023001.jpg";
+	};
   ModaliuszLeviosza = (product,kepindex) => {
     
         if(!this.cartAddOne)
@@ -93,7 +98,7 @@ class ProductComponent extends React.Component {
                   <div id={product.p.id} class="single-product">
                     <div onClick={() => this.ModaliuszLeviosza(product,index)} class="part-1"
                       style={{
-                        backgroundImage: `url(${this.vanekep(product,index)})`,
+                        backgroundImage: `url(${this.getMainImage(product)})`,
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
                         backgroundSize: "cover",
