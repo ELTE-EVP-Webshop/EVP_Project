@@ -41,13 +41,22 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
         });
       };
 
-      const addProduct = (prodName, prodDesc, prodCategory, prodVariation, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible) => {
+    /*  const addProduct = (prodName, prodDesc, prodCategoryId, prodCategoryName, prodVariationId, prodVariationName, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible) => {
         return axios
         .post(PRODUCTS_REST_API_URL_ADMIN + "insertNewProduct",
         {},
         {
         params: {
-        
+          name: prodName,
+          description: prodDesc,
+          price: prodPrice,
+          salePrice: prodSalePrice,
+          stock: prodStock,
+          visible: prodVisible,
+          categories: [prodCategoryId, prodCategoryName],
+          variations: [prodVariationId, prodVariationName],
+          images: [prodImage]
+
         },
         withCredentials: true
         })
@@ -57,7 +66,139 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
     
           return response.data;
         });
+      }*/
+
+      const addProduct = (prodName, prodDesc, prodCategoryId, prodCategoryName, prodVariationId, prodVariationName, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible) => {
+        var bodyFormData = new FormData();
+       var prodVarJSON = {"variation" : prodVariationId}
+       var prodVarJSON2 = {"description" : prodVariationName}
+       // prodCatJSON = {"variation": prodCategoryId, "description": prodCategoryName}
+        bodyFormData.append('name', prodName);
+        bodyFormData.append('description', prodDesc);
+        bodyFormData.append('price', prodPrice);
+        bodyFormData.append('salePrice', prodSalePrice);
+        bodyFormData.append('stock', prodStock);
+        bodyFormData.append('visible', prodVisible);
+        bodyFormData.append('categories', prodCategoryId);
+        bodyFormData.append('categories', prodCategoryName);
+        bodyFormData.append('variations', prodVarJSON);
+        bodyFormData.append('variations', prodVarJSON2);
+        bodyFormData.append('images', prodImage);
+      return axios({
+          method: "post",
+          url: PRODUCTS_REST_API_URL_ADMIN + "insertNewProduct",
+          data: bodyFormData,
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true
+        })
+          .then(function (response) {
+            //handle success
+            console.log(response);
+          })
+          .catch(function (response) {
+            //handle error
+            console.log(response);
+          });
+      };
+
+      const createCategory = (category, smallDesc, priority) => {
+        return axios
+        .post(PRODUCTS_REST_API_URL_ADMIN + "createCategory",
+        {},
+        {
+          params: {
+            category: category,
+            smallDesc: smallDesc,
+            piority: priority
+          },
+          withCredentials: true
+        })
+        .then((response) => {
+          alert(response.data.message)
+
+          return response.data;
+        });
+
+       
       }
+
+      const createVariation = (variation) => {
+        return axios
+        .post(PRODUCTS_REST_API_URL_ADMIN + "createVariation",
+        {},
+        {
+          params: {
+            variation: variation
+          },
+          withCredentials: true
+        })
+        .then((response) => {
+          alert(response.data.message)
+
+          return response.data;
+        });
+      }
+
+        const addProductToCategory = (prodId, catId) => {
+          return axios
+          .post(PRODUCTS_REST_API_URL_ADMIN + "addProductToCategory",
+          {},
+          {
+            params: {
+              prodId: prodId,
+              catId : catId
+            },
+            withCredentials: true
+          })
+          .then((response) => {
+            alert(response.data.message)
+  
+            return response.data;
+          });
+
+        }
+
+        const updateCategory = (id, category, smallDesc,  priority) => {
+          return axios
+          .post(PRODUCTS_REST_API_URL_ADMIN + "updateCategory",
+          {},
+          {
+            params: {
+              id: id,
+              category : category,
+              smallDesc : smallDesc,
+              priority : priority
+            },
+            withCredentials: true
+          })
+          .then((response) => {
+            alert(response.data.message)
+  
+            return response.data;
+          });
+        }
+
+        const updateVariation = (id, variation) => {
+          return axios
+          .post(PRODUCTS_REST_API_URL_ADMIN + "updateVariation",
+          {},
+          {
+            params: {
+              id: id,
+              variation : variation
+            },
+            withCredentials: true
+          })
+          .then((response) => {
+            alert(response.data.message)
+  
+            return response.data;
+          });
+        }
+        
+        
+        
+      
 
 
 
@@ -65,7 +206,12 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
         getProducts,
         getVariations,
         getCategories,
-        addProduct
+        addProduct,
+        createCategory,
+        createVariation,
+        addProductToCategory,
+        updateCategory,
+        updateVariation
       }
 
       export default ProductService
