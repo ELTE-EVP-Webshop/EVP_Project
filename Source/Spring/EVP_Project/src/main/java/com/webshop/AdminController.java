@@ -70,7 +70,7 @@ public class AdminController {
 	 * @return MessageResponse, eredmény
 	 */
 	@PostMapping("insertNewProduct")
-	public MessageResponse insertNewProduct(@RequestBody ProductReqRep newProduct){
+	public ResponseEntity<MessageResponse> insertNewProduct(@RequestBody ProductReqRep newProduct){
 		MessageResponse mr = new MessageResponse();
 		//Product
 		Product p = new Product();
@@ -120,7 +120,7 @@ public class AdminController {
 			}
 		}
 		mr.setMessage("Sikeres rögzítés!");
-		return mr;
+		return ResponseEntity.ok().body(mr);
 	}
 	
 	
@@ -132,7 +132,7 @@ public class AdminController {
 	 * @return MessageResponse, eredmény
 	 */
 	@PostMapping("createCategory")
-	public MessageResponse createCategory(String category, String smallDesc, byte piority) {
+	public ResponseEntity<MessageResponse> createCategory(String category, String smallDesc, byte piority) {
 		MessageResponse mr = new MessageResponse();
 		ProductCategories pc = new ProductCategories();
 		pc.setCategory(category);
@@ -140,7 +140,7 @@ public class AdminController {
 		pc.setPriority(piority);
 		long pcid = productCategoriesRepo.save(pc).getId();
 		mr.setMessage("Sikeres rögzítés: "+pcid);
-		return mr;
+		return ResponseEntity.ok().body(mr);
 	}
 	
 	/**
@@ -149,13 +149,13 @@ public class AdminController {
 	 * @return MessageResponse, eredmény
 	 */
 	@PostMapping("createVariation")
-	public MessageResponse createVariation(String variation) {
+	public ResponseEntity<MessageResponse> createVariation(String variation) {
 		MessageResponse mr = new MessageResponse();
 		Variations v = new Variations();
 		v.setName(variation);
 		Long vid = variationsRepo.save(v).getId();
 		mr.setMessage("Sikeres rögzítés: "+vid);
-		return mr;
+		return ResponseEntity.ok().body(mr);
 	}
 	
 	/**
@@ -163,18 +163,18 @@ public class AdminController {
 	 * @return String, JSON formátumban az összes termékkategória, ezek típusa ProductCategories
 	 */
 	@GetMapping("getCategories")
-	public String getCategories() {
+	public ResponseEntity<String> getCategories() {
 		List<ProductCategories> categoris = productCategoriesRepo.findAll();
 		if(categoris.size() > 0) {
 			ObjectMapper mapper = new ObjectMapper();
 			try {
-				return mapper.writeValueAsString(categoris);
+				return ResponseEntity.ok().body(mapper.writeValueAsString(categoris));
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
-				return "ERROR";
+				return ResponseEntity.status(400).body("ERROR");
 			}
 		}else {
-			return "Empty";
+			return ResponseEntity.status(400).body("Empty");
 		}
 	}
 	
@@ -183,18 +183,18 @@ public class AdminController {
 	 * @return String, JSON formátumban az összes "termékcsoport", ezek típusát a Variations osztály írja le
 	 */
 	@GetMapping("getVariations")
-	public String getVariations() {
+	public ResponseEntity<String> getVariations() {
 		List<Variations> variations = variationsRepo.findAll();
 		if(variations.size() > 0) {
 			ObjectMapper mapper = new ObjectMapper();
 			try {
-				return mapper.writeValueAsString(variations);
+				return ResponseEntity.ok().body(mapper.writeValueAsString(variations));
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
-				return "ERROR";
+				return ResponseEntity.status(400).body("ERROR");
 			}
 		}else {
-			return "Empty";
+			return ResponseEntity.status(400).body("Empty");
 		}
 	}
 	
@@ -208,7 +208,7 @@ public class AdminController {
 	 * @return MessageResponse, eredmény
 	 */
 	@PostMapping("updateCategory")
-	public MessageResponse updateCategory(long id, String category, String smallDesc, byte priority) {
+	public ResponseEntity<MessageResponse> updateCategory(long id, String category, String smallDesc, byte priority) {
 		MessageResponse mr = new MessageResponse();
 		
 		Optional<ProductCategories> pc = productCategoriesRepo.findById(id);
@@ -222,7 +222,7 @@ public class AdminController {
 			mr.setMessage("notFound");
 		}
 		
-		return mr;
+		return ResponseEntity.ok().body(mr);
 	}
 	
 	/**
@@ -233,7 +233,7 @@ public class AdminController {
 	 * @return
 	 */
 	@PostMapping("updateVariation")
-	public MessageResponse updateVariation(long id, String variation) {
+	public ResponseEntity<MessageResponse> updateVariation(long id, String variation) {
 		MessageResponse mr = new MessageResponse();
 		
 		Optional<Variations> v = variationsRepo.findById(id);
@@ -245,7 +245,7 @@ public class AdminController {
 			mr.setMessage("notFound");
 		}
 		
-		return mr;
+		return ResponseEntity.ok().body(mr);
 	}
 	
 	/**
@@ -256,7 +256,7 @@ public class AdminController {
 	 * @return MessageResponse, eredmény
 	 */
 	@PostMapping("addProductToCategory")
-	public MessageResponse addProductToCategory(long prodId, long catId) {
+	public ResponseEntity<MessageResponse> addProductToCategory(long prodId, long catId) {
 		MessageResponse mr = new MessageResponse();
 		
 		Optional<Product> p = productRepo.findById(prodId);
@@ -275,7 +275,7 @@ public class AdminController {
 			}
 		}
 		
-		return mr;
+		return ResponseEntity.ok().body(mr);
 	}
 	
 	/**
@@ -286,7 +286,7 @@ public class AdminController {
 	 * @return MessageResponse, eredmény
 	 */
 	@DeleteMapping("removeProductFromCategory")
-	public MessageResponse removeProductFromCategory(long prodId, long catId) {
+	public ResponseEntity<MessageResponse> removeProductFromCategory(long prodId, long catId) {
 		MessageResponse mr = new MessageResponse();
 		ProductCategoryId pcid = new ProductCategoryId(catId, prodId);
 		Optional<ProductCategory> pc = productCategoryRepo.findById(pcid);
@@ -298,7 +298,7 @@ public class AdminController {
 			mr.setMessage("notFound");
 		}
 		
-		return mr;
+		return ResponseEntity.ok().body(mr);
 	}
 	
 	/**
@@ -310,7 +310,7 @@ public class AdminController {
 	 * @return MessageResponse, eredmény
 	 */
 	@PostMapping("addProductToVariation")
-	public MessageResponse addProductToVariation(long prodId, long varId, String desc) {
+	public ResponseEntity<MessageResponse> addProductToVariation(long prodId, long varId, String desc) {
 		MessageResponse mr = new MessageResponse();
 		Optional<Product> p = productRepo.findById(prodId);
 		Optional<Variations> v = variationsRepo.findById(varId);
@@ -329,7 +329,7 @@ public class AdminController {
 			}
 		}
 		
-		return mr;
+		return ResponseEntity.ok().body(mr);
 	}
 	
 	/**
@@ -340,7 +340,7 @@ public class AdminController {
 	 * @return MessageResponse, eredmény
 	 */
 	@DeleteMapping("removeProductFromVariation")
-	public MessageResponse removeProductFromVariation(long prodId, long varId) {
+	public ResponseEntity<MessageResponse> removeProductFromVariation(long prodId, long varId) {
 		MessageResponse mr = new MessageResponse();
 		ProductVariationsId pvid = new ProductVariationsId(varId, prodId);
 		Optional<ProductVariations> pv = productVariationsRepo.findById(pvid);
@@ -352,7 +352,7 @@ public class AdminController {
 			mr.setMessage("notFound");
 		}
 		
-		return mr;
+		return ResponseEntity.ok().body(mr);
 	}
 	
 	/**

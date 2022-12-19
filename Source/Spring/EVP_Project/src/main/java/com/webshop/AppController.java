@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -61,7 +62,7 @@ public class AppController {
 	 * @return String, JSON formátumban ProductResponseModel típusú lista
 	 */
 	@GetMapping("/productsListing")
-	public String productsListing() {
+	public ResponseEntity<String> productsListing() {
 		List<ProductResponseModel> list = new ArrayList<>();
 		for(Product p : productRepo.findAll()) {
 			ProductResponseModel m = new ProductResponseModel(p);
@@ -72,10 +73,10 @@ public class AppController {
 		}
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			return mapper.writeValueAsString(list);
+			return ResponseEntity.ok().body(mapper.writeValueAsString(list));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
-			return "ERROR";
+			return ResponseEntity.status(400).body("ERROR");
 		}
 	}
 		

@@ -80,25 +80,25 @@ public class UserController {
 	 * @return MessageResponse, eredmény
 	 */
 	@PostMapping("/addItemToBasket")
-	public MessageResponse addItemToBasket(long productId,  int count) {
+	public ResponseEntity<MessageResponse> addItemToBasket(long productId,  int count) {
 		MessageResponse response = new MessageResponse();
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Long userId = userDetails.getId();
 		if(count < 1) {
 			response.setMessage("A rendelt mennyiség nem lehet kisebb 1-nél!");
-			return response;
+			return ResponseEntity.ok().body(response);
 		}
 		if(!basketRepo.findById(new BasketId(userId, productId)).isEmpty()){
 			response.setMessage("A termék már szerepel a kosárban!");
-			return response;
+			return ResponseEntity.ok().body(response);
 		}
 		if(productRepo.findById(productId).isEmpty()) {
 			response.setMessage("Ilyen termék nem létezik!");
-			return response;
+			return ResponseEntity.ok().body(response);
 		}
 		if(productRepo.findById(productId).get().getStock() < count) {
 			response.setMessage("A termékből jelenleg csak " + productRepo.findById(productId).get().getStock() + " darab érhető el!");
-			return response;
+			return ResponseEntity.ok().body(response);
 		}
 		try {
 			Basket b = new Basket(userId, productId, count);
@@ -107,7 +107,7 @@ public class UserController {
 		} catch(Exception e){
 			System.out.println(e.getMessage());
 		}
-		return response;
+		return ResponseEntity.ok().body(response);
 	}
 	
 	/**
@@ -117,7 +117,7 @@ public class UserController {
 	 * @return MessageResponse, eredmény
 	 */
 	@PostMapping("/removeItemFromBasket")
-	public MessageResponse removeItemFromBasket(long productId) {
+	public ResponseEntity<MessageResponse> removeItemFromBasket(long productId) {
 		MessageResponse response = new MessageResponse();
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Long userId = userDetails.getId();
@@ -136,7 +136,7 @@ public class UserController {
 		}catch(Exception e){
 			response.setMessage("Hiba történt!");
 		}
-		return response;
+		return ResponseEntity.ok().body(response);
 	}
 	
 	/**
@@ -146,13 +146,13 @@ public class UserController {
 	 * @return MessageResponse, eredmény
 	 */
 	@PostMapping("/updateProductCountInBasket")
-	public MessageResponse removeItemFromBasket(long productId, int newCount) {
+	public ResponseEntity<MessageResponse> removeItemFromBasket(long productId, int newCount) {
 		MessageResponse response = new MessageResponse();
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Long userId = userDetails.getId();
 		if(newCount < 1) {
 			response.setMessage("A rendelt mennyiség nem lehet kisebb 1-nél!");
-			return response;
+			return ResponseEntity.ok().body(response);
 		}
 		try {
 			List<Basket> userbasket = basketRepo.findAllByUserid(userId);
@@ -170,7 +170,7 @@ public class UserController {
 		}catch(Exception e){
 			response.setMessage("Hiba történt!");
 		}
-		return response;
+		return ResponseEntity.ok().body(response);
 	}
 		
 	/**
@@ -178,7 +178,7 @@ public class UserController {
 	 * @return String, JSON formátum Basket típusú lista
 	 */
 	@GetMapping("/getBasketProducts")
-	public String getBasketProducts() {
+	public ResponseEntity<String> getBasketProducts() {
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Long userId = userDetails.getId();
 		
@@ -186,13 +186,13 @@ public class UserController {
 		if(userBasket.size() > 0) {
 			ObjectMapper mapper = new ObjectMapper();
 			try {
-				return mapper.writeValueAsString(userBasket);
+				return ResponseEntity.ok().body(mapper.writeValueAsString(userBasket));
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
-				return "ERROR";
+				return ResponseEntity.status(400).body("ERROR");
 			}
 		}else {
-			return "Empty";
+			return ResponseEntity.ok().body("Empty");
 		}
 	}
 		
@@ -210,7 +210,7 @@ public class UserController {
 	 * @return MessageResponse, eredmény
 	 */
 	@PostMapping("/updateDeliveryAddress")
-	public MessageResponse updateDeliveryAddress(String phone, String country, String country_l, String city, short post_code, String street, String house_number, String post_other) {
+	public ResponseEntity<MessageResponse> updateDeliveryAddress(String phone, String country, String country_l, String city, short post_code, String street, String house_number, String post_other) {
 		MessageResponse mr = new MessageResponse();
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Long userId = userDetails.getId();
@@ -239,7 +239,7 @@ public class UserController {
 		}
 		userRepo.save(u);
 		mr.setMessage("Sikeres módosítás!");
-		return mr;
+		return ResponseEntity.ok().body(mr);
 	}
 		
 	/**
@@ -248,17 +248,17 @@ public class UserController {
 	 * @return String, JSON formátumban visszaküldve UserDeliveryInfoResponse adattípus
 	 */
 	@GetMapping("/getDeliveryAddress")
-	public String getDeliveryAddress() {
+	public ResponseEntity<String> getDeliveryAddress() {
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Long userId = userDetails.getId();
 		User u = userRepo.findById(userId).get();
 		UserDeliveryInfoResponse udi = new UserDeliveryInfoResponse(u);
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			return mapper.writeValueAsString(udi);
+			return ResponseEntity.ok().body(mapper.writeValueAsString(udi));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
-			return "ERROR";
+			return ResponseEntity.status(400).body("ERROR");
 		}
 	}
 	
