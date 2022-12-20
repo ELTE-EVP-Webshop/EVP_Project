@@ -7,7 +7,6 @@ export default function Header() {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
-
   useEffect(() => {
     if (user) {
       setCurrentUser(user);
@@ -81,42 +80,7 @@ export default function Header() {
                       </span>
                     </a>
                   </li>
-                  <li class="has-children nav-item">
-                    <a href="#">
-                      <span>Kategóriák</span>
-                    </a>
-                    <ul class="dropdown arrow-top">
-                      <li>
-                        <a href="#">Laptop</a>
-                      </li>
-                      <li>
-                        <a href="#">Vibrátor</a>
-                      </li>
-                      <li>
-                        <a href="#">Karácsonyfadísz</a>
-                      </li>
-                      <li class="has-children">
-                        <a href="#">PC Alkatrészek</a>
-                        <ul class="dropdown">
-                          <li>
-                            <a href="#">Processzor</a>
-                          </li>
-                          <li>
-                            <a href="#">Ram</a>
-                          </li>
-                          <li>
-                            <a href="#">Tápegység</a>
-                          </li>
-                          <li>
-                            <a href="#">Videókártya</a>
-                          </li>
-                          <li>
-                            <a href="#">adatbázisból majd listázva</a>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
+                
 
                   <li class="nav-item">
                     <a>

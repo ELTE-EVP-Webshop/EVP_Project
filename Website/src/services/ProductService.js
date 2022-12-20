@@ -70,8 +70,12 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
 
       const addProduct = (prodName, prodDesc, prodCategoryId, prodCategoryName, prodVariationId, prodVariationName, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible) => {
         var bodyFormData = new FormData();
-       var prodVarJSON = {"variation" : prodVariationId}
-       var prodVarJSON2 = {"description" : prodVariationName}
+      /*  var categories = [{a:a, b:b
+        },{ 
+        a:a2,
+        b:b2
+        }]*/
+       //var image = {"img": [{"url": prodImage,"priority": 1}]}
        // prodCatJSON = {"variation": prodCategoryId, "description": prodCategoryName}
         bodyFormData.append('name', prodName);
         bodyFormData.append('description', prodDesc);
@@ -81,9 +85,10 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
         bodyFormData.append('visible', prodVisible);
         bodyFormData.append('categories', prodCategoryId);
         bodyFormData.append('categories', prodCategoryName);
-        bodyFormData.append('variations', prodVarJSON);
-        bodyFormData.append('variations', prodVarJSON2);
-        bodyFormData.append('images', prodImage);
+       // bodyFormData.append('variations', prodVariationId);
+        //bodyFormData.append('variations', prodVariationName);
+    //    bodyFormData.append('images',image);
+
       return axios({
           method: "post",
           url: PRODUCTS_REST_API_URL_ADMIN + "insertNewProduct",
@@ -94,6 +99,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
           .then(function (response) {
             //handle success
             console.log(response);
+            alert(response.data.message)
           })
           .catch(function (response) {
             //handle error

@@ -2,20 +2,31 @@ import React, { useEffect, useState } from "react";
 import EventBus from "../user/EventBus";
 import AuthService from "../services/AuthService";
 import { Link } from "react-router-dom";
+import ProductService from "../services/ProductService";
+import ProductComponent from "./ProductComponent";
 export const user = AuthService.getCurrentUser();
 export default function Header() {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
-
+  const [categories, setCategories] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(0)
   useEffect(() => {
     if (user) {
       setCurrentUser(user);
       setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
+      async function getCategories() {
+        var cat = await ProductService.getCategories();
+        setCategories(cat)
+        console.log(categories)
+    }
+    getCategories();
       setShowAdminBoard(
         user.roles.includes("ROLE_ADMIN1") || user.roles.includes("ROLE_ADMIN2")
       );
     }
+
+  
 
     EventBus.on("logout", () => {
       logOut();
@@ -25,7 +36,10 @@ export default function Header() {
       EventBus.remove("logout");
     };
   }, []);
-
+  const filterProductsByCat = (id) => {
+    setSelectedCategory(id)
+    console.log(id)
+  }
   const logOut = () => {
     AuthService.logout();
     setShowModeratorBoard(false);
@@ -33,6 +47,7 @@ export default function Header() {
     setCurrentUser(undefined);
   };
   return (
+    <>
     <header class="site-navbar" role="banner">
       {showModeratorBoard && (
         <li className="nav-item">
@@ -85,37 +100,21 @@ export default function Header() {
                     <a href="#">
                       <span>Kategóriák</span>
                     </a>
+                    {categories &&
                     <ul class="dropdown arrow-top">
-                      <li>
-                        <a href="#">Laptop</a>
+                      <>
+                   { categories.map(cat =>
+                    
+                      <li key={cat.id}>
+                        <a onClick={() => filterProductsByCat(cat.id)} href="#">{cat.category}</a>
                       </li>
-                      <li>
-                        <a href="#">Vibrátor</a>
-                      </li>
-                      <li>
-                        <a href="#">Karácsonyfadísz</a>
-                      </li>
-                      <li class="has-children">
-                        <a href="#">PC Alkatrészek</a>
-                        <ul class="dropdown">
-                          <li>
-                            <a href="#">Processzor</a>
-                          </li>
-                          <li>
-                            <a href="#">Ram</a>
-                          </li>
-                          <li>
-                            <a href="#">Tápegység</a>
-                          </li>
-                          <li>
-                            <a href="#">Videókártya</a>
-                          </li>
-                          <li>
-                            <a href="#">adatbázisból majd listázva</a>
-                          </li>
-                        </ul>
-                      </li>
+                      )}
+                      </>
+                      
+                    
+                    
                     </ul>
+                }
                   </li>
 
                   
@@ -179,44 +178,23 @@ export default function Header() {
                     <a href="#">
                       <span>Kategóriák</span>
                     </a>
+                    {categories &&
                     <ul class="dropdown arrow-top">
-                      <li>
-                        <a href="#">Laptop</a>
+                      <>
+                   { categories.map(cat =>
+                    
+                      <li key={cat.id}>
+                        <a onClick={() => filterProductsByCat(cat.id)} href="#">{cat.category}</a>
                       </li>
-                      <li>
-                        <a href="#">Vibrátor</a>
-                      </li>
-                      <li>
-                        <a href="#">Karácsonyfadísz</a>
-                      </li>
-                      <li class="has-children">
-                        <a href="#">PC Alkatrészek</a>
-                        <ul class="dropdown">
-                          <li>
-                            <a href="#">Processzor</a>
-                          </li>
-                          <li>
-                            <a href="#">Ram</a>
-                          </li>
-                          <li>
-                            <a href="#">Tápegység</a>
-                          </li>
-                          <li>
-                            <a href="#">Videókártya</a>
-                          </li>
-                          <li>
-                            <a href="#">adatbázisból majd listázva</a>
-                          </li>
-                        </ul>
-                      </li>
+                      )}
+                      </>
+                      
+                    
+                    
                     </ul>
+                }
                   </li>
 
-                  <li class="nav-item">
-                    <Link to="/about">
-                      <span>Rólunk</span>
-                    </Link>
-                  </li>
                   <li class="nav-item">
                     <Link to="/contact">
                       <span>Kapcsolat</span>
@@ -243,5 +221,7 @@ export default function Header() {
         </div>
       )}
     </header>
+    </>
   );
 }
+ /* <ProductComponent categories={selectedCategory}/>*/

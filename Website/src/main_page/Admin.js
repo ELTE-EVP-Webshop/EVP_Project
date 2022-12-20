@@ -92,7 +92,7 @@ export default function ShoppingCart() {
                            setProdStock(event.target.value)
                     break;
                     case 'prodImage':
-                        setProdImage(event.target.files[0])
+                        setProdImage(event.target.value)
                        // console.log(event.target.files[0])
                         break;
                     case 'prodVisible':
@@ -334,8 +334,8 @@ export default function ShoppingCart() {
                                 <input onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" required></input>
                                 <label for="prodStock">Termék Készlet: </label>
                                 <input onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" required></input>
-                                <label for="prodImage">Termék kép: </label>
-                                <input onChange={(e) => handleChange(e,"prodImage")} id="prodImage" type="file" required></input>
+                                <label for="prodImage">Termék kép URL: </label>
+                                <input onChange={(e) => handleChange(e,"prodImage")} id="prodImage" type="text" required></input>
                                 <label for="prodVisible">Termék láthatósága: </label>
                                 <select onChange={(e) => handleChange(e,"prodVisible")}>
                                     <option id="prodVisible" value="true">Igaz</option>

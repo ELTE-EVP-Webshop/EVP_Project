@@ -19,6 +19,7 @@ import './css/cartstyle.css';
 
 import MainProducts from './main_page/ProductComponent'
 import MainHeader from './main_page/Header';
+import MergedHeader from './main_page/HeaderProduct';
 import Footer from './main_page/Footer';
 
 
@@ -55,9 +56,7 @@ function App() {
           element={
           <>
 
-          <MainHeader/>
-          
-          <MainProducts/>
+          <MergedHeader/>
           </>
         }/>
 

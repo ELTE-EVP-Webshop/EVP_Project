@@ -2,20 +2,31 @@ import React, { useEffect, useState } from "react";
 import EventBus from "../user/EventBus";
 import AuthService from "../services/AuthService";
 import { Link } from "react-router-dom";
+import ProductService from "../services/ProductService";
+import ProductComponent from "./ProductComponent";
 export const user = AuthService.getCurrentUser();
-export default function Header() {
+export default function HeaderProduct() {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
-
+  const [categories, setCategories] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(0)
   useEffect(() => {
     if (user) {
       setCurrentUser(user);
       setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
+      async function getCategories() {
+        var cat = await ProductService.getCategories();
+        setCategories(cat)
+        console.log(categories)
+    }
+    getCategories();
       setShowAdminBoard(
         user.roles.includes("ROLE_ADMIN1") || user.roles.includes("ROLE_ADMIN2")
       );
     }
+
+  
 
     EventBus.on("logout", () => {
       logOut();
@@ -25,7 +36,10 @@ export default function Header() {
       EventBus.remove("logout");
     };
   }, []);
-
+  const filterProductsByCat = (id) => {
+    setSelectedCategory(id)
+    console.log(id)
+  }
   const logOut = () => {
     AuthService.logout();
     setShowModeratorBoard(false);
@@ -33,6 +47,7 @@ export default function Header() {
     setCurrentUser(undefined);
   };
   return (
+    <>
     <header class="site-navbar" role="banner">
       {showModeratorBoard && (
         <li className="nav-item">
@@ -69,7 +84,7 @@ export default function Header() {
                     <Link to={"/user"} class="nav-item"></Link>
                   </li>
 
-                  <li class="nav-item ">
+                  <li class="nav-item active">
                     <a href="/">
                       <span>Főoldal</span>
                     </a>
@@ -81,15 +96,28 @@ export default function Header() {
                       </span>
                     </a>
                   </li>
-                  <li class="nav-item active">
-                    <a>
-                      <span>
-                        <Link to="/payment">Fizetés</Link>
-                      </span>
+                  <li class="has-children nav-item">
+                    <a href="#">
+                      <span>Kategóriák</span>
                     </a>
+                    {categories &&
+                    <ul class="dropdown arrow-top">
+                      <>
+                   { categories.map(cat =>
+                    
+                      <li key={cat.id}>
+                        <a onClick={() => filterProductsByCat(cat.id)} href="#">{cat.category}</a>
+                      </li>
+                      )}
+                      </>
+                      
+                    
+                    
+                    </ul>
+                }
                   </li>
-                
 
+                  
                   <li class="nav-item">
                     <a>
                       <span>
@@ -97,7 +125,7 @@ export default function Header() {
                       </span>
                     </a>
                   </li>
-                  <li class="has-children nav-item ">
+                  <li class="has-children nav-item">
                     <a href="#">
                       <span>{currentUser.username}</span>
                     </a>
@@ -146,9 +174,27 @@ export default function Header() {
                       <span>Főoldal</span>
                     </Link>
                   </li>
-                
+                  <li class="has-children nav-item">
+                    <a href="#">
+                      <span>Kategóriák</span>
+                    </a>
+                    {categories &&
+                    <ul class="dropdown arrow-top">
+                      <>
+                   { categories.map(cat =>
+                    
+                      <li key={cat.id}>
+                        <a onClick={() => filterProductsByCat(cat.id)} href="#">{cat.category}</a>
+                      </li>
+                      )}
+                      </>
+                      
+                    
+                    
+                    </ul>
+                }
+                  </li>
 
-               
                   <li class="nav-item">
                     <Link to="/contact">
                       <span>Kapcsolat</span>
@@ -175,5 +221,8 @@ export default function Header() {
         </div>
       )}
     </header>
+                <ProductComponent categories={selectedCategory}></ProductComponent>
+    </>
   );
 }
+ /* <ProductComponent categories={selectedCategory}/>*/

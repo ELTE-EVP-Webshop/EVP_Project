@@ -2,29 +2,53 @@ import React, { useState, useEffect } from "react";
 import { user } from "./Header";
 import BasketService from "../services/BasketService";
 import ProductService from "../services/ProductService";
+import Header from "./Header";
 class ProductComponent extends React.Component {
   state = {
     products: [],
+    categories: 0,
+    result : []
   };
   basket = BasketService.getBasketProduct();
+
+
  cartAddOne=false
   async componentDidMount() {
     //Fetch verzió
     //const response = await fetch('http://localhost:8080/api/app/productsListing')
     // const body = await response.json();
     //  this.setState({ products: body });
-
+    var filtered
     //Axios verzió
-    const data = await ProductService.getProducts();
-    this.setState({ products: data });
-
+    const productAxios = await ProductService.getProducts();
+    this.setState({ products: productAxios });
+  /*  const catAxios = await ProductService.getCategories();
+    this.setState({ categories: catAxios });*/
      console.log(ProductService.getProducts()) 
-   
+     this.setState({result :this.state.products})
+    
+
   }
- 
+
+  componentWillReceiveProps() {
+    this.setState({categories: this.props.categories})
+
+    var catid = this.state.categories
+    var products = Object.values(this.state.result)
+   // var products = this.state.result.filter((ob) =>catid === ob.categories.category_id);
+    var filtered = products.filter(res => {
+      return res.categories.includes(this.props.categories);
+    });
+    console.log(this.props.categories)
+    this.setState({result : filtered})
+
+  }
   addToCart = (productid, count) => {
         this.cartAddOne=true;
         BasketService.addBasketProduct(productid, count);
+      
+        
+        
   };
   vanekep = (product, index) => {
     
@@ -69,19 +93,22 @@ class ProductComponent extends React.Component {
 
   render() {
     // const {products}= this.state
-    const result = this.state.products;
+    
+    console.log(this.state.categories)
+    
     if (user !== null) {
       console.log(user.username);
     } else console.log("A macska rúgja meg!");
     try {
-      result.map((product, index) =>
+      this.state.result.map((product, index) =>
         console.log(product.p.name + " " + product.images[index].image_url)
       );
     } catch {
       console.log("Azért a banánnak is van ám vége!");
     }
-
+    //console.log(this.state.categories)
     return (
+      
       <div>
         <section class="section-products">
           <div class="container-product">
@@ -93,7 +120,8 @@ class ProductComponent extends React.Component {
               </div>
             </div>
             <div class="row">
-              {result.map((product, index) => (
+              {this.state.result.map((product, index) => (
+                
                 <div key={product.p.id} class="col-md-6 col-lg-4 col-xl-3">
                   <div id={product.p.id} class="single-product">
                     <div onClick={() => this.ModaliuszLeviosza(product,index)} class="part-1"

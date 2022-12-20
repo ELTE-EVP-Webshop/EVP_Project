@@ -2,6 +2,7 @@ import React from "react";
 import BasketService from "../services/BasketService";
 import ProductService from "../services/ProductService";
 import { Link } from "react-router-dom";
+
 const baskets = BasketService.getBasketProduct();
 export var subTotalPrice = 0;
 class ShoppingCart extends React.Component {
