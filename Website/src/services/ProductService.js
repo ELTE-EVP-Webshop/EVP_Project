@@ -75,7 +75,13 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
         a:a2,
         b:b2
         }]*/
-       var image = {"images": [{"url": prodImage,"priority": 1}]}
+		const img = {
+			url: prodImage,
+			priority : 1
+		};
+		let imgArray = [];
+		imgArray.push(img);
+		
        // prodCatJSON = {"variation": prodCategoryId, "description": prodCategoryName}
         bodyFormData.append('name', prodName);
         bodyFormData.append('description', prodDesc);
@@ -87,7 +93,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
         bodyFormData.append('categories', prodCategoryName);
        // bodyFormData.append('variations', prodVariationId);
         //bodyFormData.append('variations', prodVariationName);
-        bodyFormData.append('images',image);
+        bodyFormData.append('images',imgArray);
 
       return axios({
           method: "post",
@@ -209,17 +215,15 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
 const findProductsByFilterText = (filterText) => {
   return axios
   .get(PRODUCTS_REST_API_URL + "findProductsByFilterText",
-      {},
-          {
-            body: {
-              filterText : filterText
-            }
-
-          })
+		{
+		  params:{
+			  filterText : filterText
+		  }
+		})
   .then((response) => {
     
-  //  console.log(response.data);
-
+    //console.log(response.data);
+	
     return response.data;
   });
 };
@@ -228,13 +232,11 @@ const findProductsByFilterText = (filterText) => {
 const findProductsByKeywordAny = (filterText) => {
   return axios
   .get(PRODUCTS_REST_API_URL + "findProductsByKeywordAny",
-      {},
-          {
-            body: {
-              keywordText : filterText
-            }
-
-          })
+      {
+		  params:{
+			  filterText : filterText
+		  }
+	  })
   .then((response) => {
     
   //  console.log(response.data);
@@ -247,13 +249,11 @@ const findProductsByKeywordAny = (filterText) => {
  const findProductsByKeywordAll = (filterText) => {
    return axios
   .get(PRODUCTS_REST_API_URL + "findProductsByKeywordAll",
-      {},
-          {
-            body: {
-              keywordText : filterText
-            }
-
-          })
+		{
+		  params:{
+			  filterText : filterText
+		  }
+		})
   .then((response) => {
     
   //  console.log(response.data);
