@@ -27,6 +27,7 @@ CREATE TABLE `webshop`.`product` (
   `stock` int NOT NULL DEFAULT 0,
   `visible` bool NOT NULL DEFAULT true,
   CHECK (`price` > 0)
+  CHECK (`sale_price` > 0)
 );
 
 CREATE TABLE `webshop`.`product_images` (
@@ -70,7 +71,7 @@ CREATE TABLE `webshop`.`product_variations` (
 CREATE TABLE `webshop`.`orders` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `order_date` datetime NOT NULL COMMENT 'default: NOW()',
+  `order_date` datetime NOT NULL COMMENT 'default: NOW()' DEFAULT NOW(),
   `order_state` tinyint NOT NULL COMMENT 'programban kezelt enum alapján',
   `payment_method` tinyint NOT NULL COMMENT 'programban kezelt enum alapján',
   `payment_state` tinyint NOT NULL COMMENT 'programban kezelt enum alapján',
@@ -92,7 +93,7 @@ CREATE TABLE `webshop`.`order_products` (
   `price` int NOT NULL,
   `sale_price` int NOT NULL,
   PRIMARY KEY (`order_id`, `product_id`),
-  CHECK(`count` < 0)
+  CHECK(`count` > 0)
 );
 
 CREATE TABLE `webshop`.`basket` (
@@ -101,7 +102,7 @@ CREATE TABLE `webshop`.`basket` (
   `count` int NOT NULL DEFAULT 1,
   `expire` datetime,
   PRIMARY KEY (`user_id`, `product_id`),
-  CHECK(`count` < 0)
+  CHECK(`count` > 0)
 );
 
 CREATE TABLE `webshop`.`tokens` (
