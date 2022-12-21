@@ -3,11 +3,16 @@ import { user } from "./Header";
 import BasketService from "../services/BasketService";
 import ProductService from "../services/ProductService";
 import Header from "./Header";
+
+
+
 class ProductComponent extends React.Component {
   state = {
     products: [],
     categories: 0,
-    result : []
+    result : [],
+    searchMethod : "textSearch",
+    searchQuery : ""
   };
   basket = BasketService.getBasketProduct();
 
@@ -29,6 +34,52 @@ class ProductComponent extends React.Component {
     
 
   }
+   handleChange = (event, id) => {
+    switch(id) {
+    case 'searchmethod':
+      switch(event.target.value) {
+              case 'textSearch':
+                      this.setState({searchMethod : event.target.value})
+              break;
+              case 'inaccurateSearch':
+                this.setState({searchMethod : event.target.value})
+              break;
+              case 'accurateSearch':
+                this.setState({searchMethod : event.target.value})
+              break;
+      }
+      
+      break;
+      case 'searchquery':
+        this.setState({searchQuery: event.target.value})
+       console.log(event.target.value)
+     break;
+    }
+
+
+   }
+
+  handleSearchSubmit = (searchType) => {
+    switch(searchType) {
+      case 'textSearch':
+         var filteredProducts =  ProductService.findProductsByFilterText(this.state.searchQuery)
+      break;
+      case 'inaccurateSearch':
+         var filteredProducts = ProductService.findProductsByKeywordAny(this.state.searchQuery)
+      break;
+      case 'accurateSearch':
+        var filteredProducts = ProductService.findProductsByKeywordAll(this.state.searchQuery)
+      break;
+
+    }
+  
+  
+   }
+
+   componentDidUpdate() {
+    
+   }
+
 
   componentWillReceiveProps() {
     this.setState({categories: this.props.categories})
@@ -51,7 +102,7 @@ class ProductComponent extends React.Component {
         
   };
   vanekep = (product, index) => {
-    
+
     return product &&product.images[index] &&product.images[index].image_url &&product.images[index].image_url? product.images[index].image_url: "https://thumbs.dreamstime.com/b/error-not-found-symbol-logo-design-vector-232023001.jpg"
 	};
 	
@@ -89,12 +140,12 @@ class ProductComponent extends React.Component {
         }
         this.cartAddOne=false;
   };
-  
+ 
 
   render() {
     // const {products}= this.state
     
-    console.log(this.state.categories)
+    console.log(this.state.searchMethod)
     
     if (user !== null) {
       console.log(user.username);
@@ -110,13 +161,27 @@ class ProductComponent extends React.Component {
     return (
       
       <div>
+
+       
+
         <section class="section-products">
+
           <div class="container-product">
             <div class="row justify-content-center text-center">
               <div class="col-md-8 col-lg-6">
                 <div class="header">
                   <h2 class="new">Új termékek</h2>
+
                 </div>
+                <label>Keresés: </label>
+        <input id="searchquery" onChange={(e)=> this.handleChange(e,"searchquery")} type="text"></input>
+        <label>Keresés típúsa: </label>
+        <select  onChange={(e)=> this.handleChange(e,"searchmethod")} id="search">
+          <option id="search" value="textSearch">Szöveges (Termék címe, leírása alapján)</option>
+          <option id="search" value="inaccurateSearch">"Pontatlan" kulcsszavas (A kulcsszó bármelyik tárgynál szerepelhet)</option>
+          <option id="search" value="accurateSearch">"Pontos" kulcsszavas (A kulcsszavak mindegyike szerepel a tárgynál)</option>
+        </select>
+        <button onClick={() => this.handleSearchSubmit(this.state.searchMethod)} type="button" className="btn btn-info">Keresés</button>
               </div>
             </div>
             <div class="row">

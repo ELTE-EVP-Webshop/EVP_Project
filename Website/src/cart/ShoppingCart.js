@@ -61,7 +61,7 @@ class ShoppingCart extends React.Component {
     //  console.log(basketId)
 
     products = products.filter((ob) => basketId.includes(ob.p.id));
-
+    
     //console.log(basket)
     //  console.log(basketId)
     //products = products.filter(x => x.includes(basket.product_id));

@@ -1,13 +1,13 @@
 import axios from 'axios'
 
-const PRODUCTS_REST_API_URL = 'http://localhost:8080/api/app/productsListing';
+const PRODUCTS_REST_API_URL = 'http://localhost:8080/api/app/';
 const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
 
 
 
     const getProducts = () => {
         return axios
-          .get(PRODUCTS_REST_API_URL)
+          .get(PRODUCTS_REST_API_URL + "productsListing")
 
           .then((response) => {
             
@@ -31,7 +31,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
 
       const getCategories = () => {
         return axios
-        .get(PRODUCTS_REST_API_URL_ADMIN + "getCategories")
+        .get(PRODUCTS_REST_API_URL + "categoriesListing")
 
         .then((response) => {
           
@@ -75,7 +75,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
         a:a2,
         b:b2
         }]*/
-       //var image = {"img": [{"url": prodImage,"priority": 1}]}
+       var image = {"images": [{"url": prodImage,"priority": 1}]}
        // prodCatJSON = {"variation": prodCategoryId, "description": prodCategoryName}
         bodyFormData.append('name', prodName);
         bodyFormData.append('description', prodDesc);
@@ -87,7 +87,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
         bodyFormData.append('categories', prodCategoryName);
        // bodyFormData.append('variations', prodVariationId);
         //bodyFormData.append('variations', prodVariationName);
-    //    bodyFormData.append('images',image);
+        bodyFormData.append('images',image);
 
       return axios({
           method: "post",
@@ -127,6 +127,8 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
 
        
       }
+
+
 
       const createVariation = (variation) => {
         return axios
@@ -201,11 +203,64 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
             return response.data;
           });
         }
-        
-        
-        
-      
 
+        //Searches
+//findProductsByFilterText
+const findProductsByFilterText = (filterText) => {
+  return axios
+  .get(PRODUCTS_REST_API_URL + "findProductsByFilterText",
+      {},
+          {
+            body: {
+              filterText : filterText
+            }
+
+          })
+  .then((response) => {
+    
+  //  console.log(response.data);
+
+    return response.data;
+  });
+};
+
+// findProductsByKeywordAny
+const findProductsByKeywordAny = (filterText) => {
+  return axios
+  .get(PRODUCTS_REST_API_URL + "findProductsByKeywordAny",
+      {},
+          {
+            body: {
+              keywordText : filterText
+            }
+
+          })
+  .then((response) => {
+    
+  //  console.log(response.data);
+
+    return response.data;
+  });
+};
+
+// findProductsByKeywordAll
+ const findProductsByKeywordAll = (filterText) => {
+   return axios
+  .get(PRODUCTS_REST_API_URL + "findProductsByKeywordAll",
+      {},
+          {
+            body: {
+              keywordText : filterText
+            }
+
+          })
+  .then((response) => {
+    
+  //  console.log(response.data);
+
+    return  response.data;
+  });
+};
 
 
       const ProductService = {
@@ -217,7 +272,10 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
         createVariation,
         addProductToCategory,
         updateCategory,
-        updateVariation
+        updateVariation,
+        findProductsByFilterText,
+        findProductsByKeywordAny,
+        findProductsByKeywordAll
       }
 
       export default ProductService
