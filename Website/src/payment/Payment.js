@@ -9,6 +9,7 @@ export default function Payment() {
         const [street, setStreet] = useState("")
         const [housenumber, setHousenumber] = useState(1)
         const [paymethod, setPaymethod] = useState(1)
+        const [deliverymethod, setDeliveryMethod] = useState(0)
         const [bankTranferVisible, setBankTransferVisible] = useState(true)
 
         const handleChange = (event, id) => {
@@ -48,14 +49,46 @@ export default function Payment() {
                                         break;
                                 }
                         break;
+                        case 'deliverymethod':
+                                switch(event.target.value) {
+                                        case 'ATVET_UZLETBEN':
+                                                setDeliveryMethod(0);
+                                                
+                                        break;
+                                        case 'ATVETEL_POSTA':
+                                                setDeliveryMethod(1);
+                                                
+                                        break;
+                                        case 'FUTAR_GLS':
+                                                setDeliveryMethod(2);
+                                                
+                                        break;
+                                        case 'FUTAR_DPD':
+                                                setDeliveryMethod(3);
+                                                
+                                        break;
+                                        case 'FUTAR_POSTA':
+                                                setDeliveryMethod(4);
+                                                
+                                        break;
+                                        case 'FOXPOST':
+                                                setDeliveryMethod(5);
+                                                
+                                        break;
+                                        case 'PICKPACK_PONT':
+                                                setDeliveryMethod(6);
+                                                
+                                        break;
+                                }
+                        break;
                 }
                 console.log(event.target.value)
 
               };
 
 
-              const handlePay = (phone, country, country2, city, street, housenumber, paymethod) => {
-                PayService.completeOrder(phone,country, country2, city, street, housenumber, paymethod);
+              const handlePay = (phone, country, country2, city, street, housenumber, paymethod, deliverymethod) => {
+                PayService.completeOrder(phone,country, country2, city, street, housenumber, paymethod, deliverymethod);
               }
 
         if(subTotalPrice != 0) {
@@ -87,6 +120,16 @@ export default function Payment() {
                                         <option id="paymethod" value="KP_UTANVET">Készpénz utánvét</option>
                                         <option id="paymethod" value="KARTYAS_UTANVET">Kártyás utánvét</option>
                                 </select>
+                                <label for="paymethod">Szállítás Mód: </label>
+                                <select onChange={(e)=> handleChange(e,"deliverymethod")} id="deliverymethod" required>
+                                        <option id="deliverymethod" selected value="ATVET_UZLETBEN">Átvétel üzletben</option>
+                                        <option id="deliverymethod" value="ATVETEL_POSTA">Átvétel postán</option>
+                                        <option id="deliverymethod" value="FUTAR_GLS">GLS futárszolgálat</option>
+                                        <option id="deliverymethod" value="FUTAR_DPD">DPD futárszolgálat</option>
+                                        <option id="deliverymethod" value="FUTAR_POSTA">MPL futárszolgálat</option>
+                                        <option id="deliverymethod" value="FOXPOST">Foxpost</option>
+                                        <option id="deliverymethod" value="PICKPACK_PONT">Pickpack pont</option>
+                                </select>
                                 {bankTranferVisible &&
                                         <div>
                                                 <p>Kedvezményezett neve: <b>Incidens Kar Kft.</b></p>
@@ -96,7 +139,7 @@ export default function Payment() {
    
                                         </div>
                                 }
-                                <button onClick={()=> handlePay(phone, country, country2, city, street, housenumber, paymethod)} type="button" class="btn btn-success">Fizetés</button>
+                                <button onClick={()=> handlePay(phone, country, country2, city, street, housenumber, paymethod, deliverymethod)} type="button" class="btn btn-success">Fizetés</button>
                                 </form>
                                 <h3>Végösszeg: {subTotalPrice} Ft</h3>
 
