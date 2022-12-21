@@ -80,6 +80,7 @@ Table webshop.orders{
   order_state tinyint [not null, note:'programban kezelt enum alapján']
   payment_method tinyint [not null, note:'programban kezelt enum alapján']
   payment_state tinyint [not null, note: 'programban kezelt enum alapján']
+  delivery_method tinyint [not null, note: 'szállítási mód, enum']
   phone varcahr [not null]
   country varchar [not null, note: 'Ország']
   country_1 varchar [not null, note: 'Megye']
@@ -118,4 +119,10 @@ Table webshop.tokens{
   remaining int [not null, default: -1]
   expire datetime
   description varchar
+}
+
+Table webshop.log{
+  log_type int [not null]
+  log_text varchar [not null]
+  log_date datetime [not null, default: 'now()']
 }

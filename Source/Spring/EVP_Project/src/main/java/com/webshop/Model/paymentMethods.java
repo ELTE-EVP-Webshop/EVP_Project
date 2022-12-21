@@ -1,9 +1,9 @@
 package com.webshop.Model;
-
-import java.util.Optional;
-
-import io.jsonwebtoken.lang.Arrays;
-
+/**
+ * Fizetési módok enum
+ * @author BalazsPC
+ * 
+ */
 public enum paymentMethods {
 	BANKI_UTALAS((short)1),
 	KP_UTANVET((short)2),

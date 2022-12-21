@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.webshop.Model.deliveryMethods;
 import com.webshop.Model.paymentMethods;
 import com.webshop.responsemodels.MessageResponse;
 import com.webshop.responsemodels.UserDeliveryInfoResponse;
@@ -278,7 +279,7 @@ public class UserController {
 	 * @return MessageResponse, String adattípussal, rendelés eredménye (Sikeres / ha hiba miért) 
 	 */
 	@PostMapping("completeOrder")
-	public ResponseEntity<?> completeOrder(String phone, String country, String country_l, String city, short post_code, String street, String house_number, String post_other, short paymentMethod){
+	public ResponseEntity<?> completeOrder(String phone, String country, String country_l, String city, short post_code, String street, String house_number, String post_other, short paymentMethod, short deliveryMethod){
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Long userId = userDetails.getId();
 		
@@ -308,6 +309,9 @@ public class UserController {
 		if(!paymentMethods.isValidPaymentMethod(paymentMethod)) {
 			return ResponseEntity.ok().body(new MessageResponse("Hibás fizetési mód!"));
 		}
+		if(!deliveryMethods.isValidDeliveryMethod(deliveryMethod)){
+			return ResponseEntity.ok().body(new MessageResponse("Hibás szállítási mód!"));
+		}
 		
 		for(Basket b : products) {
 			if(productRepo.findById(b.getProduct_id()).get().getStock() < b.getCount()) {
@@ -329,6 +333,7 @@ public class UserController {
 		o.setOrder_date(LocalDateTime.now());
 		o.setOrder_state((byte)0);
 		o.setPayment_state((byte)0);
+		o.setDelivery_method(deliveryMethod);
 		
 		Orders actualOrder = ordersRepo.save(o);
 
@@ -344,7 +349,8 @@ public class UserController {
 			op.setSale_price(op.getSale_price());
 			orderProductsRepo.save(op);
 		}
-		basketRepo.deleteAllByUserid(userId);
+		
+		basketRepo.clearBasketById(userId);
 		
 		return ResponseEntity.ok().body(new MessageResponse("Rendelés sikeresen rögzítve az alábbi azonosítóval: "+actualOrder.getId()));
 	}

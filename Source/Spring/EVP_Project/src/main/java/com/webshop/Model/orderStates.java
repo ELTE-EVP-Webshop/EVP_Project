@@ -1,5 +1,10 @@
 package com.webshop.Model;
 
+/**
+ * Rendelés státusza enum
+ * @author BalazsPC
+ *
+ */
 public enum orderStates {
 	MEGRENDELVE((byte)0),
 	FELDOLGOZVA((byte)1),

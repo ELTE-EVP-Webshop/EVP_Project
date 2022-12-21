@@ -53,8 +53,8 @@ public class AppController {
 	 * @return String
 	 */
 	@GetMapping("/testDebug")
-	public String getDebug() {
-		return "Szia :)";
+	public ResponseEntity<String> getDebug(String keywordText) {
+		return null;
 	}
 		
 	/**
@@ -79,5 +79,143 @@ public class AppController {
 			return ResponseEntity.status(400).body("ERROR");
 		}
 	}
+	
+	/**
+	 * Összes kategória lekérése
+	 * @return String, JSON formátumban ProductCategories lista
+	 */
+	@GetMapping("categoriesListing") 
+	public ResponseEntity<String> categoriesListing() {
+		List<ProductCategories> categories = productCategoriesRepo.findAll();
+		if(categories.isEmpty())
+			return ResponseEntity.badRequest().body("Jelenleg nem található kategória");
+		else {
+			ObjectMapper mapper = new ObjectMapper();
+			try {
+				return ResponseEntity.ok().body(mapper.writeValueAsString(categories));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+				return ResponseEntity.status(400).body("ERROR");
+			}
+		}
+	}
+	
+	/**
+	 * Kiekeresi az összes terméket, ami a megadott kategóriába tartozik
+	 * @param categoryId int, a kategória azonosítója
+	 * @return String, JSON formátumban Product lista
+	 */
+	@GetMapping("findProductsByCategory")
+	public ResponseEntity<String> findProductsByCategory(int categoryId) {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			return ResponseEntity.ok().body(mapper.writeValueAsString(productRepo.findProductsByCategoryId(categoryId)));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(400).body("ERROR");
+		}
+	}
+	
+	/**
+	 * Termékek lekérése szűrővel - Termék címe, vagy leírása tartalmaz részletet a kulcsszavak valamelyikéből.
+	 * Kulcsszavak elváasztása szóközzel (Pl.:  `nagyi torta b` -> Minden tárgyat visszaad, melynek a leírásában, vagy nevében szerepel "nagyi", vagy "torta", vagy "b")
+	 * @param filterText String, a felhasználó által a keresőbe beírt szöveg minden formázás nélkül
+	 * @return String, JSON formátumban Product lista, melyek megfelelnek a keresésnek
+	 */
+	@GetMapping("findProductsByFilterText")
+	public ResponseEntity<String> findProductsByFilterText(String filterText) {
+		if(filterText.isEmpty() || filterText.isBlank()) {
+			return productsListing();
+		}
+		List<Product> findProducts = new ArrayList<Product>();
+		String[] filters = filterText.split(" ");
+		for(String t : filters) {
+			if(t.isEmpty())
+				continue;
+			for(Product p : productRepo.findProductsByFilterText(t)) {
+				if(!findProducts.contains(p)) {
+					findProducts.add(p);
+				}
+			}
+		}
+		if(findProducts.isEmpty()) {
+			return ResponseEntity.status(404).body("Nincs találat!");
+		}
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			return ResponseEntity.ok().body(mapper.writeValueAsString(findProducts));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(400).body("ERROR");
+		}
+	}
+	
+	/**
+	 * Speciális keresés kulcsszavakkal - A megadott kulcsszavak bármelyike szerepel egy tárgynál kulcsszóként
+	 * Pl.: "nagyi friss" -> Azokat a termékeket adja vissza, melyeknek a kulcsszavai között szerepel a nagyi, VAGY a friss 
+	 * @param keywordText
+	 * @return String, JSON formátumban Product lista, melyek megfelelnek a keresésnek
+	 */
+	@GetMapping("findProductsByKeywordAny")
+	public ResponseEntity<String> findProductsByKeywordAny(String keywordText) {
+		if(keywordText.isEmpty() || keywordText.isBlank()) {
+			return productsListing();
+		}
+		List<Product> findProducts = new ArrayList<Product>();
+		String[] filters = keywordText.split(" ");
+		for(String t : filters) {
+			if(t.isEmpty())
+				continue;
+			for(Product p : productRepo.findProductsByKeyword(t)) {
+				if(!findProducts.contains(p)) {
+					findProducts.add(p);
+				}
+			}
+		}
+		if(findProducts.isEmpty()) {
+			return ResponseEntity.status(404).body("Nincs találat!");
+		}
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			return ResponseEntity.ok().body(mapper.writeValueAsString(findProducts));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(400).body("ERROR");
+		}
+	}
+	
+	/**
+	 * Speciális keresés kulcsszavakkal - A megadott kulcsszavak mindegyike szerepel egy tárgynál kulcsszóként
+	 * Pl.: "nagyi friss" -> Azokat a termékeket adja vissza, melyeknek a kulcsszavai között szerepel a nagyi, ÉS a friss IS
+	 * @param keywordText
+	 * @return String, JSON formátumban Product lista, melyek megfelelnek a keresésnek
+	 */
+	@GetMapping("findProductsByKeywordAll")
+	public ResponseEntity<String> findProductsByKeywordAll(String keywordText) {
+		if(keywordText.isEmpty() || keywordText.isBlank()) {
+			return productsListing();
+		}
 		
+		String[] filters = keywordText.split(" ");
+		List<Product> findProducts = productRepo.findProductsByKeyword(filters[0]);
+		for(String keyword : filters) {
+			for(int i = findProducts.size()-1; i >= 0; i--) {
+				if(keywordsRepo.hasKeyword(findProducts.get(i).getId(), keyword) == 0) {
+					findProducts.remove(i);
+					continue;
+				}
+			}
+		}
+		
+		if(findProducts.isEmpty()) {
+			return ResponseEntity.status(404).body("Nincs találat!");
+		}
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			return ResponseEntity.ok().body(mapper.writeValueAsString(findProducts));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(400).body("ERROR");
+		}
+	}
 }

@@ -26,6 +26,7 @@ public class Orders {
 	private byte order_state;
 	private short payment_method;
 	private byte payment_state;
+	private short delivery_method;
 	private String phone;
 	private String country;
 	private String country_1;
@@ -117,6 +118,12 @@ public class Orders {
 	}
 	public void setPost_other(String post_other) {
 		this.post_other = post_other;
+	}
+	public short getDelivery_method() {
+		return delivery_method;
+	}
+	public void setDelivery_method(short delivery_method) {
+		this.delivery_method = delivery_method;
 	}
 	
 }

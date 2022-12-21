@@ -74,6 +74,7 @@ CREATE TABLE `webshop`.`orders` (
   `order_state` tinyint NOT NULL COMMENT 'programban kezelt enum alapján',
   `payment_method` tinyint NOT NULL COMMENT 'programban kezelt enum alapján',
   `payment_state` tinyint NOT NULL COMMENT 'programban kezelt enum alapján',
+  `delivery_method` tinyint NOT NULL COMMENT 'szállítási mód, enum',
   `phone` varchar(20) NOT NULL,
   `country` varchar(55) NOT NULL COMMENT 'Ország',
   `country_1` varchar(100) NOT NULL COMMENT 'Megye',
@@ -120,6 +121,12 @@ CREATE TABLE `webshop`.`roles`(
 CREATE TABLE `webshop`.`user_roles`(
 	`user_id` int NOT NULL,
 	`role_id` int NOT NULL
+);
+
+CREATE TABLE `webshop`.`log`(
+	`log_type` int NOT NULL,
+	`log_text` VARCHAR(150) NOT NULL,
+	`log_date` DATETIME DEFAULT NOW()
 );
 
 ALTER TABLE `webshop`.`product_images` ADD FOREIGN KEY (`product_id`) REFERENCES `webshop`.`product` (`id`);
