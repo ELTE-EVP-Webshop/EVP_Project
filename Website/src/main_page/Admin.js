@@ -20,14 +20,15 @@ export default function ShoppingCart() {
     const [prodName, setProdName] = useState("");
     const [prodDesc, setProdDesc] = useState("");
     const [availCatId, setAvailCatId] = useState(1);
-    const [availCatName, setAvailCatName] = useState("Helyben sült péksütemények");
+    const [availCatName, setAvailCatName] = useState("none");
     const [availVarId, setAvailVarId] = useState(1);
-    const [availVarName, setAvailVarName] = useState("Kakaós péksütik");
+    const [availVarName, setAvailVarName] = useState("none");
     const [prodPrice, setProdPrice] = useState(0);
     const [prodSalePrice, setProdSalePrice] = useState(0);
     const [prodStock, setProdStock] = useState(0);
     const [prodImage, setProdImage] = useState("");
     const [prodVisible, setProdVisible] = useState(false)
+    const [allProdVisible, setAllProdVisible] = useState(false)
     //Category
     const [catId, setCatId] = useState(1)
     const [catName, setCatName] = useState("");
@@ -52,7 +53,7 @@ export default function ShoppingCart() {
         async function getProducts() {
             var vari = await ProductService.getProducts();
 
-            setAvailableProducts(Object.values(vari))
+            setAvailableProducts(vari)
         }
         getVariations();
         getCategories();
@@ -132,7 +133,8 @@ export default function ShoppingCart() {
             }
             
             console.log(event.target.value)
-            console.log(availCatId)
+            console.log(availVarName)
+            console.log(availCatName)
           };
 
           const handleProdSubmit= (prodName, prodDesc, prodCategoryId, prodCategoryName, prodVariationId, prodVariationName, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible) => {
@@ -180,6 +182,7 @@ export default function ShoppingCart() {
         setProductToCategoryVisible(false)
         setUpdateCategoryVisible(false)
         setUpdateVariationVisible(false)
+        setAllProdVisible(false)
     }
     const newProduct = () => {
         hideAll();
@@ -191,6 +194,18 @@ export default function ShoppingCart() {
         
        console.log(availableCategories)
        console.log(availableVariations)
+        
+    }
+
+    const getProducts = () => {
+        hideAll();
+        setAllProdVisible(true);
+
+        if(allProdVisible) {
+            setAllProdVisible(false)
+        }
+        
+    console.log(availableProducts)
         
     }
 
@@ -298,11 +313,22 @@ export default function ShoppingCart() {
                                <button onClick={() => newProduct()} type='button' className='btn btn-primary'>Új termék létrehozása</button>
                                <button onClick={() => addCategory()} type='button' className='btn btn-primary'>Kategória létrehozása</button>
                                <button onClick={() => addVariation()} type='button' className='btn btn-primary'>Variáció létrehozása</button>
+                               <button onClick={() => getProducts()} type='button' className='btn btn-primary'>Termékek lekérése</button>
                                <button onClick={() => getCategories()} type='button' className='btn btn-primary'>Kategóriák lekérése</button>
                                <button onClick={() => getVariations()} type='button' className='btn btn-primary'>Variációk lekérése</button>
                                <button onClick={() => addProductToCategory()} type='button' className='btn btn-primary'>Termék felvétele kategóriához</button>
                    
+                        {allProdVisible &&
+                            <div>
+                                <h3>Összes termék</h3>
+                                {availableProducts.map(product =>
+                                    <p>Név: {product.p.name}</p>
+                                    )}
+
+                            </div>
                         
+                        
+                        }
 
                         {productVisible && 
                             <div>
@@ -313,16 +339,20 @@ export default function ShoppingCart() {
                                 <input onChange={(e) => handleChange(e,"prodDesc")} id="prodDesc" type="text" required></input>
                                 <label for="prodCategory">Termék kategória: </label>
                                 <select onChange={(e) => handleChange(e,"availCat")}>
+                                <option id="nincs" value="none">Nincs</option>
                                     {availableCategories.map(cat =>
                                     <>
+                                    
                                     <option id={cat.id} value={cat.id}>{cat.category}</option>
                                     </>
                                     )};
                                 </select>
                                 <label for="prodVariation">Termék variációja: </label>
                                 <select onChange={(e) => handleChange(e,"availVar")}>
+                                <option id="nincs" value="none">Nincs</option>
                                     {availableVariations.map(vari =>
                                     <>
+                                    
                                     <option id={vari.id} value={vari.name}>{vari.name}</option>
                                     
                                     </>
@@ -357,12 +387,13 @@ export default function ShoppingCart() {
                          }
                           {updateVariationVisible &&
                                     <>
+                                        <p>Variáció neve:</p>
                                         <input onChange={(e) => handleChange(e, "updateVarName")} type="text" required></input>
                                         <button type="button" className='btn btn-info' onClick={() => updateVariationConfirm(varId, varName)}>Módosít</button>
                                         </>
                                     }
                          {categoryVisible &&
-
+                            
                             availableCategories.map(cat =>
                                 <>
                                     <p>{cat.id} - {cat.category}</p><button onClick={() => updateCategory(cat.id)} type='button' className='btn btn-danger'>Módosítás</button>

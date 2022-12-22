@@ -1,6 +1,6 @@
 import React from 'react';
 import {user} from './main_page/Header'
-import { BrowserRouter, Route, Routes  } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, RedirectFunction  } from 'react-router-dom';
 import './App.css';
 import './components/font-awesome-4.7.0/css/font-awesome.min.css';
 import './css/bootstrap.min.css';
@@ -21,7 +21,7 @@ import MainProducts from './main_page/ProductComponent'
 import MainHeader from './main_page/Header';
 import MergedHeader from './main_page/HeaderProduct';
 import Footer from './main_page/Footer';
-
+import Error404 from './error_page/404error';
 
 
 
@@ -163,7 +163,7 @@ function App() {
           
           </>
         }/>
-        
+        <Route path="/*" element={<Error404/>} />
 
       <Route path="/profile"
           element={

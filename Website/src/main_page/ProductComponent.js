@@ -9,6 +9,7 @@ import Header from "./Header";
 class ProductComponent extends React.Component {
   state = {
     products: [],
+    filterProducts: [],
     categories: 0,
     result : [],
     searchMethod : "textSearch",
@@ -63,16 +64,19 @@ class ProductComponent extends React.Component {
     switch(searchType) {
       case 'textSearch':
          var filteredProducts =  ProductService.findProductsByFilterText(this.state.searchQuery)
+         this.setState({filterProducts : filteredProducts})
       break;
       case 'inaccurateSearch':
          var filteredProducts = ProductService.findProductsByKeywordAny(this.state.searchQuery)
+         this.setState({filterProducts : filteredProducts})
       break;
       case 'accurateSearch':
         var filteredProducts = ProductService.findProductsByKeywordAll(this.state.searchQuery)
+        this.setState({filterProducts : filteredProducts})
       break;
-
+     
     }
-  
+ 
   
    }
 
@@ -87,11 +91,10 @@ class ProductComponent extends React.Component {
     var catid = this.state.categories
     var products = Object.values(this.state.result)
    // var products = this.state.result.filter((ob) =>catid === ob.categories.category_id);
-    var filtered = products.filter(res => {
-      return res.categories.includes(this.props.categories);
-    });
+    var filtered = ProductService.findProductsByCategory(this.props.categories)
     console.log(this.props.categories)
-    this.setState({result : filtered})
+   // this.setState({result : filtered})
+   console.log(filtered)
 
   }
   addToCart = (productid, count) => {
@@ -146,6 +149,13 @@ class ProductComponent extends React.Component {
     // const {products}= this.state
     
     console.log(this.state.searchMethod)
+    console.log(this.state.result)
+    console.log(this.state.filterProducts)
+
+
+  
+  
+
     
     if (user !== null) {
       console.log(user.username);
@@ -159,7 +169,7 @@ class ProductComponent extends React.Component {
     }
     //console.log(this.state.categories)
     return (
-      
+
       <div>
 
        

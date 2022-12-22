@@ -88,7 +88,15 @@ export default function Payment() {
 
 
               const handlePay = (phone, country, country2, city, street, housenumber, paymethod, deliverymethod) => {
+                if(phone != "" && country != "" && country2 != "" && city != "" && street != "") {
+                        if(deliverymethod != 0) {
                 PayService.completeOrder(phone,country, country2, city, street, housenumber, paymethod, deliverymethod);
+                        } else {
+                                alert("Kérlek válassz másik szállítási módot!")
+                        }
+                }  else {
+                        alert("Kérlek töltsd ki a mezőket!")
+                }
               }
 
         if(subTotalPrice != 0) {

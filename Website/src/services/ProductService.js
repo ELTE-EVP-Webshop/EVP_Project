@@ -4,7 +4,7 @@ const PRODUCTS_REST_API_URL = 'http://localhost:8080/api/app/';
 const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
 
 
-
+// Get all products
     const getProducts = () => {
         return axios
           .get(PRODUCTS_REST_API_URL + "productsListing")
@@ -16,7 +16,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
             return response.data;
           });
       };
-    
+    // Get all variations
       const getVariations = () => {
         return axios
           .get(PRODUCTS_REST_API_URL_ADMIN + "getVariations")
@@ -28,7 +28,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
             return response.data;
           });
       };
-
+// Get all categories
       const getCategories = () => {
         return axios
         .get(PRODUCTS_REST_API_URL + "categoriesListing")
@@ -41,33 +41,8 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
         });
       };
 
-    /*  const addProduct = (prodName, prodDesc, prodCategoryId, prodCategoryName, prodVariationId, prodVariationName, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible) => {
-        return axios
-        .post(PRODUCTS_REST_API_URL_ADMIN + "insertNewProduct",
-        {},
-        {
-        params: {
-          name: prodName,
-          description: prodDesc,
-          price: prodPrice,
-          salePrice: prodSalePrice,
-          stock: prodStock,
-          visible: prodVisible,
-          categories: [prodCategoryId, prodCategoryName],
-          variations: [prodVariationId, prodVariationName],
-          images: [prodImage]
 
-        },
-        withCredentials: true
-        })
-        .then((response) => {
-          alert(response.data.message)
-      
-    
-          return response.data;
-        });
-      }*/
-
+    //  Admin feature : Product insert
       const addProduct = (prodName, prodDesc, prodCategoryId, prodCategoryName, prodVariationId, prodVariationName, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible) => {
         var bodyFormData = new FormData();
       /*  var categories = [{a:a, b:b
@@ -81,19 +56,27 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
 		};
 		let imgArray = [];
 		imgArray.push(img);
-		
+    bodyFormData.append('name', prodName);
+    bodyFormData.append('description', prodDesc);
+    bodyFormData.append('price', prodPrice);
+    bodyFormData.append('salePrice', prodSalePrice);
+    bodyFormData.append('stock', prodStock);
+    bodyFormData.append('visible', prodVisible);
+   
        // prodCatJSON = {"variation": prodCategoryId, "description": prodCategoryName}
-        bodyFormData.append('name', prodName);
-        bodyFormData.append('description', prodDesc);
-        bodyFormData.append('price', prodPrice);
-        bodyFormData.append('salePrice', prodSalePrice);
-        bodyFormData.append('stock', prodStock);
-        bodyFormData.append('visible', prodVisible);
+
+       if(prodVariationName != "none") {
+         // bodyFormData.append('variations', prodVariationId);
+        //bodyFormData.append('variations', prodVariationName);
+       }
+       if(prodCategoryName != "none") {
         bodyFormData.append('categories', prodCategoryId);
         bodyFormData.append('categories', prodCategoryName);
-       // bodyFormData.append('variations', prodVariationId);
-        //bodyFormData.append('variations', prodVariationName);
+       }
+
+       if(prodImage != "Nincs") {
         bodyFormData.append('images',imgArray);
+       } 
 
       return axios({
           method: "post",
@@ -112,7 +95,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
             console.log(response);
           });
       };
-
+// Admin feature : Category creation
       const createCategory = (category, smallDesc, priority) => {
         return axios
         .post(PRODUCTS_REST_API_URL_ADMIN + "createCategory",
@@ -134,7 +117,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
        
       }
 
-
+//Admin feature :Variation creation 
 
       const createVariation = (variation) => {
         return axios
@@ -152,7 +135,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
           return response.data;
         });
       }
-
+// Product add to category
         const addProductToCategory = (prodId, catId) => {
           return axios
           .post(PRODUCTS_REST_API_URL_ADMIN + "addProductToCategory",
@@ -171,7 +154,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
           });
 
         }
-
+// Category update
         const updateCategory = (id, category, smallDesc,  priority) => {
           return axios
           .post(PRODUCTS_REST_API_URL_ADMIN + "updateCategory",
@@ -191,7 +174,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
             return response.data;
           });
         }
-
+//Variation update
         const updateVariation = (id, variation) => {
           return axios
           .post(PRODUCTS_REST_API_URL_ADMIN + "updateVariation",
@@ -262,6 +245,23 @@ const findProductsByKeywordAny = (filterText) => {
   });
 };
 
+// Find product by category id
+const findProductsByCategory = (categoryId) => {
+  return axios
+  .get(PRODUCTS_REST_API_URL + "findProductsByCategory",
+		{
+		  params:{
+			  categoryId : categoryId
+		  }
+		})
+  .then((response) => {
+    
+  //  console.log(response.data);
+
+    return  response.data;
+  });
+}
+
 
       const ProductService = {
         getProducts,
@@ -275,7 +275,8 @@ const findProductsByKeywordAny = (filterText) => {
         updateVariation,
         findProductsByFilterText,
         findProductsByKeywordAny,
-        findProductsByKeywordAll
+        findProductsByKeywordAll,
+        findProductsByCategory
       }
 
       export default ProductService

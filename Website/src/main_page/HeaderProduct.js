@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 import ProductService from "../services/ProductService";
 import ProductComponent from "./ProductComponent";
 export const user = AuthService.getCurrentUser();
+
+
+
+
 export default function HeaderProduct() {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
@@ -20,13 +24,14 @@ export default function HeaderProduct() {
         setCategories(cat)
         console.log(categories)
     }
+
+
+  
     getCategories();
       setShowAdminBoard(
         user.roles.includes("ROLE_ADMIN1") || user.roles.includes("ROLE_ADMIN2")
       );
     }
-
-  
 
     EventBus.on("logout", () => {
       logOut();
@@ -221,6 +226,7 @@ export default function HeaderProduct() {
         </div>
       )}
     </header>
+    
                 <ProductComponent categories={selectedCategory}></ProductComponent>
     </>
   );
