@@ -217,7 +217,7 @@ const findProductsByKeywordAny = (filterText) => {
   .get(PRODUCTS_REST_API_URL + "findProductsByKeywordAny",
       {
 		  params:{
-			  filterText : filterText
+			  keywordText : filterText
 		  }
 	  })
   .then((response) => {
@@ -234,7 +234,7 @@ const findProductsByKeywordAny = (filterText) => {
   .get(PRODUCTS_REST_API_URL + "findProductsByKeywordAll",
 		{
 		  params:{
-			  filterText : filterText
+			  keywordText : filterText
 		  }
 		})
   .then((response) => {

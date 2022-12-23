@@ -24,14 +24,22 @@ class ProductComponent extends React.Component {
     //const response = await fetch('http://localhost:8080/api/app/productsListing')
     // const body = await response.json();
     //  this.setState({ products: body });
-    var filtered;
     //Axios verzió
     const productAxios = await ProductService.getProducts();
     this.setState({ products: productAxios });
     /*  const catAxios = await ProductService.getCategories();
     this.setState({ categories: catAxios });*/
     console.log(ProductService.getProducts());
-    this.setState({ result: this.state.products });
+    await this.setState({ result: this.state.products });
+    try {
+    await this.setState({result : this.state.filterProducts})
+    } catch {
+      console.log("jézusmárja")
+    }
+
+    //  await this.setState({result : this.state.filterProducts})
+    
+
   }
 
   handleChange = (event, id) => {
@@ -80,13 +88,15 @@ class ProductComponent extends React.Component {
     }
   };
 
-  componentDidUpdate() {}
+  componentDidUpdate() {
+    
+  }
 
   anyad() {
     alert("anyád");
   }
 
-  componentWillReceiveProps() {
+  /*componentWillReceiveProps() {
     this.setState({ categories: this.props.categories });
 
     var catid = this.state.categories;
@@ -96,7 +106,7 @@ class ProductComponent extends React.Component {
     console.log(this.props.categories);
     // this.setState({result : filtered})
     console.log(filtered);
-  };
+  };*/
 
   addToCart = (productid, count) => {
     this.cartAddOne = true;
@@ -230,17 +240,18 @@ class ProductComponent extends React.Component {
   render() {
     // const {products}= this.state
 
-    console.log(this.state.searchMethod);
-    console.log(this.state.result);
-    console.log(this.state.filterProducts);
+   // console.log(this.state.searchMethod);
 
-    if (user !== null) {
-      console.log(user.username);
-    } else console.log("A macska rúgja meg!");
-    try {
-      this.state.result.map((product, index) =>
-        console.log(product.p.name + " " + product.images[index].image_url)
-      );
+   // var result = this.state.result
+  //  console.log(this.state.filterProducts);
+
+   // if (user !== null) {
+     // console.log(user.username);
+   // } else console.log("A macska rúgja meg!");
+  try {
+     console.log(this.state.filterProducts)
+     
+      console.log(this.state.result);
     } catch {
       console.log("Azért a banánnak is van ám vége!");
     }

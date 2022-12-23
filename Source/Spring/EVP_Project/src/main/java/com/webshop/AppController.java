@@ -127,16 +127,26 @@ public class AppController {
 		if(filterText.isEmpty() || filterText.isBlank()) {
 			return productsListing();
 		}
-		List<Product> findProducts = new ArrayList<Product>();
+		List<ProductResponseModel> findProducts = new ArrayList<ProductResponseModel>();
 		String[] filters = filterText.split(" ");
 		for(String t : filters) {
 			if(t.isEmpty())
 				continue;
-			for(Product p : productRepo.findProductsByFilterText(t)) {
+			/*for(Product p : productRepo.findProductsByFilterText(t)) {
 				if(!findProducts.contains(p)) {
 					findProducts.add(p);
 				}
-			}
+			}*/
+			for(Product p : productRepo.findProductsByFilterText(t)) {
+				if(!findProducts.contains(p)) {
+					ProductResponseModel m = new ProductResponseModel(p);
+					m.setImages(productImagesRepo.findAllByProductid(p.getId()));
+					m.setVariations(productVariationsRepo.findAllByProductid(p.getId()));
+					m.setCategories(productCategoryRepo.findAllByProductid(p.getId()));
+					findProducts.add(m);
+				}
+			
+		}
 		}
 		if(findProducts.isEmpty()) {
 			return ResponseEntity.status(404).body("Nincs találat!");
@@ -161,14 +171,24 @@ public class AppController {
 		if(keywordText.isEmpty() || keywordText.isBlank()) {
 			return productsListing();
 		}
-		List<Product> findProducts = new ArrayList<Product>();
+		//List<Product> findProducts = new ArrayList<Product>();
+		
+		List<ProductResponseModel> findProducts = new ArrayList<ProductResponseModel>();
 		String[] filters = keywordText.split(" ");
 		for(String t : filters) {
 			if(t.isEmpty())
 				continue;
-			for(Product p : productRepo.findProductsByKeyword(t)) {
+			/*for(Product p : productRepo.findProductsByKeyword(t)) {
 				if(!findProducts.contains(p)) {
 					findProducts.add(p);
+				}*/
+				for(Product p : productRepo.findProductsByKeyword(t)) {
+				if(!findProducts.contains(p)) {
+					ProductResponseModel m = new ProductResponseModel(p);
+					m.setImages(productImagesRepo.findAllByProductid(p.getId()));
+					m.setVariations(productVariationsRepo.findAllByProductid(p.getId()));
+					m.setCategories(productCategoryRepo.findAllByProductid(p.getId()));
+					findProducts.add(m);
 				}
 			}
 		}
