@@ -1,0 +1,53 @@
+.bg404
+{
+  background-image: url("giphy.gif") ; /* The image used */
+  background-size: cover;
+  background-position: center;
+  padding:0;
+  margin:0;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-position-y: top;
+}
+
+.tx404 h1
+{
+  width: 40%;
+  font-family: sadfont;
+  margin-top: 6%;
+  margin-left: 8%;
+  z-index: 10;
+  position: absolute;
+  animation: color-change 1s infinite;
+  font-size: xxx-large;
+}
+@font-face {
+  font-family: sadfont;
+  src: url(KGChasingCars.ttf);
+}
+@keyframes color-change {
+  0% { color: red; }
+  50% { color: blue; }
+  100% { color: red; }
+}
+.smiley
+{
+  background-image: url("giphy_2.gif") ; /* The image used */
+  background-size: cover;
+  background-position: center;
+  padding:0;
+  margin:0;
+  width: 100vw;
+  height: 100vh;
+  background-position-y: top;
+}
+.tx404_easter
+{
+  width: 40%;
+  margin-top: 6%;
+  margin-left: 8%;
+  position: absolute;
+  animation: color-change 1s infinite;
+  font-size: xxx-large;
+}
