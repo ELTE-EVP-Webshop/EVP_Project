@@ -1,0 +1,118 @@
+.admingomb
+{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  border-style: solid;
+  border-radius: 20%;
+  display: flex;
+  background-color: #007bff;
+}
+.admingomb :hover
+{
+  background-color: rgb(255, 0, 0);
+}
+.admingomb :active
+{
+  background-color: rgb(255, 127, 127);
+}
+.container-admin
+{
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 100px;
+}
+.container-admin .sortores 
+{
+  width: 100% !important;
+}
+.container-admin .vonal 
+{
+  margin-top: 10px;
+  background-color: rgb(7, 201, 36);
+  width: 100% !important;
+}
+.gombkulso
+{
+  
+}
+.vl {
+  border-left: 2px solid rgb(7, 201, 36);
+  height: 4rem;
+}
+.admin_tx
+{
+  padding-bottom: 20px;
+  color: rgb(7, 201, 36);
+  margin-top: 30px;
+}
+.gombtomb
+{
+  margin-bottom: 50px;
+}
+
+@media (max-width:570px) {
+  .admingomb
+{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  border-style: solid;
+  border-radius: 20%;
+  display: flex;
+  background-color: #007bff;
+  font-size: 60%;
+}
+  .container-admin
+{
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 100px;
+}
+  .gombtomb
+  {
+  width:100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+}
+.kiirasok
+{
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  width: 100%;
+  display: inline-flex;
+  background-color: rgba(0, 0, 0, 0.197);
+  margin-bottom: 20px;
+  min-height: 40vh;
+}
+.admin_cimke
+{
+  margin-right: 1em;
+  color: aqua;
+}
+.admin_bevitel
+{
+  width: 90%;
+  height: 100%;
+  background-color: #d8e8ff98;
+}
+.admin_doboz
+{
+  margin-left: 10px;
+  margin-right: -10px;
+  max-width: 40%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.admin_focim
+{
+  color: rgb(55, 215, 84);
+}
