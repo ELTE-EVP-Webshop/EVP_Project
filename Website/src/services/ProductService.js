@@ -235,7 +235,8 @@ const findProductsByKeywordAny = (filterText) => {
 		{
 		  params:{
 			  keywordText : filterText
-		  }
+		  },
+      withCredentials: true
 		})
   .then((response) => {
     

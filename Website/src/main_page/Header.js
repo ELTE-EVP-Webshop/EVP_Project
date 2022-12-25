@@ -18,7 +18,7 @@ export default function Header() {
       async function getCategories() {
         var cat = await ProductService.getCategories();
         setCategories(cat)
-        console.log(categories)
+        //console.log(categories)
     }
     getCategories();
       setShowAdminBoard(
@@ -38,7 +38,7 @@ export default function Header() {
   }, []);
   const filterProductsByCat = (id) => {
     setSelectedCategory(id)
-    console.log(id)
+    //console.log(id)
   }
   const logOut = () => {
     AuthService.logout();

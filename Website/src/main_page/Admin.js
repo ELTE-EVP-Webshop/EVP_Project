@@ -132,9 +132,9 @@ export default function ShoppingCart() {
 
             }
             
-            console.log(event.target.value)
-            console.log(availVarName)
-            console.log(availCatName)
+           // console.log(event.target.value)
+           // console.log(availVarName)
+           // console.log(availCatName)
           };
 
           const handleProdSubmit= (prodName, prodDesc, prodCategoryId, prodCategoryName, prodVariationId, prodVariationName, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible) => {
@@ -192,8 +192,8 @@ export default function ShoppingCart() {
             setProductVisible(false)
         }
         
-       console.log(availableCategories)
-       console.log(availableVariations)
+     //  console.log(availableCategories)
+     //  console.log(availableVariations)
         
     }
 
@@ -205,7 +205,7 @@ export default function ShoppingCart() {
             setAllProdVisible(false)
         }
         
-    console.log(availableProducts)
+  //  console.log(availableProducts)
         
     }
 
@@ -229,7 +229,7 @@ export default function ShoppingCart() {
             setCategoryVisible(false)
         }
         
-        console.log(availableCategories)
+       // console.log(availableCategories)
         
     }
 

@@ -22,7 +22,7 @@ export default function HeaderProduct() {
       async function getCategories() {
         var cat = await ProductService.getCategories();
         setCategories(cat)
-        console.log(categories)
+        //console.log(categories)
     }
 
 
@@ -43,7 +43,7 @@ export default function HeaderProduct() {
   }, []);
   const filterProductsByCat = (id) => {
     setSelectedCategory(id)
-    console.log(id)
+   // console.log(id)
   }
   const logOut = () => {
     AuthService.logout();

@@ -6,6 +6,7 @@ import { user } from "./Header";
 export default function ProductComponent2() {
 
 var [products, setProducts] = useState([])
+var [productLoading, setProductLoading] = useState(true)
 var [basket] = useState([])
 var [searchmethod, setSearchMethod] = useState("textSearch")
 var [searchquery, setSearchQuery] = useState("")
@@ -16,14 +17,17 @@ basket = BasketService.getBasketProduct();
 useEffect(() => {
     async function getProducts() {
         var fetchProducts = await ProductService.getProducts();
+        
         setProducts(fetchProducts);
+        setProductLoading(false)
     }
     /*async function getBasket() {
         var fetchBasket = await BasketService.getBasketProduct();
         setBasket(fetchBasket);
     }*/
 
-     getProducts();
+    getProducts()
+    
      //getBasket();
 
     
@@ -37,6 +41,7 @@ useEffect(() => {
           searchquery
         );
         //this.setState({ products: filteredProducts });
+        setProductLoading(true)
         setProducts(filteredProducts)
         break;
       case "inaccurateSearch":
@@ -44,6 +49,7 @@ useEffect(() => {
             searchquery
         );
        // this.setState({ filterProducts: filteredProducts });
+       setProductLoading(true)
         setProducts(filteredProducts)
         break;
       case "accurateSearch":
@@ -51,9 +57,11 @@ useEffect(() => {
             searchquery
         );
       //  this.setState({ filterProducts: filteredProducts });
+        setProductLoading(true)
         setProducts(filteredProducts)
         break;
     }
+    setProductLoading(false)
   };
 
   function handleChange(event, id) {
@@ -78,13 +86,13 @@ useEffect(() => {
       case "searchquery":
        // this.setState({ searchQuery: event.target.value });
         setSearchQuery(event.target.value)
-        console.log(event.target.value);
+        //console.log(event.target.value);
         break;
     }
   };
       
-  function anyad()  {
-    alert("anyád");
+  function CatKick()  {
+    console.log("A macska rúgja meg!");
   };
 
   function addToCart (productid, count)  {
@@ -138,7 +146,7 @@ useEffect(() => {
       var _ = this;
       $("#close").click(function () {
         modal.style.display = "none";
-        anyad();
+        CatKick();
       });
       var modal = document.getElementById("myModal2");
       window.addEventListener("click", function (event) {
@@ -205,7 +213,7 @@ useEffect(() => {
     var _ = this;
     $("#close").click(function () {
       modal.style.display = "none";
-      anyad();
+      CatKick();
     });
     $("#search").change(function (event) {
       modal.style.display = "none";
@@ -255,8 +263,12 @@ useEffect(() => {
             <div class="row justify-content-center text-center">
               <div class="col-md-8 col-lg-6">
                 <div class="header">
+
                   <h2 class="new">Új termékek</h2>
                 </div>
+                {productLoading &&
+                  <h1>Termékek betöltése...</h1>
+                }
                 {/*<label>Keresés típúsa: </label>
                 <select
                   onChange={(e) => this.handleChange(e, "searchmethod")}
@@ -277,7 +289,9 @@ useEffect(() => {
               </div>
             </div>
             <div class="row">
+                
               {products.map((product, index) => (
+                product.p ?
                 <div key={product.p.id} class="col-md-6 col-lg-4 col-xl-3">
                   <div id={product.p.id} class="single-product">
                     <div
@@ -317,8 +331,12 @@ useEffect(() => {
                     </div>
                   </div>
                 </div>
+                
+                :
+                 null
               ))}
-
+              
+             
               </div>
               </div>
         </section>

@@ -14,10 +14,31 @@ class ShoppingCart extends React.Component {
   };
 
   handleChange = (event) => {
+
     this.setState({ count: event.target.value });
+    
 
     // console.log(event.target.value)
   };
+
+  handleSubmit = (productId, count) => {
+    
+    BasketService.updateBasketProduct(
+                                  
+      productId,
+      count
+    )
+  //  window.location.reload("/")
+  }
+
+  handleDelete = (productId) => {
+    
+    BasketService.removeBasketProduct(
+                                  
+      productId
+    )
+ //   window.location.reload("/")
+  }
 
   async componentDidMount() {
     //Fetch verzió
@@ -144,10 +165,8 @@ class ShoppingCart extends React.Component {
                             ></input><br></br>
                             <button
                               onClick={() =>
-                                BasketService.updateBasketProduct(
-                                  b.product_id,
-                                  this.state.count
-                                )
+                                
+                                this.handleSubmit(b.product_id, this.state.count)
                               }
                               type="button"
                               class="btn btn-info gomb"
@@ -156,9 +175,7 @@ class ShoppingCart extends React.Component {
                             </button>
                             <button
                                 onClick={() =>
-                                  BasketService.removeBasketProduct(
-                                        b.product_id
-                                  )
+                                  this.handleDelete(b.product_id)
                                 }
                                 type="button"
                                 class="btn btn-warning gomb"
@@ -173,9 +190,9 @@ class ShoppingCart extends React.Component {
                   </table>
                 </div>
 
-                {products.length > 0 && (
+                {products.length > 0 ? (
                   <>
-                    <h3 class="finalprice">Végösszeg: {this.state.subTotal} HUF</h3>
+                    <h3 class="finalprice">Végösszeg: {this.state.subTotal == 0 ? "Komputálás... " : this.state.subTotal + " HUF"} </h3>
                      <div class="pay">
 
                      
@@ -184,14 +201,18 @@ class ShoppingCart extends React.Component {
                     </button>
                     </div>
                   </>
-                )}
+                ): 
+                <>
+                  <h1 className="text-center">A kosarad üres!</h1>
+                </>
+                }
               </div>
             </div>
           </section>
         </div>
       );
     } else {
-      return <div>A kosarad üres!</div>;
+      return <h1 className="text-center">Kosár betöltése...</h1>;
     }
   }
 }

@@ -51,7 +51,7 @@ const removeBasketProduct = (productid) => {
   .then((response) => {
     
   alert(response.data.message);
-    window.location.reload()
+   window.location.reload()
     return response;
   });
 };
