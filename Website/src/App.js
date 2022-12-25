@@ -13,7 +13,7 @@ import './login_page/css/main.css';
 import './login_page/css/util.css';
 import './css/contact.css';
 import './css/cartstyle.css';
-
+import './css/admin.css';
 
 
 
@@ -34,7 +34,7 @@ import ProfileHeader from './user/Header'
 import User from './user/BoardUser'
 import Profile from './user/profile'
 
-import Admin from './main_page/Admin'
+import Admin from './admin_page/Admin'
 
 import Contact from './contact_page/Contact';
 import ContactHeader from './contact_page/Header';

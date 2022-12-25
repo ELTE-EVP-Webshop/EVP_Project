@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import {user} from './Header'
+import {user} from '../main_page/Header'
 import ProductService from '../services/ProductService';
+
 
 
 export default function ShoppingCart() {
@@ -308,19 +309,31 @@ export default function ShoppingCart() {
             if(user.roles.includes('ROLE_ADMIN1') || user.roles.includes('ROLE_ADMIN2') ) {
                 return (
                     
-                        <div>
-                               <h1 className='text-center'>Admin panel</h1>
-                               <button onClick={() => newProduct()} type='button' className='btn btn-primary'>Új termék létrehozása</button>
-                               <button onClick={() => addCategory()} type='button' className='btn btn-primary'>Kategória létrehozása</button>
-                               <button onClick={() => addVariation()} type='button' className='btn btn-primary'>Variáció létrehozása</button>
-                               <button onClick={() => getProducts()} type='button' className='btn btn-primary'>Termékek lekérése</button>
-                               <button onClick={() => getCategories()} type='button' className='btn btn-primary'>Kategóriák lekérése</button>
-                               <button onClick={() => getVariations()} type='button' className='btn btn-primary'>Variációk lekérése</button>
-                               <button onClick={() => addProductToCategory()} type='button' className='btn btn-primary'>Termék felvétele kategóriához</button>
-                   
+                    <div class="container-admin">
+                         <h1 className='text-center admin_tx'>Admin panel</h1>
+                        <div class="row gombtomb">
+                        <div class="col gombkulso"><button  onClick={() => newProduct()} type='button' className='btn btn-primary admingomb'>Új termék létrehozása</button></div>
+                        <div class="vl"></div>
+                        <div class="col gombkulso"> <button onClick={() => addCategory()} type='button' className='btn btn-primary admingomb'>Kategória létrehozása</button></div>
+                        <div class="vl"></div>
+                        <div class="col gombkulso"> <button  onClick={() => addVariation()} type='button' className='btn btn-primary admingomb'>Variáció létrehozása</button></div>
+                        <div class=" sortores"><hr class="vonal"></hr></div>
+                        <div class="col gombkulso"> <button  onClick={() => getProducts()} type='button' className='btn btn-primary admingomb'>Termékek lekérése</button></div>
+                        <div class="vl"></div>
+                        <div class="col gombkulso">  <button  onClick={() => getCategories()} type='button' className='btn btn-primary admingomb'>Kategóriák lekérése</button></div>
+                        <div class="vl"></div>
+                        <div class="col gombkulso"> <button  onClick={() => getVariations()} type='button' className='btn btn-primary admingomb'>Variációk lekérése</button></div>
+                        <div class="vl"></div>
+                        <div class="col gombkulso"> <button  onClick={() => addProductToCategory()} type='button' className='btn btn-primary admingomb'>Termék felvétele kategóriához</button></div>
+                        </div>
+                        <div class="kiirasok">
+                            <div class="admin_doboz">
+
+                            
+                        
                         {allProdVisible &&
                             <div>
-                                <h3>Összes termék</h3>
+                                <h3 class="admin_focim">Összes termék</h3>
                                 {availableProducts.map(product =>
                                     <p>Név: {product.p.name}</p>
                                     )}
@@ -332,13 +345,13 @@ export default function ShoppingCart() {
 
                         {productVisible && 
                             <div>
-                                <h3>Új termék adatai</h3>
-                                <label for="prodName">Termék neve: </label>
-                                <input onChange={(e) => handleChange(e,"prodName")} id="prodName" type="text" required></input>
-                                <label for="prodDesc">Termék leírása: </label>
-                                <input onChange={(e) => handleChange(e,"prodDesc")} id="prodDesc" type="text" required></input>
-                                <label for="prodCategory">Termék kategória: </label>
-                                <select onChange={(e) => handleChange(e,"availCat")}>
+                                <h3 class="admin_focim">Új termék adatai</h3>
+                                <label class="admin_cimke" for="prodName">Termék neve: </label>
+                                <input class="admin_bevitel"onChange={(e) => handleChange(e,"prodName")} id="prodName" type="text" required></input><br></br>
+                                <label class="admin_cimke" for="prodDesc">Termék leírása: </label>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodDesc")} id="prodDesc" type="text" required></input><br></br>
+                                <label class="admin_cimke" for="prodCategory">Termék kategória: </label>
+                                <select class="admin_bevitel" onChange={(e) => handleChange(e,"availCat")}>
                                 <option id="nincs" value="none">Nincs</option>
                                     {availableCategories.map(cat =>
                                     <>
@@ -347,8 +360,8 @@ export default function ShoppingCart() {
                                     </>
                                     )};
                                 </select>
-                                <label for="prodVariation">Termék variációja: </label>
-                                <select onChange={(e) => handleChange(e,"availVar")}>
+                                <br></br><label class="admin_cimke" for="prodVariation">Termék variációja: </label>
+                                <select class="admin_bevitel" onChange={(e) => handleChange(e,"availVar")}>
                                 <option id="nincs" value="none">Nincs</option>
                                     {availableVariations.map(vari =>
                                     <>
@@ -358,21 +371,22 @@ export default function ShoppingCart() {
                                     </>
                                     )};
                                 </select>
-                                <label for="prodPrice">Termék ára: </label>
-                                <input onChange={(e) => handleChange(e,"prodPrice")} id="prodPrice" type="number" required></input>
-                                <label for="prodSalePrice">Termék eladási ára: </label>
-                                <input onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" required></input>
-                                <label for="prodStock">Termék Készlet: </label>
-                                <input onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" required></input>
-                                <label for="prodImage">Termék kép URL: </label>
-                                <input onChange={(e) => handleChange(e,"prodImage")} id="prodImage" type="text" required></input>
-                                <label for="prodVisible">Termék láthatósága: </label>
-                                <select onChange={(e) => handleChange(e,"prodVisible")}>
+                                <br></br><label class="admin_cimke" for="prodPrice">Termék ára: </label>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodPrice")} id="prodPrice" type="number" required></input><br></br>
+                                <label class="admin_cimke" for="prodSalePrice">Termék eladási ára: </label>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" required></input><br></br>
+                                <label class="admin_cimke" for="prodStock">Termék Készlet: </label>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" required></input><br></br>
+                                <label class="admin_cimke" for="prodImage">Termék kép URL: </label>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodImage")} id="prodImage" type="text" required></input><br></br>
+                                <label class="admin_cimke" for="prodVisible">Termék láthatósága:</label>
+                                <select class="admin_bevitel" onChange={(e) => handleChange(e,"prodVisible")}>
                                     <option id="prodVisible" value="true">Igaz</option>
                                     <option  id="prodVisible" value="false">Hamis</option>
                                     </select>
-                                <button onClick={() => handleProdSubmit(prodName, prodDesc, availCatId, availCatName, availVarId, availVarName, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible)} className='btn btn-primary' type='button'>Új termék felvétele</button>
+                                    <br></br><button onClick={() => handleProdSubmit(prodName, prodDesc, availCatId, availCatName, availVarId, availVarName, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible)} className='btn btn-primary' type='button'>Új termék felvétele</button>
                             </div>
+                            
                             
                         }
                         {productVariationVisible &&
@@ -387,8 +401,8 @@ export default function ShoppingCart() {
                          }
                           {updateVariationVisible &&
                                     <>
-                                        <p>Variáció neve:</p>
-                                        <input onChange={(e) => handleChange(e, "updateVarName")} type="text" required></input>
+                                        <p class="admin_focim">Variáció neve:</p>
+                                        <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateVarName")} type="text" required></input>
                                         <button type="button" className='btn btn-info' onClick={() => updateVariationConfirm(varId, varName)}>Módosít</button>
                                         </>
                                     }
@@ -404,33 +418,33 @@ export default function ShoppingCart() {
                          {updateCategoryVisible &&
                             <>
                                         <p>Kategória neve:</p>
-                                        <input className='mx-3' onChange={(e) => handleChange(e, "updateCatName")} id="updCatName" type="text" required></input>
+                                        <input class="admin_bevitel" className='mx-3' onChange={(e) => handleChange(e, "updateCatName")} id="updCatName" type="text" required></input>
                                         <p>Kategória leírása:</p>
-                                        <input className='mx-3' onChange={(e) => handleChange(e, "updateCatDesc")}  id="updCatDesc" type="text" required></input>
+                                        <input class="admin_bevitel" className='mx-3' onChange={(e) => handleChange(e, "updateCatDesc")}  id="updCatDesc" type="text" required></input>
                                         <p>Kategória prioritása:</p>
-                                        <input onChange={(e) => handleChange(e, "updateCatPrior")}  id="updCatPrior" type="text" required></input>
+                                        <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatPrior")}  id="updCatPrior" type="text" required></input>
                                         <button type="button" className='btn btn-info' onClick={() => updateCategoryConfirm(catId, catName, catDesc, catPrior)}>Módosít</button>
                             </>
                          
                          }
                          {categories &&
                             <div>
-                                <h3>Új kategória adatai</h3>
-                                <label for="catName">Kategória neve: </label>
-                                <input onChange={(e) => handleChange(e,"catName")} id="catName" type="text" required></input>
-                                <label for="catDesc">Kategória leírása: </label>
-                                <input onChange={(e) => handleChange(e,"catDesc")} id="catDesc" type="text" required></input>
-                                <label for="catPrior">Kategória prioritása: </label>
-                                <input onChange={(e) => handleChange(e,"catPrior")} id="prodDesc" type="number" required></input>
+                                <h3 class="admin_focim">Új kategória adatai</h3>
+                                <label class="admin_cimke" for="catName">Kategória neve: </label>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"catName")} id="catName" type="text" required></input>
+                                <label class="admin_cimke" for="catDesc">Kategória leírása: </label>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"catDesc")} id="catDesc" type="text" required></input>
+                                <label class="admin_cimke" for="catPrior">Kategória prioritása: </label>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"catPrior")} id="prodDesc" type="number" required></input>
                                 <button onClick={() => handleCatSubmit(catName, catDesc, catPrior)} className='btn btn-primary' type='button'>Új kategória felvétele</button>
                             </div>
                                 
                          }
                          {variations &&
                             <div>
-                                <h3>Új variáció adatai</h3>
-                                <label for="varName">Variáció neve: </label>
-                                <input onChange={(e) => handleChange(e,"varName")} id="varName" type="text" required></input>
+                                <h3 class="admin_focim">Új variáció adatai</h3>
+                                <label class="admin_cimke" for="varName">Variáció neve: </label>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"varName")} id="varName" type="text" required></input>
     
                                 <button onClick={() => handleVarSubmit(varName)} className='btn btn-primary' type='button'>Új variáció felvétele</button>
                             </div>
@@ -438,8 +452,8 @@ export default function ShoppingCart() {
                          }
                          {productToCategoryVisible && 
                             <div>
-                                 <h3>Termék felvétele kategóriához</h3>
-                                <label>Termék: </label>
+                                 <h3 class="admin_focim">Termék felvétele kategóriához</h3>
+                                <label class="admin_cimke">Termék: </label>
                                 <select onChange={(e) => handleChange(e,"availProd")}>
                                     {availableProducts.map(prod =>
                                     <>
@@ -447,7 +461,7 @@ export default function ShoppingCart() {
                                     </>
                                     )};
                                 </select>
-                                <label>Kategória: </label>
+                                <label class="admin_cimke">Kategória: </label>
                                 <select onChange={(e) => handleChange(e,"availCat2")}>
                                     {availableCategories.map(cat =>
                                     <>
@@ -460,8 +474,9 @@ export default function ShoppingCart() {
                             </div>
                          
                          }
+                         </div>
                         </div>
-                        
+                        </div>
                 )
                 
             }
