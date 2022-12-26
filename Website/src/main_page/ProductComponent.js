@@ -142,7 +142,7 @@ class ProductComponent extends React.Component {
             "<div class='modal-content-detail'>" +
               "<p class='modalName'>" +product.p.name +"</p> " +
               "<p class='modalDesc'>" + product.p.description +"</p>" +
-              "<p class='modalPrice'>" +product.p.price + "Ft. /db</p>" +
+              "<p class='modalPrice'>" +product.p.sale_price + "Ft. /db</p>" +
               "<input type='number' width='10px'></input>"+
             "</div>" +
           "</div>" +

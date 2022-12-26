@@ -62,7 +62,7 @@ class ShoppingCart extends React.Component {
     for (var i = 0; i < products.length; i++) {
       for (var j = 0; j < basket.length; j++) {
         if (products[i].p.id == basket[j].product_id) {
-          subtotal += products[i].p.price * basket[j].count;
+          subtotal += products[i].p.sale_price * basket[j].count;
         }
       }
     }
@@ -131,7 +131,7 @@ class ShoppingCart extends React.Component {
                             <div class="part-2">
                               <h3 class="product-title">{product.p.name}</h3>
                               <h4 class="product-price">
-                                {product.p.price}Ft.
+                                {product.p.sale_price}Ft.
                               </h4>
                               
                               {/*{product && product.images[index] && product.images[index].image_url && product.images[index].image_url ? <h4 class="product-price"><img src={product.images[index].image_url} alt="cs"></img></h4>
