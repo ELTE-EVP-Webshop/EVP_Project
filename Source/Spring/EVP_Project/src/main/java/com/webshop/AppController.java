@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.webshop.Model.EmailDetails;
 import com.webshop.services.EmailService;
+import com.webshop.services.pdfService;
 
 
 /**
@@ -54,6 +52,8 @@ public class AppController {
 	private VariationsRepository variationsRepo;
 	@Autowired 
 	private EmailService emailService;
+	@Autowired
+	pdfService pdfCreator;
 	
 	/**
 	 * Elérés / egyéb tesztelési célra
@@ -61,6 +61,19 @@ public class AppController {
 	 */
 	@GetMapping("/testDebug")
 	public ResponseEntity<String> getDebug() {
+		
+		List<Basket> b = new ArrayList<Basket>();
+		Basket termek1 = new Basket(20, 2, 5);
+		Basket termek2 = new Basket(20, 4, 8);
+		Basket termek3 = new Basket(20, 5, 1);
+		Basket termek4 = new Basket(20, 7, 1);
+		Basket termek5 = new Basket(20, 8, 10);
+		b.add(termek1);
+		b.add(termek2);
+		b.add(termek3);
+		b.add(termek4);
+		b.add(termek5);
+		pdfCreator.createReceiptPdf(1, b, "TeszUser", (short)2);
 		return null;
 	}
 		

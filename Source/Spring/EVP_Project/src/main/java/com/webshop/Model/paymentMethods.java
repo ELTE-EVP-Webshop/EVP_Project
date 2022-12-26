@@ -21,4 +21,18 @@ public enum paymentMethods {
 		}
 		return false;
 	}
+	
+	public static String getPaymentString(short value) {
+		switch(value)
+		{
+		case 1:
+			return "Banki átutalaás";
+		case 2:
+			return "Készpénzes fizetés átvételkor";
+		case 3:
+			return "Kártyás fizetés átvételkor";
+		default:
+			return "Ismeretlen";
+		}
+	}
 }

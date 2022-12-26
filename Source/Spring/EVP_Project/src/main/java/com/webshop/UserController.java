@@ -24,10 +24,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.webshop.Model.EmailDetails;
 import com.webshop.Model.deliveryMethods;
 import com.webshop.Model.paymentMethods;
 import com.webshop.responsemodels.MessageResponse;
 import com.webshop.responsemodels.UserDeliveryInfoResponse;
+import com.webshop.services.EmailService;
+import com.webshop.services.pdfService;
 
 import ch.qos.logback.core.net.ObjectWriter;
 
@@ -67,6 +70,10 @@ public class UserController {
 	private VariationsRepository variationsRepo;
 	@Autowired
 	PasswordEncoder encoder;
+	@Autowired
+	pdfService pdfCreator;
+	@Autowired 
+	private EmailService emailService;
 	
 	/**
 	 * Teszt metódus, jogosultságok / elérés / egyéb tesztre
@@ -269,7 +276,8 @@ public class UserController {
 	/**
 	 * Rendelés leadása
 	 * Kosárban lévő termékek megrendelése, rednelés létrehozása (ha van mindenből elég termék)
-	 * Adatok ellenőrzése, készlet ellenőrzése, Rendelés létrehozása, termékek áthelyezése a rendeléshez (készlet csökkentése), 
+	 * Adatok ellenőrzése, készlet ellenőrzése, Rendelés létrehozása, termékek áthelyezése a rendeléshez (készlet csökkentése)
+	 * Amennyiben a rendelés teljesíthető, PDF számla létrehozása, sikeres létrehozás esetén annak kiküldése a regisztrált E-mail címre
 	 * @param phone String, telefonszám
 	 * @param country Sring, ország
 	 * @param country_l String, megye
@@ -285,6 +293,11 @@ public class UserController {
 	public ResponseEntity<?> completeOrder(String phone, String country, String country_l, String city, short post_code, String street, String house_number, String post_other, short paymentMethod, short deliveryMethod){
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Long userId = userDetails.getId();
+		
+		User u = userRepo.findById(userId).get();
+		if(!u.isMailConfirmed()) {
+			return ResponseEntity.ok().body(new MessageResponse("Rendelés sikertelen: Kérjük erősítse meg az E-mail címét a regisztrációkor kapott levélben!"));
+		}
 		
 		List<Basket> products = basketRepo.findAllByUserid(userId);
 		
@@ -353,6 +366,17 @@ public class UserController {
 			orderProductsRepo.save(op);
 		}
 		
+		if(pdfCreator.createReceiptPdf(actualOrder.getId(), products, userDetails.getUsername(), paymentMethod)) {
+			EmailDetails d = new EmailDetails();
+			d.setSubject("IK Webshop - Számla");
+			d.setRecipient(userDetails.getEmail());
+			d.setAttachment("receipts/rendeles_"+actualOrder.getId()+"_szamla.pdf");
+			d.setMsgBody("<p>Tisztelt <b>"+userDetails.getUsername()+"!</b></p><p>Ezúton küldjük a(z) "+actualOrder.getId()+" számon leadott rendeléséhez tartozó számlát.</p>"
+					+ "<p><labael style='color:green'>Köszönjük</label> a rendelését! Amennyiben kérdése merült fel, kérjük keressen minket az alábbi elérhetőségeink egyikén: </p>"
+					+ "<ul><li>+36 00 1234567</li><li>evpwebshop@gmail.com</li></ul><br><p>Szép napot kíván: <b>IK Webshop Team</b></p>");
+			emailService.sendMailInHtmlFormatWithAttachment(d);
+		}
+		
 		basketRepo.clearBasketById(userId);
 		
 		return ResponseEntity.ok().body(new MessageResponse("Rendelés sikeresen rögzítve az alábbi azonosítóval: "+actualOrder.getId()));
@@ -415,7 +439,7 @@ public class UserController {
 	 * Új jelszó min. 6 karakter
 	 * @param oldPwd String, régi jelszó
 	 * @param newPwd String, új jelszó
-	 * @return
+	 * @return A változtatás eredménye
 	 */
 	@PostMapping("changePassword")
 	public ResponseEntity<?> getOrderProducts(String oldPwd, String newPwd) {
