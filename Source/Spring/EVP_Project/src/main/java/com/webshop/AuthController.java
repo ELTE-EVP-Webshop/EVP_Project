@@ -95,6 +95,7 @@ public class AuthController {
   /**
    * Regisztráció
    * Felhasnzáló regisztrálása a rendszerben. Felhasználónév / Email unique adattag, ellenőrzés, adatok eltárolása.
+   * Megerősítő email kiküldése, szükséges token generálása.
    * @param signUpRequest SignUpReques, a regisztrációs adatok RequestBody-ból.
    * @return ResponseEntity<?> Regisztráció eredmény. Sikertelen regisztráció esetén a sikertelenség oka.
    */
@@ -218,6 +219,12 @@ public class AuthController {
 	  }
   }
   
+  /**
+   * Email cím megerősítése
+   * @param userId long, a felhasználó id-je
+   * @param tokenKey String, a generált token
+   * @return Átirányítás a megfelelő oldalra(sikeres, sikertelen)
+   */
   @GetMapping("confirmMail")
   public ResponseEntity<?> confirmMail(long userId, String tokenKey) {
 	  HttpHeaders headers = new HttpHeaders();
@@ -239,6 +246,13 @@ public class AuthController {
 	  return new ResponseEntity<String>(headers,HttpStatus.FOUND);
   }
   
+  /**
+   * Elfelejtett jelszó helyett új jelszó megadása
+   * @param userId long, Felhasználó azonosítója
+   * @param tokenKey String, a generált token
+   * @param newPassword String, az új jelszó. Hossza min. 6 karakter
+   * @return a módosítás eredménye
+   */
   @PostMapping("newPassword")
   public ResponseEntity<?> newPassword(long userId, String tokenKey, String newPassword) {
 	  Optional<Tokens> t = tokensRepo.findById(tokenKey);

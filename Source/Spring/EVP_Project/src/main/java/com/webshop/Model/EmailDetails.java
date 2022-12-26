@@ -1,5 +1,14 @@
 package com.webshop.Model;
 
+/**
+ * Email küldéshez használt modell
+ * String recipient -> fogadó email címe
+ * String msgBody -> Email törzse
+ * String subject -> Email tárgya
+ * String attachment -> Csatolmány (hivatkozás filerendszerből, elérési út)
+ * @author BalazsPC
+ *
+ */
 public class EmailDetails {
 	private String recipient;
 	private String msgBody;

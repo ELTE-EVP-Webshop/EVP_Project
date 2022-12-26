@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,15 +60,8 @@ public class AppController {
 	 * @return String
 	 */
 	@GetMapping("/testDebug")
-	public ResponseEntity<String> getDebug(String to) {
-		EmailDetails d = new EmailDetails();
-		d.setSubject("Teszt");
-		d.setRecipient(to);
-		d.setMsgBody("Szia uram, üdvözöl az Incidens Webshop!");
-		d.setAttachment("d:/ELTEIK.png");
-		String status = emailService.sendMailWithAttachment(d);
-
-		return ResponseEntity.ok().body(status);
+	public ResponseEntity<String> getDebug() {
+		return null;
 	}
 		
 	/**

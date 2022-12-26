@@ -77,7 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   }
   
   /**
-   * Web security elérési utak tiltása
+   * Web security
    */
   @Override
   public void configure(WebSecurity web) throws Exception {

@@ -410,6 +410,13 @@ public class UserController {
 		}
 	}
 	
+	/**
+	 * Jelszó változtatás
+	 * Új jelszó min. 6 karakter
+	 * @param oldPwd String, régi jelszó
+	 * @param newPwd String, új jelszó
+	 * @return
+	 */
 	@PostMapping("changePassword")
 	public ResponseEntity<?> getOrderProducts(String oldPwd, String newPwd) {
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

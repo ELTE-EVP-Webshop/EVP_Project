@@ -1,5 +1,10 @@
 package com.webshop.Model;
 
+/**
+ * enum, token típusok
+ * @author BalazsPC
+ *
+ */
 public enum tokenTypes {
 	MAIL_CONFIRM(1),
 	NEW_PASSWORD(2);
