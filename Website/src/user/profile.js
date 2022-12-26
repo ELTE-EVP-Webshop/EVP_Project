@@ -57,21 +57,23 @@ const Profile = () => {
                       
                       <div class="col-sm-6">
                         <p class="m-b-10 f-w-600">Telefonszám</p>
-                        <h6 class="text-muted f-w-400">{currentUser.phone}</h6>
+                        <h6 class="text-muted f-w-400">{currentUser.phone ? currentUser.phone : "Nincs megadva!"}</h6>
                       </div>
                     </div>
                     <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">
-                      Projects
+                      Fiókhoz tartozó műveletek
                     </h6>
                     <div class="row">
                       <div class="col-sm-6">
-                        <p class="m-b-10 f-w-600">Valami</p>
-                        <h6 class="text-muted f-w-400">extra</h6>
+                        <p class="m-b-10 f-w-600">Új jelszó</p>
+                        <a href="/newPassword"><h6 class="text-muted f-w-400">Generálás</h6></a>
                       </div>
                       <div class="col-sm-6">
-                        <p class="m-b-10 f-w-600">igen</p>
-                        <h6 class="text-muted f-w-400">nem</h6>
+                        <p class="m-b-10 f-w-600">Email megerősítve</p>
+                        <h6 class="text-muted f-w-400">Igen</h6>
+                        <a href="/mailConfirm"><h6 class="text-muted f-w-400">Nem</h6></a>
                       </div>
+                  
                     </div>
                     {/*
                     <ul class="social-link list-unstyled m-t-40 m-b-10">

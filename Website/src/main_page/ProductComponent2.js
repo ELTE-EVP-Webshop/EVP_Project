@@ -138,7 +138,7 @@ useEffect(() => {
         product.p.description +
         "</p>" +
         "<p class='modalPrice'>" +
-        product.p.price +
+        product.p.sale_price +
         "Ft. /db</p>" +
         "</div>" +
         "</div>" +
@@ -320,12 +320,27 @@ useEffect(() => {
                         </ul>
                       )}
 
-                      <span class="new">new</span>
+                      <span class="new">Új</span>
+                     
+                    
                     </div>
-
+                    {product.p.sale_price != product.p.price &&
+                        <div>AKCIÓS TERMÉK!</div>
+                      }
                     <div class="part-2">
+                    
                       <h3 class="product-title">{product.p.name}</h3>
+                      
+                      {product.p.sale_price != product.p.price ?
+                      <>
+                      <h4 class="product-price">{product.p.price} Ft helyett: </h4>
+                      <h4> {product.p.sale_price} Ft.</h4>
+                      </>
+                      :
+                      <>
                       <h4 class="product-price">{product.p.price}Ft.</h4>
+                      </>
+                 }
                       {/*{product && product.images[index] && product.images[index].image_url && product.images[index].image_url ? <h4 class="product-price"><img src={product.images[index].image_url} alt="cs"></img></h4>
                                                                                                          : <h4 class="product-price"><img alt="cs"></img></h4>}*/}
                     </div>

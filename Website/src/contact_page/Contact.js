@@ -106,7 +106,7 @@ class Contact extends React.Component {
                           </div>
                           <div class="text pl-3">
                             <p>
-                              <span>Cím:</span> Óperenciás tengeren túl
+                              <span>Cím:</span> Incidens tér 51
                             </p>
                           </div>
                         </div>
@@ -129,7 +129,7 @@ class Contact extends React.Component {
                             <p>
                               <span>Email:</span>{" "}
                               <a href="mailto:info@yoursite.com">
-                                igen@nem.talán
+                                evpWebshop@gmail.com
                               </a>
                             </p>
                           </div>
