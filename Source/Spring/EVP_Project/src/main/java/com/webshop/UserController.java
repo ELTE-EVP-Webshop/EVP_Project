@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,6 +65,8 @@ public class UserController {
 	private ProductCategoriesRepository productCategoriesRepo;
 	@Autowired
 	private VariationsRepository variationsRepo;
+	@Autowired
+	PasswordEncoder encoder;
 	
 	/**
 	 * Teszt metódus, jogosultságok / elérés / egyéb tesztre
@@ -404,6 +407,24 @@ public class UserController {
 			} catch (Exception e) {
 				return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
 			}
+		}
+	}
+	
+	@PostMapping("changePassword")
+	public ResponseEntity<?> getOrderProducts(String oldPwd, String newPwd) {
+		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Long userId = userDetails.getId();
+		if(encoder.encode(oldPwd).equals(userDetails.getPassword())) {
+			if(newPwd == null || newPwd.isEmpty() || newPwd.isBlank() || newPwd.length() < 6) {
+				return ResponseEntity.ok().body("Az új jelszó nem megfelelő!");
+			} else {
+				User u = userRepo.findById(userId).get();
+				u.setPassword(encoder.encode(newPwd));
+				userRepo.save(u);
+				return ResponseEntity.ok().body("Jelszó sikeresen megváltoztatva!");
+			}
+		}else {
+			return ResponseEntity.ok().body("A régi jelszó nem megfelelő!");
 		}
 	}
 }

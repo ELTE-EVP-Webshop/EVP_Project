@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.webshop.Model.EmailDetails;
+import com.webshop.services.EmailService;
+
 
 /**
  * App controller
@@ -47,14 +50,23 @@ public class AppController {
 	private ProductCategoriesRepository productCategoriesRepo;
 	@Autowired
 	private VariationsRepository variationsRepo;
+	@Autowired 
+	private EmailService emailService;
 	
 	/**
 	 * Elérés / egyéb tesztelési célra
 	 * @return String
 	 */
 	@GetMapping("/testDebug")
-	public ResponseEntity<String> getDebug(String keywordText) {
-		return null;
+	public ResponseEntity<String> getDebug(String to) {
+		EmailDetails d = new EmailDetails();
+		d.setSubject("Teszt");
+		d.setRecipient(to);
+		d.setMsgBody("Szia uram, üdvözöl az Incidens Webshop!");
+		d.setAttachment("d:/ELTEIK.png");
+		String status = emailService.sendMailWithAttachment(d);
+
+		return ResponseEntity.ok().body(status);
 	}
 		
 	/**
@@ -108,8 +120,19 @@ public class AppController {
 	@GetMapping("findProductsByCategory")
 	public ResponseEntity<String> findProductsByCategory(int categoryId) {
 		ObjectMapper mapper = new ObjectMapper();
+		
+		List<ProductResponseModel> responseList = new ArrayList<ProductResponseModel>();
+		
+		for(Product p : productRepo.findProductsByCategoryId(categoryId)) {
+			ProductResponseModel m = new ProductResponseModel(p);
+			m.setImages(productImagesRepo.findAllByProductid(p.getId()));
+			m.setVariations(productVariationsRepo.findAllByProductid(p.getId()));
+			m.setCategories(productCategoryRepo.findAllByProductid(p.getId()));
+			responseList.add(m);
+		}
+		
 		try {
-			return ResponseEntity.ok().body(mapper.writeValueAsString(productRepo.findProductsByCategoryId(categoryId)));
+			return ResponseEntity.ok().body(mapper.writeValueAsString(responseList));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(400).body("ERROR");
@@ -127,33 +150,34 @@ public class AppController {
 		if(filterText.isEmpty() || filterText.isBlank()) {
 			return productsListing();
 		}
-		List<ProductResponseModel> findProducts = new ArrayList<ProductResponseModel>();
+		List<Product> findProducts = new ArrayList<Product>();
 		String[] filters = filterText.split(" ");
 		for(String t : filters) {
 			if(t.isEmpty())
 				continue;
-			/*for(Product p : productRepo.findProductsByFilterText(t)) {
+			for(Product p : productRepo.findProductsByFilterText(t)) {
 				if(!findProducts.contains(p)) {
 					findProducts.add(p);
 				}
-			}*/
-			for(Product p : productRepo.findProductsByFilterText(t)) {
-				if(!findProducts.contains(p)) {
-					ProductResponseModel m = new ProductResponseModel(p);
-					m.setImages(productImagesRepo.findAllByProductid(p.getId()));
-					m.setVariations(productVariationsRepo.findAllByProductid(p.getId()));
-					m.setCategories(productCategoryRepo.findAllByProductid(p.getId()));
-					findProducts.add(m);
-				}
-			
-		}
+			}
 		}
 		if(findProducts.isEmpty()) {
 			return ResponseEntity.status(404).body("Nincs találat!");
 		}
+		
+		List<ProductResponseModel> responseList = new ArrayList<ProductResponseModel>();
+		
+		for(Product p : findProducts) {
+			ProductResponseModel m = new ProductResponseModel(p);
+			m.setImages(productImagesRepo.findAllByProductid(p.getId()));
+			m.setVariations(productVariationsRepo.findAllByProductid(p.getId()));
+			m.setCategories(productCategoryRepo.findAllByProductid(p.getId()));
+			responseList.add(m);
+		}
+		
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			return ResponseEntity.ok().body(mapper.writeValueAsString(findProducts));
+			return ResponseEntity.ok().body(mapper.writeValueAsString(responseList));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(400).body("ERROR");
@@ -168,36 +192,37 @@ public class AppController {
 	 */
 	@GetMapping("findProductsByKeywordAny")
 	public ResponseEntity<String> findProductsByKeywordAny(String keywordText) {
-		if(keywordText.isEmpty() || keywordText.isBlank()) {
+		if(keywordText == null || keywordText.isEmpty() || keywordText.isBlank()) {
 			return productsListing();
 		}
-		//List<Product> findProducts = new ArrayList<Product>();
-		
-		List<ProductResponseModel> findProducts = new ArrayList<ProductResponseModel>();
+		List<Product> findProducts = new ArrayList<Product>();
 		String[] filters = keywordText.split(" ");
 		for(String t : filters) {
 			if(t.isEmpty())
 				continue;
-			/*for(Product p : productRepo.findProductsByKeyword(t)) {
+			for(Product p : productRepo.findProductsByKeyword(t)) {
 				if(!findProducts.contains(p)) {
 					findProducts.add(p);
-				}*/
-				for(Product p : productRepo.findProductsByKeyword(t)) {
-				if(!findProducts.contains(p)) {
-					ProductResponseModel m = new ProductResponseModel(p);
-					m.setImages(productImagesRepo.findAllByProductid(p.getId()));
-					m.setVariations(productVariationsRepo.findAllByProductid(p.getId()));
-					m.setCategories(productCategoryRepo.findAllByProductid(p.getId()));
-					findProducts.add(m);
 				}
 			}
 		}
 		if(findProducts.isEmpty()) {
 			return ResponseEntity.status(404).body("Nincs találat!");
 		}
+		
+		List<ProductResponseModel> responseList = new ArrayList<ProductResponseModel>();
+		
+		for(Product p : findProducts) {
+			ProductResponseModel m = new ProductResponseModel(p);
+			m.setImages(productImagesRepo.findAllByProductid(p.getId()));
+			m.setVariations(productVariationsRepo.findAllByProductid(p.getId()));
+			m.setCategories(productCategoryRepo.findAllByProductid(p.getId()));
+			responseList.add(m);
+		}
+		
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			return ResponseEntity.ok().body(mapper.writeValueAsString(findProducts));
+			return ResponseEntity.ok().body(mapper.writeValueAsString(responseList));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(400).body("ERROR");
@@ -230,9 +255,20 @@ public class AppController {
 		if(findProducts.isEmpty()) {
 			return ResponseEntity.status(404).body("Nincs találat!");
 		}
+		
+		List<ProductResponseModel> responseList = new ArrayList<ProductResponseModel>();
+		
+		for(Product p : findProducts) {
+			ProductResponseModel m = new ProductResponseModel(p);
+			m.setImages(productImagesRepo.findAllByProductid(p.getId()));
+			m.setVariations(productVariationsRepo.findAllByProductid(p.getId()));
+			m.setCategories(productCategoryRepo.findAllByProductid(p.getId()));
+			responseList.add(m);
+		}
+		
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			return ResponseEntity.ok().body(mapper.writeValueAsString(findProducts));
+			return ResponseEntity.ok().body(mapper.writeValueAsString(responseList));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(400).body("ERROR");
