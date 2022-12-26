@@ -148,6 +148,10 @@ useEffect(() => {
         modal.style.display = "none";
         CatKick();
       });
+      $("#cartAddMultipleBTN").click(function () {
+        modal.style.display = "none";
+       addToCart(product.p.id, $( "#cartAddMultipleNUM" ).val())
+      });
       var modal = document.getElementById("myModal2");
       window.addEventListener("click", function (event) {
         if (event.target == modal) {
