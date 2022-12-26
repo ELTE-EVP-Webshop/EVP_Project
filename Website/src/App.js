@@ -18,8 +18,7 @@ import './css/admin.css';
 
 
 
-import MainProducts from './main_page/ProductComponent';
-import MainProducts2 from './main_page/ProductComponent2';
+import MainProducts from './main_page/ProductComponent2';
 import MainHeader from './main_page/Header';
 import MergedHeader from './main_page/HeaderProduct';
 import Footer from './main_page/Footer';

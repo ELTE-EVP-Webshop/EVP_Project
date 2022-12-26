@@ -125,28 +125,29 @@ useEffect(() => {
       modal.style.display = "block";
       document.getElementById("myModal2").innerHTML =
         "<div class='modal-inside'>" +
-        "<span class='close' id='close' name='close'>&times;</span>" +
-        "<div class='modal-content'>" +
-        "<img class='modalIMG' src='" +
-        vanekep(product, kepindex) +
-        "' alt='Easter egg' ></img>" +
-        "<div class='modal-content-detail'>" +
-        "<p class='modalName'>" +
-        product.p.name +
-        "</p> " +
-        "<p class='modalDesc'>" +
-        product.p.description +
-        "</p>" +
-        "<p class='modalPrice'>" +
-        product.p.price +
-        "Ft. /db</p>" +
-        "</div>" +
-        "</div>" +
+          "<span class='close' id='close' name='close'>&times;</span>" +
+          "<div class='modal-content'>" +
+            "<img class='modalIMG' src='" +vanekep(product, kepindex) + "' alt='Easter egg' ></img>" +
+            "<div class='modal-content-detail'>" +
+              "<p class='modalName'>" +product.p.name + "</p> " +
+              "<p class='modalDesc'>" +product.p.description +"</p>" +
+              "<p class='modalPrice'>" + product.p.price + "Ft. /db</p>" +
+              "<p class='modalNumberTag modalDesc'>Ennyit a kosárba:</p>" +
+              "<div class='row modalNumDIV'>"+
+              "<input type='number' id='cartAddMultipleNUM' class='modalNumberNum' value='1' min='0'></input>"+
+              "<div id='cartAddMultipleBTN'><i class='fa-solid fa-check fa-2x'></i> </div>"+
+              "</div>"+
+            "</div>" +
+          "</div>" +
         "</div>";
       var _ = this;
       $("#close").click(function () {
         modal.style.display = "none";
         CatKick();
+      });
+      $("#cartAddMultipleBTN").click(function () {
+        modal.style.display = "none";
+       addToCart(product.p.id, $( "#cartAddMultipleNUM" ).val())
       });
       var modal = document.getElementById("myModal2");
       window.addEventListener("click", function (event) {

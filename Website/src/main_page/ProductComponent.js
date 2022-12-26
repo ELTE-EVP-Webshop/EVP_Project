@@ -136,23 +136,16 @@ class ProductComponent extends React.Component {
       modal.style.display = "block";
       document.getElementById("myModal").innerHTML =
         "<div class='modal-inside'>" +
-        "<span class='close' id='close' name='close'>&times;</span>" +
-        "<div class='modal-content'>" +
-        "<img class='modalIMG' src='" +
-        this.vanekep(product, kepindex) +
-        "' alt='Easter egg' ></img>" +
-        "<div class='modal-content-detail'>" +
-        "<p class='modalName'>" +
-        product.p.name +
-        "</p> " +
-        "<p class='modalDesc'>" +
-        product.p.description +
-        "</p>" +
-        "<p class='modalPrice'>" +
-        product.p.price +
-        "Ft. /db</p>" +
-        "</div>" +
-        "</div>" +
+          "<span class='close' id='close' name='close'>&times;</span>" +
+          "<div class='modal-content'>" +
+            "<img class='modalIMG' src='" + this.vanekep(product, kepindex) + "' alt='Easter egg' ></img>" +
+            "<div class='modal-content-detail'>" +
+              "<p class='modalName'>" +product.p.name +"</p> " +
+              "<p class='modalDesc'>" + product.p.description +"</p>" +
+              "<p class='modalPrice'>" +product.p.price + "Ft. /db</p>" +
+              "<input type='number' width='10px'></input>"+
+            "</div>" +
+          "</div>" +
         "</div>";
       var _ = this;
       $("#close").click(function () {
@@ -223,7 +216,7 @@ class ProductComponent extends React.Component {
     var _ = this;
     $("#close").click(function () {
       modal.style.display = "none";
-      _.anyad();
+      //_.anyad();
     });
     $("#search").change(function (event) {
       modal.style.display = "none";
