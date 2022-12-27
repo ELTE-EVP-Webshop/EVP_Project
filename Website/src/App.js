@@ -1,6 +1,6 @@
 import React from 'react';
 import {user} from './main_page/Header'
-import { BrowserRouter, Route, Routes, RedirectFunction  } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import './components/font-awesome-4.7.0/css/font-awesome.min.css';
 import './css/bootstrap.min.css';
@@ -16,15 +16,14 @@ import './css/cartstyle.css';
 import './css/admin.css';
 import AuthService from './services/AuthService';
 
-import emailConfirmSuccess from './email_page/emailConfirmSuccess';
-import emailConfirmFailed from './email_page/emailConfirmFailed';
+
 
 import MainProducts from './main_page/ProductComponent';
 import MainHeader from './main_page/Header';
 import MergedHeader from './main_page/HeaderProduct';
 import Footer from './main_page/Footer';
 import Error404 from './error_page/404error';
-
+import ForgotPass from './login_page/forgetPassword';
 
 import MobileMenu from './MobileMenu';
 import LoginHeader from './login_page/Header';
@@ -46,6 +45,7 @@ import ShoppingHeader from './cart/Header'
 
 import Payment from './payment/Payment'
 import PaymentHeader from './payment/Header'
+import Login from './login_page/login';
 function App() {
    
 
@@ -55,11 +55,23 @@ function App() {
         <Routes>
         <Route path="/"
           element={
+            
           <>
 
-          <MobileMenu/>
-          <MergedHeader/>
+          
+          {user == null ? (
+            <>
+            <MobileMenu/>
+          <MainProducts/>
           <Footer/>
+            </>
+          ):(
+            <>
+            <MobileMenu/>
+          <MainProducts/>
+          <Footer/>
+          </>
+          )}
           </>
         }/>
 
@@ -164,31 +176,42 @@ function App() {
           
           </>
         }/>
- <Route path="/emailConfirmSuccess"
+ <Route path="/mailConfirmSuccess"
           element={
           <>
-
-          <emailConfirmSuccess/>
+ 
+          <h1>Az email címe sikeresen megerősítve!</h1>
           </>
 
           }
 />
-<Route path="/emailConfirmFailed"
+<Route path="/mailConfirmFailed"
           element={
           <>
 
-          <emailConfirmFailed/>
+<h1>Hiba lépett fel az email cím megerősítése során!</h1>
           </>
 
           }
 />
+{/*<Route path="/forgetPassword"
+          element={
+        <>
+<LoginHeader/>
+<ForgotPass/>
+</>
+          
+
+          }
+        />*/}
+
 <Route path="/admin"
           element={
           <>
       {user !== null ?(
             <>
           <MobileMenu/>
-          <MainHeader/>
+          <ContactHeader/>
           
           <Admin/>
           <Footer/>
@@ -197,8 +220,7 @@ function App() {
             
             <>
             <MobileMenu/>
-            <MainHeader/>
-            <MainProducts/>
+            <MergedHeader/>
             <Footer/>
             </>
           )}

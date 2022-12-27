@@ -12,7 +12,7 @@ export default async function authHeader() {
       return await { Authorization: 'ikwebshopToken ' + user.accessToken };
         
     } else {
-      return AuthService.logout();
+      return AuthService.logout()
     }
 
   

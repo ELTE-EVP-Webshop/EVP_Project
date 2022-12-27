@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const API_URL = "http://localhost:8080/api/auth/";
+const API_USER_URL = "http://localhost:8080/api/user/";
 axios.defaults.withCredentials = true
 
 const register = (username, email, password) => {
@@ -30,6 +31,51 @@ const login = (username, password) => {
       return response.data;
     });
 };
+
+const changePassword = (oldPwd, newPwd) => {
+  return axios.post(API_USER_URL + "changePassword", 
+
+    {},
+{
+params: {
+  oldPwd: oldPwd,
+  newPwd:newPwd
+},
+withCredentials: true
+}
+  )
+  .then((response) => {
+    
+    alert(response.data)
+    return response.data;
+    
+
+  });
+}
+
+const askNewPasswordMail = (email) => {
+  return axios.get(API_USER_URL + "askNewPasswordMail", 
+
+  {},
+{
+params: {
+email : email
+},
+withCredentials: true
+}
+)
+.then((response) => {
+  
+  alert(response.data)
+  return response.data;
+  
+
+});
+}
+
+
+
+
 
 const logout = () => {
   localStorage.removeItem("user");
@@ -74,7 +120,9 @@ const AuthService = {
   login,
   logout,
   getCurrentUser,
-  getCookie
+  getCookie,
+  changePassword,
+  askNewPasswordMail
 }
 
 export default AuthService;

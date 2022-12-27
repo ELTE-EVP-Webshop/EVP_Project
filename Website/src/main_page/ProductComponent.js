@@ -1,36 +1,83 @@
 import React,{ useState, useEffect } from "react";
 import ProductService from "../services/ProductService";
 import BasketService from "../services/BasketService";
+import EventBus from "../user/EventBus";
+import AuthService from "../services/AuthService";
+import { Link } from "react-router-dom";
 import $ from "jquery";
-import { user } from "./Header";
+//import { user } from "./Header";
+export const user = AuthService.getCurrentUser();
 export default function ProductComponent() {
 
 var [products, setProducts] = useState([])
 var [productLoading, setProductLoading] = useState(true)
+var [productFilter, setProductFilter] = useState(false)
 var [basket] = useState([])
 var [searchmethod, setSearchMethod] = useState("textSearch")
 var [searchquery, setSearchQuery] = useState("")
 
+const [showModeratorBoard, setShowModeratorBoard] = useState(false);
+const [showAdminBoard, setShowAdminBoard] = useState(false);
+const [currentUser, setCurrentUser] = useState(undefined);
+const [categories, setCategories] = useState("");
+const [selectedCategory, setSelectedCategory] = useState(0)
+
+
+
 var cartAddOne = false;
 basket = BasketService.getBasketProduct();
 
+const logOut = () => {
+  AuthService.logout();
+  setShowModeratorBoard(false);
+  setShowAdminBoard(false);
+  setCurrentUser(undefined);
+};
+
 useEffect(() => {
+  if (user) {
+
+
+
+    setCurrentUser(user);
+    setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
+    async function getCategories() {
+      var cat = await ProductService.getCategories();
+      await setCategories(cat)
+      //alert(AuthService.getCookie('ikwebshopToken'))
+      //console.log(categories)
+  }
+
+
+  getCategories();
+    setShowAdminBoard(
+      user.roles.includes("ROLE_ADMIN1") || user.roles.includes("ROLE_ADMIN2")
+    );
+  } 
+
+  EventBus.on("logout", () => {
+    logOut();
+  });
+
+
+
+
+
     async function getProducts() {
         var fetchProducts = await ProductService.getProducts();
         
-        setProducts(fetchProducts);
+       await setProducts(fetchProducts);
         setProductLoading(false)
-    }
-    /*async function getBasket() {
-        var fetchBasket = await BasketService.getBasketProduct();
-        setBasket(fetchBasket);
-    }*/
-
-    getProducts()
-    
-     //getBasket();
+    };
 
     
+    getProducts();
+  // prodByCat();
+   // getProductsByCategoryId()
+
+    return () => {
+      EventBus.remove("logout");
+    };
       
   }, []);
 
@@ -63,6 +110,16 @@ useEffect(() => {
     }
     setProductLoading(false)
   };
+
+
+  async function prodByCat(event) {
+    setProductFilter(true)
+    var prodByCat =  await ProductService.findProductsByCategory(event);
+    await setProducts(prodByCat)
+    console.log(products)
+    setProductFilter(false)
+  
+}
 
   function handleChange(event, id) {
     switch (id) {
@@ -119,6 +176,7 @@ useEffect(() => {
   };
 
 
+
   function ModaliuszLeviosza (product, kepindex) {
     if (!cartAddOne) {
       var modal = document.getElementById("myModal2");
@@ -130,7 +188,7 @@ useEffect(() => {
             "<img class='modalIMG' src='" +vanekep(product, kepindex) + "' alt='Easter egg' ></img>" +
             "<div class='modal-content-detail'>" +
               "<p class='modalName'>" +product.p.name + "</p> " +
-              "<p class='modalDesc'>" +product.p.description +"</p>" +
+              "<p class='modalDesc'>" +product.p.desc  +"</p>" +
               "<p class='modalPrice'>" + product.p.price + "Ft. /db</p>" +
               "<p class='modalNumberTag modalDesc'>Ennyit a kosárba:</p>" +
               "<div class='row modalNumDIV'>"+
@@ -229,9 +287,180 @@ useEffect(() => {
       }
     });
   }
+  
 
     return (
-        
+     <>
+      <header class="site-navbar" role="banner">
+      {showModeratorBoard && (
+        <li className="nav-item">
+          <Link to={"/mod"} class="nav-item">
+            <span>Moderator Board</span>
+          </Link>
+        </li>
+      )}
+      {showAdminBoard && (
+        <li className="nav-item">
+          <Link to={"/admin"} class="nav-item">
+            <span className="text-white">Admin Panel</span>
+          </Link>
+        </li>
+      )}
+
+      {currentUser ? (
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-11 col-xl-2">
+              <h1 class="mb-0 site-logo">
+                <a href="/" class="text-white mb-0">
+                  IK webshop
+                </a>
+              </h1>
+            </div>
+            <div class="col-12 col-md-10 d-none d-xl-block">
+              <nav
+                class="site-navigation position-relative text-right"
+                role="navigation"
+              >
+                <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                  <li className="nav-item">
+                    <Link to={"/user"} class="nav-item"></Link>
+                  </li>
+
+                  <li class="nav-item active">
+                    <a href="/">
+                      <span>Főoldal</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a>
+                      <span>
+                        <Link to="/cart">Kosár</Link>
+                      </span>
+                    </a>
+                  </li>
+                  <li class="has-children nav-item">
+                    <a href="#">
+                      <span>Kategóriák</span>
+                    </a>
+                    {categories &&
+                    <ul class="dropdown arrow-top">
+                      <>
+                   { categories.map(cat =>
+                    
+                      <li key={cat.id} value={cat.id}>
+                        <button value={cat.id}  onClick={(e) => prodByCat(e.target.value)}>{cat.category}</button>
+                      </li>
+                      )}
+                      </>
+
+                    </ul>
+                }
+                  </li>
+
+                  
+                  <li class="nav-item">
+                    <a>
+                      <span>
+                        <Link to="/contact">Kapcsolat</Link>
+                      </span>
+                    </a>
+                  </li>
+                  <li class="has-children nav-item">
+                    <a href="#">
+                      <span>{currentUser.username}</span>
+                    </a>
+                    <ul class="dropdown arrow-top">
+                      <li>
+                        <a href="/profile">Profil</a>
+                      </li>
+                      <li>
+                        <a href="/login" onClick={logOut}>
+                          Kijelentkezés
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div
+              class="d-inline-block d-xl-none ml-md-0 mr-auto py-3"
+              id="phonemenu"
+            >
+              <a href="#" class="site-menu-toggle js-menu-toggle text-white">
+                <span class="icon-menu h3"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-11 col-xl-2">
+              <h1 class="mb-0 site-logo">
+                <a href="/" class="text-white mb-0">
+                  IK webshop
+                </a>
+              </h1>
+            </div>
+            <div class="col-12 col-md-10 d-none d-xl-block">
+              <nav
+                class="site-navigation position-relative text-right"
+                role="navigation"
+              >
+                <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                  <li class="nav-item active">
+                    <Link to="/">
+                      <span>Főoldal</span>
+                    </Link>
+                  </li>
+                  <li class="has-children nav-item">
+                    <a href="#">
+                      <span>Kategóriák</span>
+                    </a>
+                    {categories &&
+                    <ul class="dropdown arrow-top">
+                      <>
+                   { categories.map(cat =>
+                    
+                      <li key={cat.id} value={cat.id}>
+                         <button value={cat.id}  onClick={(e) => prodByCat(e.target.value)}>{cat.category}</button>
+                      </li>
+                      )}
+                      </>
+
+                    </ul>
+                }
+                  </li>
+
+                  <li class="nav-item">
+                    <Link to="/contact">
+                      <span>Kapcsolat</span>
+                    </Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link to={"/login"} className="nav-link">
+                      <span class="login-button">Bejelentkezés</span>
+                    </Link>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div
+              class="d-inline-block d-xl-none ml-md-0 mr-auto py-3"
+              id="phonemenu"
+            >
+              <a href="#" class="site-menu-toggle js-menu-toggle text-white">
+                <span class="icon-menu h3"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+    </header>
+     
       <div>
         <div class=" keresosavdiv">
                   <div class="searchbar">
@@ -266,11 +495,16 @@ useEffect(() => {
             <div class="row justify-content-center text-center">
               <div class="col-md-8 col-lg-6">
                 <div class="header">
-
+                      {products.length > 0 && 
                   <h2 class="new">Új termékek</h2>
+                }
                 </div>
                 {productLoading &&
                   <h1>Termékek betöltése...</h1>
+                }
+                {
+                  productFilter &&
+                  <h1>Termékek szűrése...</h1>
                 }
                 {/*<label>Keresés típúsa: </label>
                 <select
@@ -289,10 +523,13 @@ useEffect(() => {
                     tárgynál)
                   </option>
                 </select>*/}
+                {products.length < 1 && !productLoading && !productFilter &&
+                  <h1>Nincsenek elérhető termékek!</h1>
+                }
               </div>
             </div>
             <div class="row">
-                
+                 
               {products.map((product, index) => (
                 product.p ?
                 <div key={product.p.id} class="col-md-6 col-lg-4 col-xl-3">
@@ -359,6 +596,7 @@ useEffect(() => {
               </div>
         </section>
       </div>
+      </>
     );
   
                                                                                                         }

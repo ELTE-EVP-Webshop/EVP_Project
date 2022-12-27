@@ -86,19 +86,19 @@ const Login = () => {
             </div>
           )}
             <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter username">
-                <input value={username} class="input100" type="text" onChange={onChangeUsername} validations={[required]} name="username" placeholder="Felhasználónév"></input>
+                <input value={username} class="input100" type="text" onChange={onChangeUsername} validations={[required]} name="username" placeholder="Felhasználónév" required></input>
                 <span class="focus-input100"></span>
             </div>
 
             <div class="wrap-input100 validate-input" data-validate = "Please enter password">
-                <input class="input100" onChange={onChangePassword} validations={[required]} value={password} type="password" name="pass" placeholder="Jelszó"></input>
+                <input class="input100" onChange={onChangePassword} validations={[required]} value={password} type="password" name="pass" placeholder="Jelszó" required></input>
                 <span class="focus-input100"></span>
             </div>
 
             <div class="text-right p-t-13 p-b-23">
                 <span class="txt1">Elfelejtett     </span>
 
-                <a href="#" class="txt2">Felhasználónév / Jelszó?</a>
+                <a href="/forgetPassword" class="txt2">Jelszó?</a>
             </div>
 
             <div class="container-login100-form-btn">

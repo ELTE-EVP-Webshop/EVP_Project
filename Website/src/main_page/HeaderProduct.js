@@ -17,6 +17,7 @@ export default function HeaderProduct() {
 
   useEffect(() => {
     if (user) {
+
       setCurrentUser(user);
       setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
       async function getCategories() {
@@ -25,11 +26,6 @@ export default function HeaderProduct() {
         //alert(AuthService.getCookie('ikwebshopToken'))
         //console.log(categories)
     }
-    
-     
-
-
-
 
   
     getCategories();
@@ -50,7 +46,7 @@ export default function HeaderProduct() {
   }, []);
   const filterProductsByCat = (id) => {
     setSelectedCategory(id)
-   // console.log(id)
+    console.log(id)
   }
   const logOut = () => {
     AuthService.logout();
@@ -123,9 +119,7 @@ export default function HeaderProduct() {
                       </li>
                       )}
                       </>
-                      
-                    
-                    
+
                     </ul>
                 }
                   </li>
@@ -201,9 +195,7 @@ export default function HeaderProduct() {
                       </li>
                       )}
                       </>
-                      
-                    
-                    
+
                     </ul>
                 }
                   </li>
@@ -235,7 +227,7 @@ export default function HeaderProduct() {
       )}
     </header>
     
-                <ProductComponent2></ProductComponent2>
+                <ProductComponent2 selectedCategory={selectedCategory}></ProductComponent2>
     </>
   );
 }

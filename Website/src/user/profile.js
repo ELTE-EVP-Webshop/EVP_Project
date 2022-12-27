@@ -1,9 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthService from "../services/AuthService";
+
+
+
 
 const Profile = () => {
   const currentUser = AuthService.getCurrentUser();
+  const [changePass, setChangePass] = useState(false)
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("")
 
+
+  async function handleChange (e, id) {
+    switch(id) {
+      case 'oldPass':
+        await setOldPassword(e.target.value);
+      break;
+      case 'newPass':
+       await setNewPassword(e.target.value);
+        break;
+        
+    }
+    
+
+
+    }
+
+    async function handleGenSubmit() {
+      await AuthService.askNewPasswordMail(currentUser.email)
+  }
+
+  async function handleSubmit() {
+    if(oldPassword != "" && newPassword != "") {
+       await AuthService.changePassword(oldPassword, newPassword)
+       setOldPassword("")
+       setNewPassword("")
+       setChangePass(false)
+    } else {
+      alert("Kérlek töltsd ki a jelszó mezőket!")
+    }
+
+    }
   return (
     /*
     <div className="container">
@@ -65,8 +102,21 @@ const Profile = () => {
                     </h6>
                     <div class="row">
                       <div class="col-sm-6">
-                        <p class="m-b-10 f-w-600">Új jelszó</p>
-                        <a href="/newPassword"><h6 class="text-muted f-w-400">Generálás</h6></a>
+                        <p class="m-b-10 f-w-600">Jelszó</p>
+                        {!changePass &&
+                        <a href="#" onClick={() => setChangePass(true)}><h6 class="text-muted f-w-400">Megváltoztatás</h6></a>
+                        }
+                         
+                        <a href="#" onClick={() => handleGenSubmit(true)}><h6 class="text-muted f-w-400">Generálás</h6></a>
+                        
+                        {changePass &&
+                        <>
+                          <input onChange={(e)=> handleChange(e,"oldPass")} type="text" placeholder="régijelszó"></input>
+                          <input onChange={(e)=> handleChange(e,"newPass")} type="text" placeholder="újjelszó"></input>
+                          <button onClick = {()=> handleSubmit()} className="btn btn-success">Jelszó megváltoztatása</button>
+                          </>
+                        }
+                        
                       </div>
                       <div class="col-sm-6">
                         <p class="m-b-10 f-w-600">Email megerősítve</p>

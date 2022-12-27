@@ -194,6 +194,9 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
         }
 
         //Searches
+
+
+
 //findProductsByFilterText
 const findProductsByFilterText = (filterText) => {
   return axios

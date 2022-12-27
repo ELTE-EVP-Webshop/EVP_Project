@@ -1,7 +1,28 @@
 import { Link } from "react-router-dom";
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import ProductService from "../services/ProductService";
+
+
 export default function Header() {
+  const [categories, setCategories] = useState("")
+  useEffect(() => {
+
+      async function getCategories() {
+        var cat = await ProductService.getCategories();
+        setCategories(cat)
+        //alert(AuthService.getCookie('ikwebshopToken'))
+        //console.log(categories)
+    }
+    getCategories();
+  
+  }, []);
+
+  const filterProductsByCat = (id) => {
+    //setSelectedCategory(id)
+    console.log(id)
+  }
+
   return (
     <header class="site-navbar" role="banner">
       <div class="container">
@@ -30,37 +51,23 @@ export default function Header() {
                   <a href="#">
                     <span>Kategóriák</span>
                   </a>
-                  <ul class="dropdown arrow-top">
-                    <li>
-                      <a href="#">Laptop</a>
-                    </li>
-                    <li>
-                      <a href="#">Vibrátor</a>
-                    </li>
-                    <li>
-                      <a href="#">Karácsonyfaszerkezet</a>
-                    </li>
-                    <li class="has-children">
-                      <a href="#">PC Alkatrészek</a>
-                      <ul class="dropdown">
-                        <li>
-                          <a href="#">Processzor</a>
-                        </li>
-                        <li>
-                          <a href="#">Ram</a>
-                        </li>
-                        <li>
-                          <a href="#">Tápegység</a>
-                        </li>
-                        <li>
-                          <a href="#">Videókártya</a>
-                        </li>
-                        <li>
-                          <a href="#">adatbázisból majd listázva</a>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
+                  {categories &&
+                    <ul class="dropdown arrow-top">
+                      <>
+                   { categories.map(cat =>
+                    
+                      <li key={cat.id}>
+                        <a onClick={() => filterProductsByCat(cat.id)} href="#">{cat.category}</a>
+                      </li>
+                      )}
+                      </>
+                      
+                    
+                    
+                    </ul>
+                }
+
+
                 </li>
 
                 <li class="nav-item">
