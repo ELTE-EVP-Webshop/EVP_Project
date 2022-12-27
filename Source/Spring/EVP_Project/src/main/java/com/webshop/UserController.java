@@ -7,8 +7,13 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -74,6 +79,10 @@ public class UserController {
 	pdfService pdfCreator;
 	@Autowired 
 	private EmailService emailService;
+	@Autowired
+	AuthenticationManager authenticationManager;
+	@Autowired
+	JwtUtils jwtUtils;
 	
 	/**
 	 * Teszt metódus, jogosultságok / elérés / egyéb tesztre
@@ -435,7 +444,7 @@ public class UserController {
 	}
 	
 	/**
-	 * Jelszó változtatás
+	 * Jelszó változtatás, felhasználó kijelentkeztetése ha sikeres
 	 * Új jelszó min. 6 karakter
 	 * @param oldPwd String, régi jelszó
 	 * @param newPwd String, új jelszó
@@ -445,16 +454,21 @@ public class UserController {
 	public ResponseEntity<?> getOrderProducts(String oldPwd, String newPwd) {
 		UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Long userId = userDetails.getId();
-		if(encoder.encode(oldPwd).equals(userDetails.getPassword())) {
+		try {
+			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDetails.getUsername(), oldPwd));
 			if(newPwd == null || newPwd.isEmpty() || newPwd.isBlank() || newPwd.length() < 6) {
 				return ResponseEntity.ok().body("Az új jelszó nem megfelelő!");
 			} else {
 				User u = userRepo.findById(userId).get();
 				u.setPassword(encoder.encode(newPwd));
 				userRepo.save(u);
-				return ResponseEntity.ok().body("Jelszó sikeresen megváltoztatva!");
+				HttpHeaders headers = new HttpHeaders();
+				ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
+				headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
+				headers.add("Location", "http://localhost:3000");
+			    return ResponseEntity.ok().headers(headers).body("Jelszó sikeresen megváltoztatva!");
 			}
-		}else {
+		}catch(Exception ex) {
 			return ResponseEntity.ok().body("A régi jelszó nem megfelelő!");
 		}
 	}

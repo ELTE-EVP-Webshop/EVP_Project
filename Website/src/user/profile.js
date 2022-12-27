@@ -10,7 +10,6 @@ const Profile = () => {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("")
 
-
   async function handleChange (e, id) {
     switch(id) {
       case 'oldPass':
@@ -21,9 +20,6 @@ const Profile = () => {
         break;
         
     }
-    
-
-
     }
 
     async function handleGenSubmit() {
@@ -32,15 +28,21 @@ const Profile = () => {
 
   async function handleSubmit() {
     if(oldPassword != "" && newPassword != "") {
-       await AuthService.changePassword(oldPassword, newPassword)
-       setOldPassword("")
-       setNewPassword("")
-       setChangePass(false)
+		let response;
+       if((response = await AuthService.changePassword(oldPassword, newPassword)) == "Jelszó sikeresen megváltoztatva!") { //Sikeres a változtatás
+		   setOldPassword("")
+		   setNewPassword("")
+		   setChangePass(false)
+		   localStorage.removeItem("user");//Kijelentkeztetés
+		   window.location.replace(window.location.protocol + "//" + window.location.host);//Vissza a főoldalra
+	   }else{
+		   alert("Jelszó megváltoztatása sikertelen: "+response)
+	   }
     } else {
       alert("Kérlek töltsd ki a jelszó mezőket!")
     }
-
     }
+	
   return (
     /*
     <div className="container">

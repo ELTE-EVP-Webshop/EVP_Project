@@ -123,6 +123,12 @@ public class AdminController {
 		return ResponseEntity.ok().body(mr);
 	}
 	
+	/**
+	 * Termék módosítása
+	 * @param productId Termék azonosítója
+	 * @param updateProduct RequestBody-ból ProductReqRep adattípus, módosított "termék"
+	 * @return Módosítás eredménye
+	 */
 	@PostMapping("updateProduct")
 	public ResponseEntity<?> updateProduct(long productId, @RequestBody ProductReqRep updateProduct) {
 		Optional<Product> op = productRepo.findById(productId);

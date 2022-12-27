@@ -46,7 +46,7 @@ withCredentials: true
   )
   .then((response) => {
     
-    alert(response.data)
+    //alert(response.data)
     return response.data;
     
 
@@ -54,15 +54,13 @@ withCredentials: true
 }
 
 const askNewPasswordMail = (email) => {
-  return axios.get(API_USER_URL + "askNewPasswordMail", 
+  return axios.get(API_URL + "askNewPasswordMail", 
 
-  {},
-{
-params: {
-email : email
-},
-withCredentials: true
-}
+	{
+		params: {
+			email : email
+		}
+	}
 )
 .then((response) => {
   
