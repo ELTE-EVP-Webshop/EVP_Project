@@ -14,11 +14,12 @@ import './login_page/css/util.css';
 import './css/contact.css';
 import './css/cartstyle.css';
 import './css/admin.css';
+import AuthService from './services/AuthService';
 
+import emailConfirmSuccess from './email_page/emailConfirmSuccess';
+import emailConfirmFailed from './email_page/emailConfirmFailed';
 
-
-
-import MainProducts from './main_page/ProductComponent2';
+import MainProducts from './main_page/ProductComponent';
 import MainHeader from './main_page/Header';
 import MergedHeader from './main_page/HeaderProduct';
 import Footer from './main_page/Footer';
@@ -45,9 +46,8 @@ import ShoppingHeader from './cart/Header'
 
 import Payment from './payment/Payment'
 import PaymentHeader from './payment/Header'
-
 function App() {
-
+   
 
   return (
     <>
@@ -164,8 +164,24 @@ function App() {
           
           </>
         }/>
+ <Route path="/emailConfirmSuccess"
+          element={
+          <>
 
+          <emailConfirmSuccess/>
+          </>
 
+          }
+/>
+<Route path="/emailConfirmFailed"
+          element={
+          <>
+
+          <emailConfirmFailed/>
+          </>
+
+          }
+/>
 <Route path="/admin"
           element={
           <>

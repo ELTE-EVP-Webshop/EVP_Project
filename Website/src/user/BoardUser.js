@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import AuthService from "../services/AuthService";
 
 import UserService from "../services/UserService";
 
@@ -17,7 +18,7 @@ const BoardUser = () => {
             error.response.data.message) ||
           error.message ||
           error.toString();
-
+            AuthService.logout();
         setContent(_content);
       }
     );

@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import EventBus from "../user/EventBus";
 import AuthService from "../services/AuthService";
 import { Link } from "react-router-dom";
+import { get } from "jquery";
 export const user = AuthService.getCurrentUser();
+
+
+
+
 export default function Header() {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
@@ -13,9 +18,12 @@ export default function Header() {
       setCurrentUser(user);
       setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
       setShowAdminBoard(
-        user.roles.includes("ROLE_ADMIN1") || user.roles.includes("ROLE_ADMIN2")
+        user.roles.includes("ROLE_ADMIN") || user.roles.includes("ROLE_ADMIN2")
       );
+    } else {
+      AuthService.logout();
     }
+
 
     EventBus.on("logout", () => {
       logOut();

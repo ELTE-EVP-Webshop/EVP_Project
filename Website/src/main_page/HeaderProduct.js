@@ -3,10 +3,8 @@ import EventBus from "../user/EventBus";
 import AuthService from "../services/AuthService";
 import { Link } from "react-router-dom";
 import ProductService from "../services/ProductService";
-import ProductComponent2 from "./ProductComponent2";
+import ProductComponent2 from "./ProductComponent";
 export const user = AuthService.getCurrentUser();
-
-
 
 
 export default function HeaderProduct() {
@@ -15,6 +13,8 @@ export default function HeaderProduct() {
   const [currentUser, setCurrentUser] = useState(undefined);
   const [categories, setCategories] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(0)
+
+
   useEffect(() => {
     if (user) {
       setCurrentUser(user);
@@ -22,8 +22,13 @@ export default function HeaderProduct() {
       async function getCategories() {
         var cat = await ProductService.getCategories();
         setCategories(cat)
+        //alert(AuthService.getCookie('ikwebshopToken'))
         //console.log(categories)
     }
+    
+     
+
+
 
 
   
@@ -31,6 +36,8 @@ export default function HeaderProduct() {
       setShowAdminBoard(
         user.roles.includes("ROLE_ADMIN1") || user.roles.includes("ROLE_ADMIN2")
       );
+    } else {
+      AuthService.logout();
     }
 
     EventBus.on("logout", () => {
@@ -51,6 +58,7 @@ export default function HeaderProduct() {
     setShowAdminBoard(false);
     setCurrentUser(undefined);
   };
+
   return (
     <>
     <header class="site-navbar" role="banner">

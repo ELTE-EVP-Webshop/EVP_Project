@@ -1,11 +1,19 @@
+import AuthService from "./AuthService";
 
-export default function authHeader() {
-    const user = JSON.parse(localStorage.getItem('user'));
+
+
+export default async function authHeader() {
+    const user = await JSON.parse(localStorage.getItem('user'));
+
+ 
+
     if (user && user.accessToken) {
        // header = { Authorization: 'ikwebshopToken ' + user.accessToken };
-      return { Authorization: 'ikwebshopToken ' + user.accessToken };
+      return await { Authorization: 'ikwebshopToken ' + user.accessToken };
         
     } else {
-      return {};
+      return AuthService.logout();
     }
+
+  
   }

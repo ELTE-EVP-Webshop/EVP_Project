@@ -17,7 +17,7 @@ const BoardUser = () => {
             error.response.data.message) ||
           error.message ||
           error.toString();
-
+          AuthService.logout();
         setContent(_content);
       }
     );

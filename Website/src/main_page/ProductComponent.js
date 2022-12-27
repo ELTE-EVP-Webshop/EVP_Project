@@ -1,119 +1,106 @@
-import React, { useState, useEffect } from "react";
-import { user } from "./Header";
-import BasketService from "../services/BasketService";
+import React,{ useState, useEffect } from "react";
 import ProductService from "../services/ProductService";
-import Header from "./Header";
+import BasketService from "../services/BasketService";
 import $ from "jquery";
-import ReactDOMServer from "react-dom/server";
+import { user } from "./Header";
+export default function ProductComponent() {
 
-class ProductComponent extends React.Component {
-  state = {
-    products: [],
-    filterProducts: [],
-    categories: 0,
-    result: [],
-    searchMethod: "textSearch",
-    searchQuery: "",
-  };
-  basket = BasketService.getBasketProduct();
+var [products, setProducts] = useState([])
+var [productLoading, setProductLoading] = useState(true)
+var [basket] = useState([])
+var [searchmethod, setSearchMethod] = useState("textSearch")
+var [searchquery, setSearchQuery] = useState("")
 
-  cartAddOne = false;
+var cartAddOne = false;
+basket = BasketService.getBasketProduct();
 
-  async componentDidMount() {
-    //Fetch verzió
-    //const response = await fetch('http://localhost:8080/api/app/productsListing')
-    // const body = await response.json();
-    //  this.setState({ products: body });
-    //Axios verzió
-    const productAxios = await ProductService.getProducts();
-    this.setState({ products: productAxios });
-    /*  const catAxios = await ProductService.getCategories();
-    this.setState({ categories: catAxios });*/
-    console.log(ProductService.getProducts());
-    await this.setState({ result: this.state.products });
-    try {
-    await this.setState({result : this.state.filterProducts})
-    } catch {
-      console.log("jézusmárja")
+useEffect(() => {
+    async function getProducts() {
+        var fetchProducts = await ProductService.getProducts();
+        
+        setProducts(fetchProducts);
+        setProductLoading(false)
     }
+    /*async function getBasket() {
+        var fetchBasket = await BasketService.getBasketProduct();
+        setBasket(fetchBasket);
+    }*/
 
-    //  await this.setState({result : this.state.filterProducts})
+    getProducts()
     
+     //getBasket();
 
-  }
+    
+      
+  }, []);
 
-  handleChange = (event, id) => {
+  async function handleSearchSubmit(searchType)  {
+    switch (searchType) {
+      case "textSearch":
+        var filteredProducts = await ProductService.findProductsByFilterText(
+          searchquery
+        );
+        //this.setState({ products: filteredProducts });
+        setProductLoading(true)
+        setProducts(filteredProducts)
+        break;
+      case "inaccurateSearch":
+        var filteredProducts = await ProductService.findProductsByKeywordAny(
+            searchquery
+        );
+       // this.setState({ filterProducts: filteredProducts });
+       setProductLoading(true)
+        setProducts(filteredProducts)
+        break;
+      case "accurateSearch":
+        var filteredProducts = await ProductService.findProductsByKeywordAll(
+            searchquery
+        );
+      //  this.setState({ filterProducts: filteredProducts });
+        setProductLoading(true)
+        setProducts(filteredProducts)
+        break;
+    }
+    setProductLoading(false)
+  };
+
+  function handleChange(event, id) {
     switch (id) {
       case "searchmethod":
         switch (event.target.value) {
           case "textSearch":
-            this.setState({ searchMethod: event.target.value });
+            //this.setState({ searchMethod: event.target.value });
+            setSearchMethod(event.target.value)
             break;
           case "inaccurateSearch":
-            this.setState({ searchMethod: event.target.value });
+           // this.setState({ searchMethod: event.target.value });
+            setSearchMethod(event.target.value)
             break;
           case "accurateSearch":
-            this.setState({ searchMethod: event.target.value });
+           // this.setState({ searchMethod: event.target.value });
+            setSearchMethod(event.target.value)
             break;
         }
 
         break;
       case "searchquery":
-        this.setState({ searchQuery: event.target.value });
-        console.log(event.target.value);
+       // this.setState({ searchQuery: event.target.value });
+        setSearchQuery(event.target.value)
+        //console.log(event.target.value);
         break;
     }
   };
-
-  handleSearchSubmit = (searchType) => {
-    switch (searchType) {
-      case "textSearch":
-        var filteredProducts = ProductService.findProductsByFilterText(
-          this.state.searchQuery
-        );
-        this.setState({ filterProducts: filteredProducts });
-        break;
-      case "inaccurateSearch":
-        var filteredProducts = ProductService.findProductsByKeywordAny(
-          this.state.searchQuery
-        );
-        this.setState({ filterProducts: filteredProducts });
-        break;
-      case "accurateSearch":
-        var filteredProducts = ProductService.findProductsByKeywordAll(
-          this.state.searchQuery
-        );
-        this.setState({ filterProducts: filteredProducts });
-        break;
-    }
+      
+  function CatKick()  {
+    console.log("A macska rúgja meg!");
   };
 
-  componentDidUpdate() {
-    
-  }
-
-  anyad() {
-    alert("anyád");
-  }
-
-  /*componentWillReceiveProps() {
-    this.setState({ categories: this.props.categories });
-
-    var catid = this.state.categories;
-    var products = Object.values(this.state.result);
-    // var products = this.state.result.filter((ob) =>catid === ob.categories.category_id);
-    var filtered = ProductService.findProductsByCategory(this.props.categories);
-    console.log(this.props.categories);
-    // this.setState({result : filtered})
-    console.log(filtered);
-  };*/
-
-  addToCart = (productid, count) => {
-    this.cartAddOne = true;
+  function addToCart (productid, count)  {
+    cartAddOne = true;
     BasketService.addBasketProduct(productid, count);
   };
-  
-  vanekep = (product, index) => {
+
+  function vanekep(product, index)  {
     return product &&
       product.images[index] &&
       product.images[index].image_url &&
@@ -122,7 +109,8 @@ class ProductComponent extends React.Component {
       : "https://thumbs.dreamstime.com/b/error-not-found-symbol-logo-design-vector-232023001.jpg";
   };
 
-  getMainImage = (product) => {
+
+  function getMainImage(product) {
     if (product && product.images.length > 0)
       return product.images.sort((img1, img2) =>
         img1.priority > img2.priority ? 1 : -1
@@ -130,43 +118,54 @@ class ProductComponent extends React.Component {
     return "https://thumbs.dreamstime.com/b/error-not-found-symbol-logo-design-vector-232023001.jpg";
   };
 
-  ModaliuszLeviosza = (product, kepindex) => {
-    if (!this.cartAddOne) {
-      var modal = document.getElementById("myModal");
+
+  function ModaliuszLeviosza (product, kepindex) {
+    if (!cartAddOne) {
+      var modal = document.getElementById("myModal2");
       modal.style.display = "block";
-      document.getElementById("myModal").innerHTML =
+      document.getElementById("myModal2").innerHTML =
         "<div class='modal-inside'>" +
           "<span class='close' id='close' name='close'>&times;</span>" +
           "<div class='modal-content'>" +
-            "<img class='modalIMG' src='" + this.vanekep(product, kepindex) + "' alt='Easter egg' ></img>" +
+            "<img class='modalIMG' src='" +vanekep(product, kepindex) + "' alt='Easter egg' ></img>" +
             "<div class='modal-content-detail'>" +
-              "<p class='modalName'>" +product.p.name +"</p> " +
-              "<p class='modalDesc'>" + product.p.description +"</p>" +
-              "<p class='modalPrice'>" +product.p.sale_price + "Ft. /db</p>" +
-              "<input type='number' width='10px'></input>"+
+              "<p class='modalName'>" +product.p.name + "</p> " +
+              "<p class='modalDesc'>" +product.p.description +"</p>" +
+              "<p class='modalPrice'>" + product.p.price + "Ft. /db</p>" +
+              "<p class='modalNumberTag modalDesc'>Ennyit a kosárba:</p>" +
+              "<div class='row modalNumDIV'>"+
+              "<input type='number' id='cartAddMultipleNUM' class='modalNumberNum' value='1' min='0'></input>"+
+              "<div id='cartAddMultipleBTN'>"+
+                "<i class='fa-solid fa-check fa-2x'></i> "+
+              "</div>"+
+              "</div>"+
             "</div>" +
           "</div>" +
         "</div>";
       var _ = this;
       $("#close").click(function () {
         modal.style.display = "none";
-        _.anyad();
+        CatKick();
       });
-
-      var modal = document.getElementById("myModal");
+      $("#cartAddMultipleBTN").click(function () {
+        modal.style.display = "none";
+       addToCart(product.p.id, $( "#cartAddMultipleNUM" ).val())
+      });
+      var modal = document.getElementById("myModal2");
       window.addEventListener("click", function (event) {
         if (event.target == modal) {
           modal.style.display = "none";
         }
       });
     }
-    this.cartAddOne = false;
+    cartAddOne = false;
   };
 
-  melyikvalasztva(resz) {
+
+  function melyikvalasztva(resz) {
     switch (resz) {
       case 1:
-        if (this.state.searchMethod == "textSearch") {
+        if (searchmethod == "textSearch") {
           return "<option id='search' value='textSearch' selected>";
         } else {
           return "<option id='search' value='textSearch'>";
@@ -174,7 +173,7 @@ class ProductComponent extends React.Component {
         break;
 
       case 2:
-        if (this.state.searchMethod == "inaccurateSearch") {
+        if (searchmethod == "inaccurateSearch") {
           return "<option id='search' value='inaccurateSearch' selected>";
         } else {
           return "<option id='search' value='inaccurateSearch'>";
@@ -182,7 +181,7 @@ class ProductComponent extends React.Component {
         break;
 
       case 3:
-        if (this.state.searchMethod == "accurateSearch") {
+        if (searchmethod== "accurateSearch") {
           return "<option id='search' value='accurateSearch' selected>";
         } else {
           return "<option id='search' value='accurateSearch' >";
@@ -191,7 +190,8 @@ class ProductComponent extends React.Component {
     }
   };
 
-  SearchMethodChangeModal() {
+
+  function SearchMethodChangeModal() {
     var modal = document.getElementById("myModal2");
     modal.style.display = "block";
 
@@ -201,13 +201,13 @@ class ProductComponent extends React.Component {
           "<div class='modal-content'>" +
             "<label>Keresés típúsa: </label>" +
             "<select id='search' class='keresModValaszt' >" +
-              this.melyikvalasztva(1) +
+              melyikvalasztva(1) +
                 "Szöveges (Termék címe, leírása alapján)" +
               "</option>" +
-              this.melyikvalasztva(2) +
+              melyikvalasztva(2) +
                 "'Pontatlan' kulcsszavas (A kulcsszó bármelyik tárgynál szerepelhet)" +
               "</option>" +
-              this.melyikvalasztva(3) +
+              melyikvalasztva(3) +
                 "'Pontos' kulcsszavas (A kulcsszavak mindegyike szerepel a tárgynál)" +
               "</option>" +
             "</select>" +
@@ -216,11 +216,11 @@ class ProductComponent extends React.Component {
     var _ = this;
     $("#close").click(function () {
       modal.style.display = "none";
-      //_.anyad();
+      CatKick();
     });
     $("#search").change(function (event) {
       modal.style.display = "none";
-      _.handleChange(event, "searchmethod");
+      handleChange(event, "searchmethod");
     });
     var modal = document.getElementById("myModal2");
     window.addEventListener("click", function (event) {
@@ -230,26 +230,8 @@ class ProductComponent extends React.Component {
     });
   }
 
-  render() {
-    // const {products}= this.state
-
-   // console.log(this.state.searchMethod);
-
-   // var result = this.state.result
-  //  console.log(this.state.filterProducts);
-
-   // if (user !== null) {
-     // console.log(user.username);
-   // } else console.log("A macska rúgja meg!");
-  try {
-     console.log(this.state.filterProducts)
-     
-      console.log(this.state.result);
-    } catch {
-      console.log("Azért a banánnak is van ám vége!");
-    }
-    //console.log(this.state.categories)
     return (
+        
       <div>
         <div class=" keresosavdiv">
                   <div class="searchbar">
@@ -257,13 +239,13 @@ class ProductComponent extends React.Component {
                       class="search_input"
                       id="searchquery"
                       type="text"
-                      onChange={(e) => this.handleChange(e, "searchquery")}
+                      onChange={(e) => handleChange(e, "searchquery")}
                       placeholder="Keresés..."
                     ></input>
                     <a
                       href="#"
                       class="search_icon"
-                      onClick={() => this.SearchMethodChangeModal()}
+                      onClick={() => SearchMethodChangeModal()}
                     >
                       <i class="fa-solid fa-gear"></i>
                     </a>
@@ -271,7 +253,7 @@ class ProductComponent extends React.Component {
                       href="#"
                       class="search_icon"
                       onClick={() =>
-                        this.handleSearchSubmit(this.state.searchMethod)
+                        handleSearchSubmit(searchmethod)
                       }
                     >
                       <i class="fas fa-search"></i>
@@ -284,8 +266,12 @@ class ProductComponent extends React.Component {
             <div class="row justify-content-center text-center">
               <div class="col-md-8 col-lg-6">
                 <div class="header">
+
                   <h2 class="new">Új termékek</h2>
                 </div>
+                {productLoading &&
+                  <h1>Termékek betöltése...</h1>
+                }
                 {/*<label>Keresés típúsa: </label>
                 <select
                   onChange={(e) => this.handleChange(e, "searchmethod")}
@@ -306,14 +292,16 @@ class ProductComponent extends React.Component {
               </div>
             </div>
             <div class="row">
-              {this.state.result.map((product, index) => (
+                
+              {products.map((product, index) => (
+                product.p ?
                 <div key={product.p.id} class="col-md-6 col-lg-4 col-xl-3">
                   <div id={product.p.id} class="single-product">
                     <div
-                      onClick={() => this.ModaliuszLeviosza(product, index)}
+                      onClick={() => ModaliuszLeviosza(product, index)}
                       class="part-1"
                       style={{
-                        backgroundImage: `url(${this.getMainImage(product)})`,
+                        backgroundImage: `url(${getMainImage(product)})`,
                         backgroundRepeat: "no-repeat",
                         backgroundPosition: "center",
                         backgroundSize: "cover",
@@ -323,7 +311,7 @@ class ProductComponent extends React.Component {
                         <ul>
                           <li>
                             <a
-                              onClick={() => this.addToCart(product.p.id, 1)}
+                              onClick={() => addToCart(product.p.id, 1)}
                               href="#"
                             >
                               <i
@@ -335,117 +323,42 @@ class ProductComponent extends React.Component {
                         </ul>
                       )}
 
-                      <span class="new">new</span>
+                      <span class="new">Új</span>
+                     
+                    
                     </div>
-
+                    {product.p.sale_price != product.p.price &&
+                        <div>AKCIÓS TERMÉK!</div>
+                      }
                     <div class="part-2">
+                    
                       <h3 class="product-title">{product.p.name}</h3>
+                      
+                      {product.p.sale_price != product.p.price ?
+                      <>
+                      <h4 class="product-price">{product.p.price} Ft helyett: </h4>
+                      <h4> {product.p.sale_price} Ft.</h4>
+                      </>
+                      :
+                      <>
                       <h4 class="product-price">{product.p.price}Ft.</h4>
+                      </>
+                 }
                       {/*{product && product.images[index] && product.images[index].image_url && product.images[index].image_url ? <h4 class="product-price"><img src={product.images[index].image_url} alt="cs"></img></h4>
                                                                                                          : <h4 class="product-price"><img alt="cs"></img></h4>}*/}
                     </div>
                   </div>
                 </div>
+                
+                :
+                 null
               ))}
-
-              <div id="myModal" class="modal"></div>
-              <div class="col-md-6 col-lg-4 col-xl-3">
-                <div id="product-3" class="single-product">
-                  <div class="part-1">
-                    <ul>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="part-2">
-                    <h3 class="product-title">Teszt</h3>
-                    <h4 class="product-old-price">$79.99</h4>
-                    <h4 class="product-price">$49.99</h4>
-                  </div>
-                </div>
+              
+             
               </div>
-
-              <div class="col-md-6 col-lg-4 col-xl-3">
-                <div id="product-3" class="single-product">
-                  <div class="part-1">
-                    <ul>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="part-2">
-                    <h3 class="product-title">Teszt</h3>
-                    <h4 class="product-old-price">$79.99</h4>
-                    <h4 class="product-price">$49.99</h4>
-                  </div>
-                </div>
               </div>
-              <div class="col-md-6 col-lg-4 col-xl-3">
-                <div id="product-3" class="single-product">
-                  <div class="part-1">
-                    <ul>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="part-2">
-                    <h3 class="product-title">Teszt</h3>
-                    <h4 class="product-old-price">$79.99</h4>
-                    <h4 class="product-price">$49.99</h4>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-4 col-xl-3">
-                <div id="product-3" class="single-product">
-                  <div class="part-1">
-                    <ul>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="part-2">
-                    <h3 class="product-title">Teszt</h3>
-                    <h4 class="product-old-price">$79.99</h4>
-                    <h4 class="product-price">$49.99</h4>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-4 col-xl-3">
-                <div id="product-3" class="single-product">
-                  <div class="part-1">
-                    <ul>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="part-2">
-                    <h3 class="product-title">Teszt</h3>
-                    <h4 class="product-old-price">$79.99</h4>
-                    <h4 class="product-price">$49.99</h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </section>
       </div>
     );
-  }
-}
-
-export default ProductComponent;
+  
+                                                                                                        }
