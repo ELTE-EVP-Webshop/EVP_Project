@@ -69,7 +69,6 @@ public class pdfService {
 	        document.addAuthor("IK Webshop Team");
 	        document.addCreator("IK Webshop Team");
 			
-	        
 	        //Kezdőlap
 			Paragraph p = new Paragraph();
 			addEmptyLine(p, 1);
@@ -88,13 +87,10 @@ public class pdfService {
 			document.add(p);
 			document.newPage();
 			
-			
-			
 			//Számla
 			
 			//Image img = Image.getInstance("ELTEIK.png");
 			//document.add(img);
-			
 			
 			//Számla táblázat
 			//Név, Darab, Ár/db, Ár összesen

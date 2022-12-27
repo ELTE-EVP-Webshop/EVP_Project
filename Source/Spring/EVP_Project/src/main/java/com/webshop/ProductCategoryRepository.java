@@ -3,6 +3,9 @@ package com.webshop;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * product_category adatbázis táblához tartozó repo
@@ -11,4 +14,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ProductCategoryRepository extends JpaRepository<ProductCategory, ProductCategoryId> {
 	List<ProductCategory> findAllByProductid(long productid);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "DELETE FROM product_category WHERE product_id = ?1", nativeQuery = true) 
+	int deleteAllProductCategoryById(long product_id);
 }

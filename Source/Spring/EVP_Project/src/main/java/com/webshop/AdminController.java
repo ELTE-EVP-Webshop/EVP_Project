@@ -123,6 +123,77 @@ public class AdminController {
 		return ResponseEntity.ok().body(mr);
 	}
 	
+	@PostMapping("updateProduct")
+	public ResponseEntity<?> updateProduct(long productId, @RequestBody ProductReqRep updateProduct) {
+		Optional<Product> op = productRepo.findById(productId);
+		if(op.isEmpty()) {
+			return ResponseEntity.status(404).body("Product not found");
+		}
+		Product p = op.get();
+		if(updateProduct.getName() == null)
+			return ResponseEntity.badRequest().body("A termék nevét kötelező megadni!");
+		if(updateProduct.getPrice() < 1 || updateProduct.getSalePrice() < 1)
+			return ResponseEntity.badRequest().body("A termék ára, és kedvezményes ára nem lehet 1-nél kisebb!");
+		if(updateProduct.getStock() < 0)
+			return ResponseEntity.badRequest().body("A raktárkészlet nem lehet kisebb, mint 0!");
+			
+		p.setName(updateProduct.getName());
+		p.setDescription(updateProduct.getDescription());
+		p.setPrice(updateProduct.getPrice());
+		p.setSale_price(updateProduct.getSalePrice());
+		p.setStock(updateProduct.getStock());
+		p.setVisible(updateProduct.isVisible());
+		productRepo.save(p);
+		
+		//Images
+		productImagesRepo.deleteProductImagesByProductId(p.getId());
+		if(updateProduct.getImages() != null && updateProduct.getImages().size() > 0) {
+			for(imageReqRepModel i : updateProduct.getImages()) {
+				ProductImages pimg = new ProductImages();
+				pimg.setImage_url(i.getUrl());
+				pimg.setPriority(i.getPriority());
+				pimg.setProductid(p.getId());
+				productImagesRepo.save(pimg);
+			}
+		}
+		
+		//Category
+		productCategoryRepo.deleteAllProductCategoryById(p.getId());
+		if(updateProduct.getCategories() != null &&updateProduct.getCategories().size() > 0) {
+			for(int i : updateProduct.getCategories()) {
+				ProductCategory pc = new ProductCategory();
+				pc.setProductid(p.getId());
+				pc.setCategory_id(i);
+				productCategoryRepo.save(pc);
+			}
+		}
+		
+		//Keywords
+		keywordsRepo.deleteAllKeywordByProductId(p.getId());
+		if(updateProduct.getKeywords() != null && updateProduct.getKeywords().size() > 0) {
+			for(String s : updateProduct.getKeywords()) {
+				Keywords k = new Keywords();
+				k.setKeyword(s);
+				k.setProduct_id(p.getId());
+				keywordsRepo.save(k);
+			}
+		}
+		
+		//Variations
+		
+		if(updateProduct.getVariations() != null && updateProduct.getVariations().size() > 0) {
+			for(variationReqRepModel v : updateProduct.getVariations()) {
+				ProductVariations pv = new ProductVariations();
+				pv.setSmall_desc(v.getDescription());
+				pv.setProductid(p.getId());
+				pv.setVariation_id(v.getVariation());
+				productVariationsRepo.save(pv);
+			}
+		}
+		
+		return ResponseEntity.ok().body("Sikeres rögzítés!");
+	}
+	
 	
 	/**
 	 * Új termékkategória létrehozása
