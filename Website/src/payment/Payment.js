@@ -11,6 +11,7 @@ export default function Payment() {
         const [paymethod, setPaymethod] = useState(1)
         const [deliverymethod, setDeliveryMethod] = useState(0)
         const [bankTranferVisible, setBankTransferVisible] = useState(true)
+        const [TermsOfService, setTermsOfService] = useState(false)
 
         const handleChange = (event, id) => {
                 //this.setState({count: event.target.value})
@@ -81,21 +82,28 @@ export default function Payment() {
                                         break;
                                 }
                         break;
+                        case "acceptTerms":
+                                if(event.target.checked) {
+                                        setTermsOfService(true);
+                                } else {
+                                        setTermsOfService(false)
+                                }
+                        break;
                 }
-                console.log(event.target.value)
+               // console.log(event.target.checked)
 
               };
 
 
               const handlePay = (phone, country, country2, city, street, housenumber, paymethod, deliverymethod) => {
-                if(phone != "" && country != "" && country2 != "" && city != "" && street != "") {
+                if(phone != "" && country != "" && country2 != "" && city != "" && street != "" && TermsOfService) {
                         if(deliverymethod != 0) {
                 PayService.completeOrder(phone,country, country2, city, street, housenumber, paymethod, deliverymethod);
                         } else {
                                 alert("Kérlek válassz másik szállítási módot!")
                         }
                 }  else {
-                        alert("Kérlek töltsd ki a mezőket!")
+                        alert("Kérlek töltse ki a mezőket és fogadja el az üzleti szabályzatot!")
                 }
               }
 
@@ -147,8 +155,12 @@ export default function Payment() {
    
                                         </div>
                                 }
+                                <>
+                                <input type="checkbox" onChange={(e) => handleChange(e, "acceptTerms")}></input>Megismertem, és elfogadom az üzleti <a href="https://www.inf.elte.hu/dstore/document/278/diszkretmatekII.pdf" target="_blank"><b>szabályzatot</b></a> 
+                                </>
                                 <button onClick={()=> handlePay(phone, country, country2, city, street, housenumber, paymethod, deliverymethod)} type="button" class="btn btn-success">Fizetés</button>
                                 </form>
+                                
                                 <h3>Végösszeg: {subTotalPrice} Ft</h3>
 
                         </div>

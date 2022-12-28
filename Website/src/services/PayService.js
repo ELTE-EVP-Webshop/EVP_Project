@@ -30,10 +30,57 @@ const completeOrder = (phone, country, country2, city, street, housenumber, paym
     });
 };
 
+const getDeliveryAddress = () => {
+  return axios
+  .get(API_URL + "getDeliveryAddress",
+  {},
+  {
+  params: {
+  },
+  withCredentials: true
+  })
+  .then((response) => {
+    //alert(response.data.message)
+    //console.log(response.data)
+
+    return response.data;
+  });
+
+}
+
+const updateDeliveryAddress = ( phone, country, country_l,  city,  post_code, street,  house_number,  post_other) => {
+  return axios
+  .post(API_URL + "updateDeliveryAddress",
+  {},
+  {
+  params: {
+    phone : phone,
+    country : country,
+    country_l : country_l,
+    city : city,
+    post_code : post_code,
+    street : street,
+    house_number : house_number,
+    post_other : post_other
+
+  },
+  withCredentials: true
+  })
+  .then((response) => {
+    alert("Sikeres módosítás!")
+    console.log(response.data)
+
+    return response.data;
+  });
+
+}
+
 
 
 const PayService = {
-completeOrder
+completeOrder,
+getDeliveryAddress,
+updateDeliveryAddress
 }
 
 export default PayService;

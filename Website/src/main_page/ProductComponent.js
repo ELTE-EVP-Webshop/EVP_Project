@@ -179,6 +179,7 @@ useEffect(() => {
 
   function ModaliuszLeviosza (product, kepindex) {
     if (!cartAddOne) {
+      var desc = product.p.description ? product.p.description : "Nincs leírás"
       var modal = document.getElementById("myModal2");
       modal.style.display = "block";
       document.getElementById("myModal2").innerHTML =
@@ -188,7 +189,7 @@ useEffect(() => {
             "<img class='modalIMG' src='" +vanekep(product, kepindex) + "' alt='Easter egg' ></img>" +
             "<div class='modal-content-detail'>" +
               "<p class='modalName'>" +product.p.name + "</p> " +
-              "<p class='modalDesc'>" +product.p.desc  +"</p>" +
+              "<p class='modalDesc'>" +desc  +"</p>" +
               "<p class='modalPrice'>" + product.p.price + "Ft. /db</p>" +
               "<p class='modalNumberTag modalDesc'>Ennyit a kosárba:</p>" +
               "<div class='row modalNumDIV'>"+

@@ -95,6 +95,61 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
             console.log(response);
           });
       };
+// Admin feature : Update product
+
+const updateProduct = (productId,prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodVisible) => {
+  var bodyFormData = new FormData();
+
+
+bodyFormData.append('name', prodName);
+bodyFormData.append('description', prodDesc);
+bodyFormData.append('price', prodPrice);
+bodyFormData.append('salePrice', prodSalePrice);
+bodyFormData.append('stock', prodStock);
+bodyFormData.append('visible', prodVisible);
+
+   // prodCatJSON = {"variation": prodCategoryId, "description": prodCategoryName}
+
+  {/* if(prodVariationName != "none") {
+     // bodyFormData.append('variations', prodVariationId);
+    //bodyFormData.append('variations', prodVariationName);
+   }
+   if(prodCategoryName != "none") {
+    bodyFormData.append('categories', prodCategoryId);
+    bodyFormData.append('categories', prodCategoryName);
+   }
+
+   if(prodImage != "Nincs") {
+    bodyFormData.append('images',imgArray);
+   } */}
+
+  return axios({
+      method: "post",
+      url: PRODUCTS_REST_API_URL_ADMIN + "updateProduct",
+      data: bodyFormData,
+      headers: { 'Content-Type': 'application/json' },
+      params: {
+        productId : productId
+      },
+      withCredentials: true
+    })
+      .then(function (response) {
+        //handle success
+        //console.log(response);
+        alert("Sikeres módosítás")
+        window.location.assign("/admin")
+      })
+      .catch(function (response) {
+        //handle error
+        alert("Hiba lépett fel a módosítás során!")
+        window.location.assign("/admin")
+      });
+
+ 
+}
+
+
+  
 // Admin feature : Category creation
       const createCategory = (category, smallDesc, priority) => {
         return axios
@@ -272,6 +327,7 @@ const findProductsByCategory = (categoryId) => {
         getVariations,
         getCategories,
         addProduct,
+        updateProduct,
         createCategory,
         createVariation,
         addProductToCategory,

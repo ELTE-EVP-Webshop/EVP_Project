@@ -24,7 +24,7 @@ import MergedHeader from './main_page/HeaderProduct';
 import Footer from './main_page/Footer';
 import Error404 from './error_page/404error';
 import ForgotPass from './login_page/forgetPassword';
-
+import NewPassword from './login_page/newPassword';
 import MobileMenu from './MobileMenu';
 import LoginHeader from './login_page/Header';
 import LoginMain from './login_page/login';
@@ -134,7 +134,7 @@ function App() {
           ) : (
             <>
             <MobileMenu/>
-            <MainHeader/>
+            
           
             <MainProducts/>
             <Footer/>
@@ -144,6 +144,12 @@ function App() {
 
           
         }/>
+        <Route path="/TermsOfService"
+          element={
+          <>
+          <div>n+1. szabály: Szemet szeméremért</div>
+          </>
+          }/>
 
       <Route path="/register"
           element={
@@ -194,7 +200,7 @@ function App() {
 
           }
 />
-{/*<Route path="/forgetPassword"
+<Route path="/forgetPassword"
           element={
         <>
 <LoginHeader/>
@@ -203,7 +209,18 @@ function App() {
           
 
           }
-        />*/}
+        />
+
+<Route path="/newPassword"
+          element={
+        <>
+<LoginHeader/>
+<NewPassword/>
+</>
+          
+
+          }
+        />
 
 <Route path="/admin"
           element={

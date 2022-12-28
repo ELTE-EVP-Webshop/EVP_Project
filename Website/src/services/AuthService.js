@@ -46,7 +46,8 @@ withCredentials: true
   )
   .then((response) => {
     
-    //alert(response.data)
+    alert(response.data)
+    window.location.assign("/login")
     return response.data;
     
 
@@ -64,11 +65,34 @@ const askNewPasswordMail = (email) => {
 )
 .then((response) => {
   
-  alert(response.data)
+  alert(response.data + " Előfordulhat, hogy a spam mappában találhatja meg a levelet.")
+  window.location.assign("/login")
   return response.data;
   
 
 });
+}
+
+const newPassword = (userId, tokenKey, newPassword) => {
+  return axios.post(API_URL + "newPassword", 
+    {},
+	{
+		params: {
+			userId : userId,
+      tokenKey : tokenKey,
+      newPassword : newPassword
+		}
+	}
+    
+  )
+  .then((response) => {
+    
+    alert(response.data)
+    window.location.assign("/login")
+    return response.data;
+    
+  
+  });
 }
 
 
@@ -120,7 +144,8 @@ const AuthService = {
   getCurrentUser,
   getCookie,
   changePassword,
-  askNewPasswordMail
+  askNewPasswordMail,
+  newPassword
 }
 
 export default AuthService;

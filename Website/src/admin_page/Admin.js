@@ -30,6 +30,7 @@ export default function ShoppingCart() {
     const [prodImage, setProdImage] = useState("");
     const [prodVisible, setProdVisible] = useState(false)
     const [allProdVisible, setAllProdVisible] = useState(false)
+    const [updateProductVisible, setUpdateProductVisible] = useState(false)
     //Category
     const [catId, setCatId] = useState(1)
     const [catName, setCatName] = useState("");
@@ -184,6 +185,7 @@ export default function ShoppingCart() {
         setUpdateCategoryVisible(false)
         setUpdateVariationVisible(false)
         setAllProdVisible(false)
+        setUpdateProductVisible(false)
     }
     const newProduct = () => {
         hideAll();
@@ -276,6 +278,15 @@ export default function ShoppingCart() {
 
     }
 
+    const updateProduct = (prodId) => {
+        hideAll();
+        setUpdateProductVisible(true)
+        setProdId(prodId)
+        if(updateProductVisible) {
+            setProductVisible(false)
+        }
+    }
+
    const updateVariationConfirm = (varId, varName) => {
     hideAll();
     if(varName != "") {
@@ -304,6 +315,17 @@ export default function ShoppingCart() {
         }
         setCatName("");
         setCatDesc("");
+       }
+
+       const updateProductConfirm = (prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodVisible) => {
+       
+        if(prodName != "" && prodDesc != "" && prodSalePrice > 0 && prodPrice > 0 && prodStock >= 0) {
+            ProductService.updateProduct(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodVisible)
+           // console.log(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodVisible)
+            hideAll();
+        } else {
+            alert("Valós adatokat adj meg!")
+        }
        }
  
             if(user.roles.includes('ROLE_ADMIN1') || user.roles.includes('ROLE_ADMIN2') ) {
@@ -334,8 +356,17 @@ export default function ShoppingCart() {
                         {allProdVisible &&
                             <div>
                                 <h3 class="admin_focim">Összes termék</h3>
+                                
                                 {availableProducts.map(product =>
+                                <>
+                                {/* prodName, prodDesc, availCatId, availCatName, availVarId, availVarName, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible)*/}
                                     <p>Név: {product.p.name}</p>
+                                    <p>Leírás: {product.p.description}</p>
+                                    <p>Ár: {product.p.sale_price}</p>
+                                    <p>Raktár: {product.p.stock}</p>
+                                    <p>Termék láthatósága: {product.p.visible ? "Igaz" : "Hamis"}</p>
+                                    <button onClick={() => updateProduct(product.p.id)} type='button' className='btn btn-danger'>Módosítás</button>
+                                    </>
                                     )}
 
                             </div>
@@ -399,6 +430,30 @@ export default function ShoppingCart() {
                                 
 
                          }
+                         {updateProductVisible &&
+                                    <>
+                                        <h3 class="admin_focim">Termék Módosítása</h3>
+                                <label class="admin_cimke" for="prodName">Termék neve: </label>
+                                <input class="admin_bevitel"onChange={(e) => handleChange(e,"prodName")} id="prodName" type="text" required></input><br></br>
+                                <label class="admin_cimke" for="prodDesc">Termék leírása: </label>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodDesc")} id="prodDesc" type="text" required></input><br></br>
+    
+                            
+                             
+                                <br></br><label class="admin_cimke" for="prodPrice">Termék ára: </label>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodPrice")} id="prodPrice" type="number" required></input><br></br>
+                                <label class="admin_cimke" for="prodSalePrice">Termék eladási ára: </label>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" required></input><br></br>
+                                <label class="admin_cimke" for="prodStock">Termék Készlet: </label>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" required></input><br></br>
+                                <label class="admin_cimke" for="prodVisible">Termék láthatósága:</label>
+                                <select class="admin_bevitel" onChange={(e) => handleChange(e,"prodVisible")}>
+                                    <option id="prodVisible" value="true">Igaz</option>
+                                    <option  id="prodVisible" value="false">Hamis</option>
+                                    </select>
+                                    <br></br><button onClick={() => updateProductConfirm(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodVisible)} className='btn btn-primary' type='button'>Termék módosítása</button>
+                                        </>
+                                    }
                           {updateVariationVisible &&
                                     <>
                                         <p class="admin_focim">Variáció neve:</p>

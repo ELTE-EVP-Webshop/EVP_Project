@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { useFetcher } from "react-router-dom";
 import AuthService from "../services/AuthService";
+import PayService from "../services/PayService";
+
 
 
 
@@ -9,6 +12,52 @@ const Profile = () => {
   const [changePass, setChangePass] = useState(false)
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("")
+  const [DeliveryAddress, setDeliveryAddress] = useState([])
+  const [deliveryVisible, setDeliveryVisible] = useState(false)
+  const [updateDeliveryVisible, setUpdateDeliveryVisible] = useState(false)
+  const [deliveryInfo, setDeliveryInfo] = useState(true)
+
+  const [phone, setPhone] = useState(0)
+  const [city, setCity] = useState("")
+  const [country, setCountry] = useState("")
+  const [country_l, setCountry_l] = useState("")
+  const [street, setStreet] = useState("")
+  const [housenumber, setHousenumber] = useState(0)
+  const [postcode, setPostcode] = useState(0)
+  const [postother, setPostother] = useState(0)
+
+
+  async function getDeliveryAddress() {
+    setUpdateDeliveryVisible(false)
+    var deliveryAddr = await PayService.getDeliveryAddress();
+    await setDeliveryAddress(deliveryAddr)
+    if(!deliveryVisible) {
+    setDeliveryVisible(true)
+    } else {
+      setDeliveryVisible(false)
+    }
+    console.log(deliveryAddr)
+  }
+
+  async function updateDeliveryAddress() {
+    if(deliveryVisible) {
+      setDeliveryVisible(false)
+    }
+    if(!updateDeliveryVisible) {
+      setUpdateDeliveryVisible(true)
+    }
+    }
+
+    async function updateDeliveryAddressConfirm() {
+      if(phone != 0 && country != "" &&  country_l != "" && city != "" && street != "" && postother != 0 && housenumber != 0) {
+      await PayService.updateDeliveryAddress(phone, country, country_l, city, postcode, street, housenumber, postother)
+      setUpdateDeliveryVisible(false)
+      } else {
+        alert("Kérlek valós adatok adjon meg!")
+      }
+    }
+
+
 
   async function handleChange (e, id) {
     switch(id) {
@@ -18,13 +67,32 @@ const Profile = () => {
       case 'newPass':
        await setNewPassword(e.target.value);
         break;
+        case 'phone':
+       await setPhone(e.target.value);
+        break;
+        case 'country':
+       await setCountry(e.target.value);
+        break;
+        case 'country_l':
+       await setCountry_l(e.target.value);
+        break;
+        case 'housenumber':
+       await setHousenumber(e.target.value);
+        break;
+        case 'postother':
+       await setPostother(e.target.value);
+        break;
+        case 'street':
+       await setStreet(e.target.value);
+        break;
+        case 'city':
+          await setCity(e.target.value);
+           break;
         
     }
     }
 
-    async function handleGenSubmit() {
-      await AuthService.askNewPasswordMail(currentUser.email)
-  }
+
 
   async function handleSubmit() {
     if(oldPassword != "" && newPassword != "") {
@@ -42,8 +110,9 @@ const Profile = () => {
       alert("Kérlek töltsd ki a jelszó mezőket!")
     }
     }
-	
+
   return (
+    
     /*
     <div className="container">
       <header className="jumbotron">
@@ -94,9 +163,41 @@ const Profile = () => {
                         <h6 class="text-muted f-w-400">{currentUser.email}</h6>
                       </div>
                       
+  
                       <div class="col-sm-6">
-                        <p class="m-b-10 f-w-600">Telefonszám</p>
-                        <h6 class="text-muted f-w-400">{currentUser.phone ? currentUser.phone : "Nincs megadva!"}</h6>
+                        <p onClick={() => getDeliveryAddress()} class="m-b-10 f-w-600">Szállítási adatok megtekintése</p>
+                       {deliveryVisible &&
+                       <>
+
+                                <p>Telefon: {DeliveryAddress.phone ? DeliveryAddress.phone : "Nincs megadva!"}</p>
+                                <p>Ország: {DeliveryAddress.country ? DeliveryAddress.country : "Nincs megadva!"}</p>
+                                <p> Megye: {DeliveryAddress.country_l ? DeliveryAddress.country_l : "Nincs megadva!"}</p>
+                               <p>Ir.szám: : {DeliveryAddress.post_other ? DeliveryAddress.post_other : "Nincs megadva!"}</p> 
+                               <p>Város: {DeliveryAddress.city ? DeliveryAddress.city: "Nincs megadva!"}</p> 
+                                <p>Házszám: {DeliveryAddress.house_number ? DeliveryAddress.house_number : "Nincs megadva!"}</p>
+                                <p>Utca: {DeliveryAddress.street ? DeliveryAddress.street : "Nincs megadva!"}</p>
+                                <button onClick={() => updateDeliveryAddress()} className="btn btn-info">Frissítés</button>
+                          </>
+    
+                       
+                    }
+                    {updateDeliveryVisible &&
+                       <>
+
+                       <p>Telefon: <input onChange={(e) => handleChange(e, "phone")} type="number"></input></p>
+                       <p>Ország:  <input onChange={(e) => handleChange(e, "country")} type="text"></input></p>
+                       <p> Megye:  <input onChange={(e) => handleChange(e, "country_l")} type="text"></input></p>
+                      <p>Ir.szám: :  <input onChange={(e) => handleChange(e, "postother")} type="number"></input></p> 
+                      <p>Város:  <input onChange={(e) => handleChange(e, "city")} type="text"></input></p> 
+                       <p>Házszám:  <input onChange={(e) => handleChange(e, "housenumber")} type="number"></input></p>
+                       <p>Utca:  <input onChange={(e) => handleChange(e, "street")} type="text"></input></p>
+                       <button onClick={() => updateDeliveryAddressConfirm()} className="btn btn-info">Frissítés</button>
+                 </>
+                    
+                    
+                    }
+
+                       
                       </div>
                     </div>
                     <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">
@@ -109,12 +210,12 @@ const Profile = () => {
                         <a href="#" onClick={() => setChangePass(true)}><h6 class="text-muted f-w-400">Megváltoztatás</h6></a>
                         }
                          
-                        <a href="#" onClick={() => handleGenSubmit(true)}><h6 class="text-muted f-w-400">Generálás</h6></a>
+                        
                         
                         {changePass &&
                         <>
-                          <input onChange={(e)=> handleChange(e,"oldPass")} type="text" placeholder="régijelszó"></input>
-                          <input onChange={(e)=> handleChange(e,"newPass")} type="text" placeholder="újjelszó"></input>
+                          <input onChange={(e)=> handleChange(e,"oldPass")} type="password" placeholder="régijelszó"></input>
+                          <input onChange={(e)=> handleChange(e,"newPass")} type="password" placeholder="újjelszó"></input>
                           <button onClick = {()=> handleSubmit()} className="btn btn-success">Jelszó megváltoztatása</button>
                           </>
                         }

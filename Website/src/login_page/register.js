@@ -68,17 +68,31 @@ const Register = (props) => {
     setPassword(password);
   };
 
+  function error() {
+    setMessage("Sikertelen regisztráció!")
+  }
+
   const handleRegister = (e) => {
     e.preventDefault();
+    
+    if(successful != true) {
+      setMessage("Regisztrálás folyamatban...");
+    setTimeout(error, 5000)
+    }
 
-    setMessage("");
+
     setSuccessful(false);
 
+    if(password.length < 6) {
+      setMessage("A jelszónak legalább 6 karakternek kell lennie!")
+    }
 
       AuthService.register(username, email, password).then(
         (response) => {
           setMessage(response.data.message);
           setSuccessful(true);
+          alert("Sikeres regisztráció!")
+          window.location.assign("/")
         },
         (error) => {
           const resMessage =
@@ -88,7 +102,7 @@ const Register = (props) => {
             error.message ||
             error.toString();
 
-          setMessage(resMessage);
+         // setMessage(resMessage);
           setSuccessful(false);
         }
       );
