@@ -186,7 +186,10 @@ useEffect(() => {
         "<div class='modal-inside'>" +
           "<span class='close' id='close' name='close'>&times;</span>" +
           "<div class='modal-content'>" +
-            "<img class='modalIMG' src='" +vanekep(product, kepindex) + "' alt='Easter egg' ></img>" +
+            "<img class='modalIMG' src='" +getMainImage(product) + "' alt='Easter egg' ></img>" +
+            "<div>"+product.images.map((p) =>
+              "<img class='modalIMG' src="+p.image_url+" alt='Ez egy fos'/>"
+            ) +"</div>"+
             "<div class='modal-content-detail'>" +
               "<p class='modalName'>" +product.p.name + "</p> " +
               "<p class='modalDesc'>" +desc  +"</p>" +

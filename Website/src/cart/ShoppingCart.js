@@ -70,6 +70,15 @@ class ShoppingCart extends React.Component {
   };
 
   render() {
+
+    function getMainImage(product) {
+      if (product && product.images.length > 0)
+        return product.images.sort((img1, img2) =>
+          img1.priority > img2.priority ? 1 : -1
+        )[0].image_url;
+      return "https://thumbs.dreamstime.com/b/error-not-found-symbol-logo-design-vector-232023001.jpg";
+    };
+
     /* Filter products by basket*/
     var basket = Object.values(this.state.basket);
     var products = Object.values(this.state.products);
@@ -114,14 +123,7 @@ class ShoppingCart extends React.Component {
                             <div
                               class="part-1"
                               style={{
-                                backgroundImage: `url(${
-                                  product &&
-                                  product.images[index] &&
-                                  product.images[index].image_url &&
-                                  product.images[index].image_url
-                                    ? product.images[index].image_url
-                                    : "https://thumbs.dreamstime.com/b/error-not-found-symbol-logo-design-vector-232023001.jpg"
-                                })`,
+                                backgroundImage: `url(${ getMainImage(product) })`,
                                 backgroundRepeat: "no-repeat",
                                 backgroundPosition: "center",
                                 backgroundSize: "cover",

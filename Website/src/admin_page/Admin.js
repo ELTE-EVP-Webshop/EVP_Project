@@ -96,7 +96,7 @@ export default function ShoppingCart() {
                     break;
                     case 'prodImage':
                         setProdImage(event.target.value)
-                       // console.log(event.target.files[0])
+                        {/*console.log(event.target.value);*/}
                         break;
                     case 'prodVisible':
                         setProdVisible(event.target.value)
@@ -408,8 +408,9 @@ export default function ShoppingCart() {
                                 <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" required></input><br></br>
                                 <label class="admin_cimke" for="prodStock">Termék Készlet: </label>
                                 <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" required></input><br></br>
-                                <label class="admin_cimke" for="prodImage">Termék kép URL: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodImage")} id="prodImage" type="text" required></input><br></br>
+                                <label class="admin_cimke" for="prodImage">Képek 1/sör formátum URL "szóköz" prioritás</label>
+                                <textarea id="story" name="story" rows="5" cols="33" onChange={(e) => handleChange(e,"prodImage")}></textarea>
+                                {/*<input class="admin_bevitel" onChange={(e) => handleChange(e,"prodImage")} id="prodImage" type="textarea" required></input><br></br>*/}
                                 <label class="admin_cimke" for="prodVisible">Termék láthatósága:</label>
                                 <select class="admin_bevitel" onChange={(e) => handleChange(e,"prodVisible")}>
                                     <option id="prodVisible" value="true">Igaz</option>

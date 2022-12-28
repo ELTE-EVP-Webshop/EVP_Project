@@ -15,7 +15,7 @@ public class ProductReqRep {
 	private int stock;
 	private boolean visible;
 	private List<Integer> categories;
-	private List<imageReqRepModel> images;
+	private String images;
 	private List<String> keywords;
 	private List<variationReqRepModel> variations;
 	public String getName() {
@@ -60,10 +60,10 @@ public class ProductReqRep {
 	public void setCategories(List<Integer> categories) {
 		this.categories = categories;
 	}
-	public List<imageReqRepModel> getImages() {
+	public String getImages() {
 		return images;
 	}
-	public void setImages(List<imageReqRepModel> images) {
+	public void setImages(String images) {
 		this.images = images;
 	}
 	public List<String> getKeywords() {

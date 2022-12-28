@@ -1,4 +1,5 @@
 import axios from 'axios'
+import prodImgClass from '../components/prodImgClass'
 
 const PRODUCTS_REST_API_URL = 'http://localhost:8080/api/app/';
 const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
@@ -50,12 +51,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
         a:a2,
         b:b2
         }]*/
-		const img = {
-			url: prodImage,
-			priority : 1
-		};
-		let imgArray = [];
-		imgArray.push(img);
+
     bodyFormData.append('name', prodName);
     bodyFormData.append('description', prodDesc);
     bodyFormData.append('price', prodPrice);
@@ -74,9 +70,16 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
         bodyFormData.append('categories', prodCategoryName);
        }
 
-       if(prodImage != "Nincs") {
-        bodyFormData.append('images',imgArray);
-       } 
+       const images = [];
+        var lines = prodImage.split('\n');
+        for(var i = 0;i < lines.length;i++){
+          if(lines[i].includes(";"))
+            images.push(new prodImgClass(lines[i].split(';')[0], lines[i].split(';')[1]));
+        }
+
+        bodyFormData.append('images', JSON.stringify(images));
+
+        console.log(bodyFormData);
 
       return axios({
           method: "post",

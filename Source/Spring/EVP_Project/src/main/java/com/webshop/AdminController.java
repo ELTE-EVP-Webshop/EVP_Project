@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.webshop.Model.orderStates;
 import com.webshop.requestmodels.ProductReqRep;
@@ -82,15 +83,22 @@ public class AdminController {
 		p.setVisible(newProduct.isVisible());
 		Product saved = productRepo.save(p);
 		//Images
-		if(newProduct.getImages() != null && newProduct.getImages().size() > 0) {
-			for(imageReqRepModel i : newProduct.getImages()) {
-				ProductImages pimg = new ProductImages();
-				pimg.setImage_url(i.getUrl());
-				pimg.setPriority(i.getPriority());
-				pimg.setProductid(saved.getId());
-				productImagesRepo.save(pimg);
+		imageReqRepModel[] m;
+		try {
+			m = new ObjectMapper().readValue(newProduct.getImages(), imageReqRepModel[].class);
+			if(m != null && m.length > 0) {
+				for(imageReqRepModel i : m) {
+					ProductImages pimg = new ProductImages();
+					pimg.setImage_url(i.getUrl());
+					pimg.setPriority(i.getPriority());
+					pimg.setProductid(saved.getId());
+					productImagesRepo.save(pimg);
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
 		//Category
 		if(newProduct.getCategories() != null && newProduct.getCategories().size() > 0) {
 			for(int i : newProduct.getCategories()) {
@@ -153,15 +161,22 @@ public class AdminController {
 		
 		//Images
 		productImagesRepo.deleteProductImagesByProductId(p.getId());
-		if(updateProduct.getImages() != null && updateProduct.getImages().size() > 0) {
-			for(imageReqRepModel i : updateProduct.getImages()) {
-				ProductImages pimg = new ProductImages();
-				pimg.setImage_url(i.getUrl());
-				pimg.setPriority(i.getPriority());
-				pimg.setProductid(p.getId());
-				productImagesRepo.save(pimg);
+		imageReqRepModel[] m;
+		try {
+			m = new ObjectMapper().readValue(updateProduct.getImages(), imageReqRepModel[].class);
+			if(m != null && m.length > 0) {
+				for(imageReqRepModel i : m) {
+					ProductImages pimg = new ProductImages();
+					pimg.setImage_url(i.getUrl());
+					pimg.setPriority(i.getPriority());
+					pimg.setProductid(p.getId());
+					productImagesRepo.save(pimg);
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
 		
 		//Category
 		productCategoryRepo.deleteAllProductCategoryById(p.getId());
