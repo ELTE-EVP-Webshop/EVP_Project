@@ -128,9 +128,18 @@ class ShoppingCart extends React.Component {
                                 backgroundPosition: "center",
                                 backgroundSize: "cover",
                               }}
-                            ></div>
-
+                            >
+                        
+     
+            </div>
+            
+         
                             <div class="part-2">
+                            
+                       
+          
+                       
+            
                               <h3 class="product-title">{product.p.name}</h3>
                               <h4 class="product-price">
                                 {product.p.sale_price}Ft.

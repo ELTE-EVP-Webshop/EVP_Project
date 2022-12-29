@@ -75,12 +75,51 @@ const updateDeliveryAddress = ( phone, country, country_l,  city,  post_code, st
 
 }
 
+const getOrders = () => {
+  return axios
+  .get(API_URL + "getOrders",
+  {},
+  {
+  params: {
+  },
+  withCredentials: true
+  })
+  .then((response) => {
+    alert(response.data.message)
+    console.log(response.data)
+   
+    return response.data;
+  });
+
+}
+
+
+const getOrderProducts = (orderId) => {
+  return axios
+  .get(API_URL + "getOrderProducts",
+  {},
+  {
+  params: {
+    orderId : orderId
+  },
+  withCredentials: true
+  })
+  .then((response) => {
+    alert(response.data.message)
+    console.log(response.data)
+   
+    return response.data;
+  });
+
+}
 
 
 const PayService = {
 completeOrder,
 getDeliveryAddress,
-updateDeliveryAddress
+updateDeliveryAddress,
+getOrders,
+getOrderProducts
 }
 
 export default PayService;

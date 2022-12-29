@@ -46,6 +46,7 @@ import ShoppingHeader from './cart/Header'
 import Payment from './payment/Payment'
 import PaymentHeader from './payment/Header'
 import Login from './login_page/login';
+import Orders from './user/Orders';
 function App() {
    
 
@@ -129,6 +130,29 @@ function App() {
           <MobileMenu/>
           <LoginHeader/>
           <LoginMain/>
+          <Footer/>
+          </>
+          ) : (
+            <>
+            <MobileMenu/>
+            
+          
+            <MainProducts/>
+            <Footer/>
+            </>
+          )}
+          </>
+
+          
+        }/>
+        <Route path="/orders"
+          element={
+          <>
+          {user != null ?(
+            <>
+          <MobileMenu/>
+        <MainHeader/>
+            <Orders/>
           <Footer/>
           </>
           ) : (

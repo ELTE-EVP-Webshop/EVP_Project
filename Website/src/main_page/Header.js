@@ -137,6 +137,9 @@ export default function Header() {
                         <a href="/profile">Profil</a>
                       </li>
                       <li>
+                          <a href="/orders">Rendelések</a>
+                        </li>
+                      <li>
                         <a href="/login" onClick={logOut}>
                           Kijelentkezés
                         </a>

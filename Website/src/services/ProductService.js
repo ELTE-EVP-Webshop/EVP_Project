@@ -44,7 +44,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
 
 
     //  Admin feature : Product insert
-      const addProduct = (prodName, prodDesc, prodCategoryId, prodCategoryName, prodVariationId, prodVariationName, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible) => {
+      const addProduct = (prodName, prodDesc, catInfo, varInfo, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible) => {
         var bodyFormData = new FormData();
       /*  var categories = [{a:a, b:b
         },{ 
@@ -61,14 +61,18 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
    
        // prodCatJSON = {"variation": prodCategoryId, "description": prodCategoryName}
 
-       if(prodVariationName != "none") {
+       if(varInfo.length > 0) {
          // bodyFormData.append('variations', prodVariationId);
         //bodyFormData.append('variations', prodVariationName);
+        bodyFormData.append('variation', varInfo)
+          }
+
+       if(catInfo.length > 0) {
+        console.log(catInfo)
+        bodyFormData.append('categories',JSON.stringify(catInfo));
        }
-       if(prodCategoryName != "none") {
-        bodyFormData.append('categories', prodCategoryId);
-        bodyFormData.append('categories', prodCategoryName);
-       }
+
+
 
        const images = [];
         var lines = prodImage.split('\n');
@@ -100,7 +104,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
       };
 // Admin feature : Update product
 
-const updateProduct = (productId,prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodVisible) => {
+const updateProduct = (productId,prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodImage) => {
   var bodyFormData = new FormData();
 
 
@@ -109,7 +113,7 @@ bodyFormData.append('description', prodDesc);
 bodyFormData.append('price', prodPrice);
 bodyFormData.append('salePrice', prodSalePrice);
 bodyFormData.append('stock', prodStock);
-bodyFormData.append('visible', prodVisible);
+bodyFormData.append('visible', true);
 
    // prodCatJSON = {"variation": prodCategoryId, "description": prodCategoryName}
 
@@ -125,7 +129,14 @@ bodyFormData.append('visible', prodVisible);
    if(prodImage != "Nincs") {
     bodyFormData.append('images',imgArray);
    } */}
+   const images = [];
+   var lines = prodImage.split('\n');
+   for(var i = 0;i < lines.length;i++){
+     if(lines[i].includes(";"))
+       images.push(new prodImgClass(lines[i].split(';')[0], lines[i].split(';')[1]));
+   }
 
+   bodyFormData.append('images', JSON.stringify(images));
   return axios({
       method: "post",
       url: PRODUCTS_REST_API_URL_ADMIN + "updateProduct",
@@ -320,10 +331,28 @@ const findProductsByCategory = (categoryId) => {
     
   //  console.log(response.data);
 
-    return  response.data;
+    return response.data;
   });
 }
 
+// getAllOrder
+const getAllOrder = () => { 
+  return axios
+  .get(PRODUCTS_REST_API_URL_ADMIN + "getAllOrder",
+  {},
+		{
+		  params:{
+			 // categoryId : categoryId
+		  },
+      withCredentials: true
+		})
+  .then((response) => {
+    
+    console.log(response.data);
+
+    return  response.data;
+  });
+}
 
       const ProductService = {
         getProducts,
@@ -331,6 +360,7 @@ const findProductsByCategory = (categoryId) => {
         getCategories,
         addProduct,
         updateProduct,
+        getAllOrder,
         createCategory,
         createVariation,
         addProductToCategory,

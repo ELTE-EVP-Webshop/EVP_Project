@@ -15,6 +15,7 @@ export default function ShoppingCart() {
     const [availableVariations, setAvailableVariations] = useState()
     const [availableCategories, setAvailableCategories] = useState()
     const [availableProducts, setAvailableProducts] = useState()
+    const [loading, setLoading] = useState(true)
     //Form values (Getters & Setters)
     //Product
     const [prodId, setProdId] = useState(2)
@@ -28,19 +29,26 @@ export default function ShoppingCart() {
     const [prodSalePrice, setProdSalePrice] = useState(0);
     const [prodStock, setProdStock] = useState(0);
     const [prodImage, setProdImage] = useState("");
-    const [prodVisible, setProdVisible] = useState(false)
+    const [prodVisible, setProdVisible] = useState("")
+    var [prodVisible2, setProdVisible2] = useState("")
     const [allProdVisible, setAllProdVisible] = useState(false)
     const [updateProductVisible, setUpdateProductVisible] = useState(false)
     //Category
     const [catId, setCatId] = useState(1)
     const [catName, setCatName] = useState("");
     const [catDesc, setCatDesc] = useState("");
+    var [catInfo, setCatInfo] = useState([]);
+    var [varInfo, setVarInfo] = useState([]);
     const [catPrior, setCatPrior] = useState(0);
     const [updateCategoryVisible, setUpdateCategoryVisible] = useState(false);
     //Variation
     const [varId, setVarId] = useState(1);
     const [varName, setVarName] = useState("");
     const [updateVariationVisible, setUpdateVariationVisible] = useState(false);
+
+    //Orders 
+    const [ordersVisible, setOrdersVisible] = useState(false)
+    const [availalbeOrders, setAvailableOrders] = useState()
 
     useEffect(() => {
         // React advises to declare the async function directly inside useEffect
@@ -56,13 +64,23 @@ export default function ShoppingCart() {
             var vari = await ProductService.getProducts();
 
             setAvailableProducts(vari)
+            setLoading(false)
+        }
+
+        async function getAllOrder() {
+            var vari = await ProductService.getAllOrder();
+
+            setAvailableOrders(vari)
+            setLoading(false)
         }
         getVariations();
         getCategories();
         getProducts();
+        getAllOrder();
+        
         }, []);
 
-        const handleChange = (event, selected) => {
+        async function handleChange (event, selected)  {
             //this.setState({count: event.target.value})
             switch(selected) {
                     case 'prodName':
@@ -99,7 +117,14 @@ export default function ShoppingCart() {
                         {/*console.log(event.target.value);*/}
                         break;
                     case 'prodVisible':
+                        
                         setProdVisible(event.target.value)
+                        
+                        break;
+                        case 'prodVisible2':
+                        
+                         await setProdVisible2(event.target.value)
+                        
                         break;
                     case 'catName':
                             setCatName(event.target.value)
@@ -134,14 +159,34 @@ export default function ShoppingCart() {
 
             }
             
-           // console.log(event.target.value)
+           console.log(event.target.value)
            // console.log(availVarName)
            // console.log(availCatName)
           };
 
-          const handleProdSubmit= (prodName, prodDesc, prodCategoryId, prodCategoryName, prodVariationId, prodVariationName, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible) => {
-            ProductService.addProduct(prodName, prodDesc, prodCategoryId, prodCategoryName, prodVariationId, prodVariationName, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible);
+          const handleProdSubmit= (prodName, prodDesc,  prodPrice, prodSalePrice, prodStock, prodImage, prodVisible) => {
+            //console.log(prodVisible)
+            if(prodName != "" && prodDesc != "" && prodPrice > 0 && prodSalePrice > 0) {
+            ProductService.addProduct(prodName, prodDesc, catInfo, varInfo, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible);
+            }
+            else {
+                alert("Lehetőleg valós adatokat adjon meg!")
+                console.log(prodName, prodDesc, prodPrice, prodSalePrice)
+            }
+            hideAll();
           }
+
+          const updateProductConfirm = (prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock) => {
+            
+            if(prodName != "" && prodDesc != "" && prodSalePrice > 0 && prodPrice > 0 && prodStock >= 0) {
+                
+                ProductService.updateProduct(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodImage)
+               // console.log(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodVisible)
+                hideAll();
+            } else {
+                alert("Valós adatokat adj meg!")
+            }
+           }
           const handleCatSubmit= (catName, catDesc, catPrior) => {
             if(catName != "" && catDesc != "") {
             ProductService.createCategory(catName, catDesc, catPrior);
@@ -186,6 +231,7 @@ export default function ShoppingCart() {
         setUpdateVariationVisible(false)
         setAllProdVisible(false)
         setUpdateProductVisible(false)
+        setOrdersVisible(false)
     }
     const newProduct = () => {
         hideAll();
@@ -198,6 +244,16 @@ export default function ShoppingCart() {
      //  console.log(availableCategories)
      //  console.log(availableVariations)
         
+    }
+
+    const getAllOrder = () => {
+        hideAll();
+        setOrdersVisible(true);
+
+        if(ordersVisible) {
+            setOrdersVisible(false)
+        }
+
     }
 
     const getProducts = () => {
@@ -317,23 +373,20 @@ export default function ShoppingCart() {
         setCatDesc("");
        }
 
-       const updateProductConfirm = (prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodVisible) => {
-       
-        if(prodName != "" && prodDesc != "" && prodSalePrice > 0 && prodPrice > 0 && prodStock >= 0) {
-            ProductService.updateProduct(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodVisible)
-           // console.log(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodVisible)
-            hideAll();
-        } else {
-            alert("Valós adatokat adj meg!")
-        }
-       }
- 
-            if(user.roles.includes('ROLE_ADMIN1') || user.roles.includes('ROLE_ADMIN2') ) {
-                return (
-                    
+       if(user.roles.includes('ROLE_ADMIN1') || user.roles.includes('ROLE_ADMIN2') ) {
+        if(loading) {
+            return (
+                <div className='text-center'>Egy kis türelmet...</div>
+            )
+            }
+            else {
+                    return(
                     <div class="container-admin">
                          <h1 className='text-center admin_tx'>Admin panel</h1>
                         <div class="row gombtomb">
+                        <div class="vl">
+                        <div class="col gombkulso"> <button  onClick={() => getAllOrder()} type='button' className='btn btn-primary admingomb'>Rendelések megtekintése</button></div>
+                        </div>
                         <div class="col gombkulso"><button  onClick={() => newProduct()} type='button' className='btn btn-primary admingomb'>Új termék létrehozása</button></div>
                         <div class="vl"></div>
                         <div class="col gombkulso"> <button onClick={() => addCategory()} type='button' className='btn btn-primary admingomb'>Kategória létrehozása</button></div>
@@ -350,8 +403,21 @@ export default function ShoppingCart() {
                         </div>
                         <div class="kiirasok">
                             <div class="admin_doboz">
-
-                            
+                            <div>
+                            {ordersVisible &&
+                           <div>
+                                <h3 class="admin_focim">Összes rendelés</h3>
+                                <p>Elnézést, ez most nem elérhető!</p>
+                         {/*   {availalbeOrders.map(order => 
+                                <>
+                                <p></p>
+                               
+                               
+                                </>
+                         )}*/}
+                           </div>
+                            }
+                          
                         
                         {allProdVisible &&
                             <div>
@@ -381,17 +447,33 @@ export default function ShoppingCart() {
                                 <input class="admin_bevitel"onChange={(e) => handleChange(e,"prodName")} id="prodName" type="text" required></input><br></br>
                                 <label class="admin_cimke" for="prodDesc">Termék leírása: </label>
                                 <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodDesc")} id="prodDesc" type="text" required></input><br></br>
-                                <label class="admin_cimke" for="prodCategory">Termék kategória: </label>
-                                <select class="admin_bevitel" onChange={(e) => handleChange(e,"availCat")}>
-                                <option id="nincs" value="none">Nincs</option>
-                                    {availableCategories.map(cat =>
+                                <label class="admin_cimke" for="prodCategory">Termék kategória (lehet több is): </label>
+                               
+                                
+                                    {availableCategories.map(cat => 
+                                   
                                     <>
+                                      <label><input  onChange={(e) => {
+                                    // add to list
+                                    if (e.target.checked) {
+                                    setCatInfo([
+                                        ...catInfo,
+                                        catInfo.push(cat.id)
+                                    ])
+                                    } else {
+                                    // remove from list
+                                    setCatInfo(
+                                        catInfo.filter((c) => c.id !== cat.id),
+                                    );
                                     
-                                    <option id={cat.id} value={cat.id}>{cat.category}</option>
-                                    </>
-                                    )};
-                                </select>
-                                <br></br><label class="admin_cimke" for="prodVariation">Termék variációja: </label>
+                                    }
+                                }} type="checkbox" id={cat.id} value={cat.category}/> {cat.category}</label>
+                                     </>
+                                   )}
+                            
+                         
+                               
+                               {/* <br></br><label class="admin_cimke" for="prodVariation">Termék variációja: </label>
                                 <select class="admin_bevitel" onChange={(e) => handleChange(e,"availVar")}>
                                 <option id="nincs" value="none">Nincs</option>
                                     {availableVariations.map(vari =>
@@ -401,7 +483,36 @@ export default function ShoppingCart() {
                                     
                                     </>
                                     )};
-                                </select>
+                                    </select>*/}
+                                <label class="admin_cimke" for="prodVariation">Termék variációja (lehet több is): </label>
+                               
+                                
+                               {availableVariations.map(vari => 
+                               
+                               <>
+                                 <label><input  onChange={(e) => {
+                                    // add to list
+                                    if (e.target.checked) {
+                                    setVarInfo([
+                                        ...varInfo,
+                                        {
+                                        id: vari.id,
+                                        name : vari.name
+                                        }
+                                    ])
+                                    } else {
+                                    // remove from list
+                                    setVarInfo(
+                                        varInfo.filter((c) => c.id !== vari.id),
+                                    );
+                                    
+                                    }
+                                    console.log(varInfo)
+                                }}  type="checkbox" id={vari.id} value={vari.name}/> {vari.name}</label>
+                                </>
+                              )}
+                           
+
                                 <br></br><label class="admin_cimke" for="prodPrice">Termék ára: </label>
                                 <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodPrice")} id="prodPrice" type="number" required></input><br></br>
                                 <label class="admin_cimke" for="prodSalePrice">Termék eladási ára: </label>
@@ -416,7 +527,7 @@ export default function ShoppingCart() {
                                     <option id="prodVisible" value="true">Igaz</option>
                                     <option  id="prodVisible" value="false">Hamis</option>
                                     </select>
-                                    <br></br><button onClick={() => handleProdSubmit(prodName, prodDesc, availCatId, availCatName, availVarId, availVarName, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible)} className='btn btn-primary' type='button'>Új termék felvétele</button>
+                                    <br></br><button onClick={() => handleProdSubmit(prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible)} className='btn btn-primary' type='button'>Új termék felvétele</button>
                             </div>
                             
                             
@@ -432,7 +543,7 @@ export default function ShoppingCart() {
 
                          }
                          {updateProductVisible &&
-                                    <>
+                                    <div>
                                         <h3 class="admin_focim">Termék Módosítása</h3>
                                 <label class="admin_cimke" for="prodName">Termék neve: </label>
                                 <input class="admin_bevitel"onChange={(e) => handleChange(e,"prodName")} id="prodName" type="text" required></input><br></br>
@@ -447,13 +558,15 @@ export default function ShoppingCart() {
                                 <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" required></input><br></br>
                                 <label class="admin_cimke" for="prodStock">Termék Készlet: </label>
                                 <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" required></input><br></br>
-                                <label class="admin_cimke" for="prodVisible">Termék láthatósága:</label>
-                                <select class="admin_bevitel" onChange={(e) => handleChange(e,"prodVisible")}>
-                                    <option id="prodVisible" value="true">Igaz</option>
-                                    <option  id="prodVisible" value="false">Hamis</option>
+                                <label class="admin_cimke" for="prodImage">Képek 1/sör formátum URL "szóköz" prioritás</label>
+                                <textarea id="story" name="story" rows="5" cols="33" onChange={(e) => handleChange(e,"prodImage")}></textarea>
+                                <label class="admin_cimke" for="prodVisible2">Termék láthatósága:</label>
+                                <select id ="prodVisible2" class="admin_bevitel" onChange={(e) => handleChange(e,"prodVisible2")}>
+                                    <option id="prodVisible2" value="true">Igaz</option>
+                                    <option  id="prodVisible2" value="false">Hamis</option>
                                     </select>
-                                    <br></br><button onClick={() => updateProductConfirm(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodVisible)} className='btn btn-primary' type='button'>Termék módosítása</button>
-                                        </>
+                                    <br></br><button onClick={() => updateProductConfirm(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock,prodImage, prodVisible2)} className='btn btn-primary' type='button'>Termék módosítása</button>
+                                        </div>
                                     }
                           {updateVariationVisible &&
                                     <>
@@ -533,11 +646,14 @@ export default function ShoppingCart() {
                          </div>
                         </div>
                         </div>
-                )
+                        </div>
+                        
+                
+               )
+                        
                 
             }
-
-            
+       }
             else {
                 return (
                     <div>
@@ -545,10 +661,11 @@ export default function ShoppingCart() {
                         </div>
                 )
             }
+            
+        }
+            
+        
+      
 
             
-                
-        
-}
-
-
+            
