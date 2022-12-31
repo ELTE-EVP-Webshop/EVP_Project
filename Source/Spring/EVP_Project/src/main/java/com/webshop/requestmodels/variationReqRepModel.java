@@ -2,6 +2,7 @@ package com.webshop.requestmodels;
 
 /**
  * ProductReqRep modellhez tárgycsoport modell
+ * int variation, String description
  * @author BalazsPC
  *
  */

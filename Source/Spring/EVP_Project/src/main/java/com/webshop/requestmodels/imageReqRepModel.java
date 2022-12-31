@@ -2,6 +2,7 @@ package com.webshop.requestmodels;
 
 /**
  * ProductReqRep modellhez készült képleíró modell
+ * String url, byte priority
  * @author BalazsPC
  *
  */

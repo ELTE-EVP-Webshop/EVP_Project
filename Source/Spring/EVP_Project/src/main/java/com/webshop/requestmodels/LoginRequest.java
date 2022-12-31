@@ -4,6 +4,7 @@ import javax.validation.constraints.NotBlank;
 
 /**
  * Bejelentkezési modell
+ * String username (NotBlank), String password (NotBlank)
  * @author BalazsPC
  *
  */

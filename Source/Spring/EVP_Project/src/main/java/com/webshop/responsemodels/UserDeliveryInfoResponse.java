@@ -4,6 +4,7 @@ import com.webshop.User;
 
 /**
  * Felhasználó szállítási adatainak lekérdezéséhez / módosításához készült modell
+ * String phone, String country, String country_l, String city, int post_code, String street, String house_number, String post_other
  * @author BalazsPC
  *
  */
