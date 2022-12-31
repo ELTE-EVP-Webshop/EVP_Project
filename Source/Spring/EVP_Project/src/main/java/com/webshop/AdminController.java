@@ -1,16 +1,24 @@
 package com.webshop;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.function.EntityResponse;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -20,6 +28,8 @@ import com.webshop.requestmodels.ProductReqRep;
 import com.webshop.requestmodels.imageReqRepModel;
 import com.webshop.requestmodels.variationReqRepModel;
 import com.webshop.responsemodels.MessageResponse;
+import com.webshop.responsemodels.UserResponseModelForAdmin;
+import com.webshop.services.ServiceConfiguration;
 
 /**
  * 
@@ -55,6 +65,10 @@ public class AdminController {
 	private ProductCategoriesRepository productCategoriesRepo;
 	@Autowired
 	private VariationsRepository variationsRepo;
+	@Autowired
+	RoleRepository rolesRepo;
+	@Autowired
+	ServiceConfiguration config;
 	
 	/**
 	 * Elérés / jogosultság / egyéb tesztelésére
@@ -449,7 +463,7 @@ public class AdminController {
 	
 	/**
 	 * Minden rendelés lekérdezése - Adminisztrátor
-	 * @return
+	 * @return Az összes rendelés JSON formátumban
 	 */
 	@GetMapping("getAllOrder")
 	public ResponseEntity<?> getOrders() {
@@ -459,7 +473,7 @@ public class AdminController {
 		}
 		else {
 			try {
-				ObjectMapper mapper = new ObjectMapper();
+				ObjectMapper mapper = config.getJacksonObjectMapper();
 				return ResponseEntity.ok().body(new MessageResponse(mapper.writeValueAsString(orders)));
 			} catch (Exception e) {
 				return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
@@ -483,7 +497,7 @@ public class AdminController {
 		}
 		else {
 			try {
-				ObjectMapper mapper = new ObjectMapper();
+				ObjectMapper mapper = config.getJacksonObjectMapper();
 				return ResponseEntity.ok().body(new MessageResponse(mapper.writeValueAsString(order)));
 			} catch (Exception e) {
 				return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
@@ -535,4 +549,113 @@ public class AdminController {
 		return ResponseEntity.ok().body(new MessageResponse("Sikeres módosítás!"));
 	}
 	
+	
+	/**
+	 * Felhasználók, és hozzájuk tartozó rendelések, jogosultságok listázása
+	 * @return
+	 */
+	@GetMapping("getUsers")
+	public ResponseEntity<?> getUsers() {
+		List<User> users = userRepo.findAll();
+		List<UserResponseModelForAdmin> responseList = new ArrayList<UserResponseModelForAdmin>();
+		for(User u : users) {
+			List<Long> orderIds = new ArrayList<Long>();
+			List<Orders> orders = ordersRepo.findAllByUserid(u.getId());
+			for(Orders o : orders) { orderIds.add(o.getId()); }
+			Set<Role> roles = u.getRoles();
+			
+			UserResponseModelForAdmin responseModel = new UserResponseModelForAdmin();
+			responseModel.setUserId(u.getId());
+			responseModel.setUsername(u.getUsername());
+			responseModel.setEmail(u.getUsername());
+			responseModel.setMailConfirmed(u.isMailConfirmed());
+			responseModel.setUserOrders(orders);
+			responseModel.setUserRoles(roles);
+			responseList.add(responseModel);
+		}
+		
+		try {
+			ObjectMapper mapper = config.getJacksonObjectMapper();
+			//mapper.registerModule();
+			return ResponseEntity.ok(new MessageResponse(mapper.writeValueAsString(responseList)));
+		} catch (Exception e) {
+			System.out.println(e);
+			return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+		}
+	}
+	
+	/**
+	 * Felhasználó jogosultságainak módosítása (WebSecurityConfig alapján ADMIN2 joggal érhető el csak)
+	 * Hibásan megadott jogosultságtípusnál, ha több is van csak a hibás nem fut le + felhasználót értesíti
+	 * @param userId a módosítani kívánt felhasználó azonosítója
+	 * @param rolesJson RequestBody-ból String, a jogosultságok "neve" string típusú tömbben;
+	 * @return String, a módosítás ereménye
+	 */
+	@PostMapping("updateAdminRights")
+	public ResponseEntity<?> updateAdminRights(long userId, @RequestBody String rolesJson) {
+		MessageResponse mr = new MessageResponse();
+		Set<String> strRoles = null;
+		try{
+			strRoles = new ObjectMapper().readValue(rolesJson, Set.class);
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+			return ResponseEntity.status(400).body("ROLES ERROR");
+		}
+		Set<Role> roles = new HashSet<>();
+		Optional<User> usr = userRepo.findById(userId);
+		if(usr.isEmpty()) {
+			return ResponseEntity.status(404).body("A falhasználó nem található!");
+		}
+		User u = usr.get();
+		
+		if (strRoles == null) {
+		      Role userRole = rolesRepo.findByName(ERole.ROLE_CUSTOMER)
+		          .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+		      roles.add(userRole);
+		    } else {
+		      strRoles.forEach(role -> {
+		    	  Role userRole = rolesRepo.findByName(ERole.ROLE_CUSTOMER)
+			              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+			          roles.add(userRole);
+		        switch (role.toLowerCase()) {
+		        case "admin2":
+		          Role admin2Role = rolesRepo.findByName(ERole.ROLE_ADMIN2)
+		              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+		          roles.add(admin2Role);
+		          break;
+		          
+		        case "admin1":
+		          Role admin1Role = rolesRepo.findByName(ERole.ROLE_ADMIN1)
+		              .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+		          roles.add(admin1Role);
+		          break;
+		          
+		        case "partnercompany":
+		            Role partnercompanyRole = rolesRepo.findByName(ERole.ROLE_PARTNERCOMPANY)
+		                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+		            roles.add(partnercompanyRole);
+		            break;
+		            
+		        case "vipcustomer":
+		            Role vipcustomerRole = rolesRepo.findByName(ERole.ROLE_VIPCUSTOMER)
+		                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+		            roles.add(vipcustomerRole);
+		            break;
+		            
+		        case "supplier":
+		            Role supplierRole = rolesRepo.findByName(ERole.ROLE_SUPPLIER)
+		                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+		            roles.add(supplierRole);
+		            break;
+		        default:
+		        	mr.setMessage(mr.getMessage() == null ? role + " nem található!\n" : mr.getMessage()+ role + " nem található!\n");
+		            	break;
+		        }
+		      });
+		    }
+			
+		    u.setRoles(roles);
+		    userRepo.save(u);
+		    return ResponseEntity.ok().body((mr.getMessage().isBlank() || mr.getMessage().isEmpty()) ? "Sikeres módosítás!" : mr.getMessage());
+	}
 }

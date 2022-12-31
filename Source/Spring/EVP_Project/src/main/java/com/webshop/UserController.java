@@ -35,6 +35,7 @@ import com.webshop.Model.paymentMethods;
 import com.webshop.responsemodels.MessageResponse;
 import com.webshop.responsemodels.UserDeliveryInfoResponse;
 import com.webshop.services.EmailService;
+import com.webshop.services.ServiceConfiguration;
 import com.webshop.services.pdfService;
 
 import ch.qos.logback.core.net.ObjectWriter;
@@ -83,6 +84,8 @@ public class UserController {
 	AuthenticationManager authenticationManager;
 	@Autowired
 	JwtUtils jwtUtils;
+	@Autowired
+	ServiceConfiguration config;
 	
 	/**
 	 * Teszt metódus, jogosultságok / elérés / egyéb tesztre
@@ -406,7 +409,7 @@ public class UserController {
 		}
 		else {
 			try {
-				ObjectMapper mapper = new ObjectMapper();
+				ObjectMapper mapper = config.getJacksonObjectMapper();
 				return ResponseEntity.ok().body(new MessageResponse(mapper.writeValueAsString(orders)));
 			} catch (Exception e) {
 				return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));

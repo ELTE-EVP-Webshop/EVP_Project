@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.webshop.services.EmailService;
+import com.webshop.services.ServiceConfiguration;
 import com.webshop.services.pdfService;
 
 
@@ -282,4 +283,33 @@ public class AppController {
 			return ResponseEntity.status(400).body("ERROR");
 		}
 	}
+	
+	/**
+	 * Azonos termékcsaládba tartozó termékek lekérése
+	 * @param variationId int, A termékcsalád (variáció) azonosítója 
+	 * @return JSON formátumban a találatok
+	 */
+	@GetMapping("getProductsFromSameVariation")
+	public ResponseEntity<String> getProductsFromSameVariation(int variationId) {
+		ObjectMapper mapper = new ObjectMapper();
+		
+		List<ProductResponseModel> responseList = new ArrayList<ProductResponseModel>();
+		
+		for(Product p : productRepo.findProductsByVariationId(variationId)) {
+			ProductResponseModel m = new ProductResponseModel(p);
+			m.setImages(productImagesRepo.findAllByProductid(p.getId()));
+			m.setVariations(productVariationsRepo.findAllByProductid(p.getId()));
+			m.setCategories(productCategoryRepo.findAllByProductid(p.getId()));
+			responseList.add(m);
+		}
+		
+		try {
+			return ResponseEntity.ok().body(mapper.writeValueAsString(responseList));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(400).body("ERROR");
+		}
+	}
+	
+	
 }

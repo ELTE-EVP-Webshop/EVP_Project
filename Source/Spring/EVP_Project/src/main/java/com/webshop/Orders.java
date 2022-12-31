@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * orders adatbázis táblát leíró JPA modell
  * @author BalazsPC
@@ -22,6 +24,7 @@ public class Orders {
 	private long id;
 	@Column(name="user_id")
 	private long userid;
+	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime order_date;
 	private byte order_state;
 	private short payment_method;

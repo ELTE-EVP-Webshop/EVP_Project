@@ -79,9 +79,7 @@ public class AuthController {
     SecurityContextHolder.getContext().setAuthentication(authentication);
     UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
     ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
-    List<String> roles = userDetails.getAuthorities().stream()
-        .map(item -> item.getAuthority())
-        .collect(Collectors.toList());
+    List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList());
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString()).header("Access-Control-Allow-Methods", "GET, POST, OPTIONS").header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept")
         .body(new UserInfoResponse(userDetails.getId(),
                                    userDetails.getUsername(),
