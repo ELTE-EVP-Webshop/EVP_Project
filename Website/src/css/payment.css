@@ -1,0 +1,146 @@
+.container-pay
+{
+  width:70%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(0, 68, 127, 0.285);
+  margin-top: 20px;
+  padding-top: 10px;
+}
+.pay-header h2 {
+  font-size: 2.2rem;
+  font-weight: 400;
+  color:#5aed2ad6; 
+  font-weight: bold;
+  text-shadow: -1px -1px 0 rgb(33, 33, 33), 1px -1px 0 rgb(33, 33, 33), -1px 1px 0 rgb(33, 33, 33), 1px 1px 0 rgb(33, 33, 33);
+  padding-bottom: 2rem;
+}
+.pay-warn h3 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color:#ed542ad6; 
+  font-weight: bold;
+  text-shadow: -1px -1px 0 rgb(33, 33, 33), 1px -1px 0 rgb(33, 33, 33), -1px 1px 0 rgb(33, 33, 33), 1px 1px 0 rgb(33, 33, 33);
+  padding-bottom: 2rem;
+}
+
+.bevitel
+{
+  margin-bottom: 10px;  
+  margin-right: 0;
+  margin-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+
+.card{
+  border:none;
+}
+
+.form-control {
+  border-bottom: 2px solid #52995a9c !important;
+  border: none;
+  font-weight: 600;
+  color: #202020 !important;
+}
+
+.form-control:focus {
+  
+  border-color: #8bbafe;
+  outline: 0;
+  box-shadow: none;
+  border-radius: 0px;
+  border-bottom: 2px solid rgb(87, 136, 196) !important;
+}
+
+.inputbox {
+  position: relative;
+  margin-bottom: 20px;
+  width: 100%
+}
+
+.inputbox span {
+  position: absolute;
+  top: 7px;
+  left: 11px;
+  transition: 0.5s
+}
+
+.inputbox i {
+  position: absolute;
+  top: 13px;
+  right: 8px;
+  transition: 0.5s;
+  color: #3F51B5
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0
+}
+
+.inputbox input:focus~span {
+  transform: translateX(-0px) translateY(-15px);
+  font-size: 12px
+}
+
+.inputbox input:valid~span {
+  transform: translateX(-0px) translateY(-15px);
+  font-size: 12px
+}
+
+.card-blue{
+
+  background-color: #059e17;
+}
+
+.hightlight{
+
+  background-color: #02770f;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 15px;
+  font-size: 14px;
+}
+.hightlight p{
+
+  color: white;
+}
+
+
+.decoration{
+
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #2bc44c;
+  border-color:#492bc4;
+}
+
+.btn-success:hover {
+  color: #fff;
+  background-color:#ffc107;
+  border-color: #492bc4;
+}
+
+.paycheck
+{
+  margin-right: 10px;
+}
+.leftcard
+{
+  background-color: #2b33c4;
+}
+
+.choose
+{
+  border-style: solid;
+  border-color: #059e17;
+  border-width: 2px;
+}

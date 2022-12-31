@@ -14,6 +14,7 @@ import './login_page/css/util.css';
 import './css/contact.css';
 import './css/cartstyle.css';
 import './css/admin.css';
+import './css/payment.css';
 import AuthService from './services/AuthService';
 
 

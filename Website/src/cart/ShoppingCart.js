@@ -207,9 +207,9 @@ class ShoppingCart extends React.Component {
                      <div class="pay">
 
                      
-                    <button type="button" class="btn btn-success btnpay">
-                      <Link to="/payment">Fizetés</Link>
-                    </button>
+                    
+                      <Link to="/payment"><button type="button" class="btn btn-success btnpay"> Fizetés</button></Link>
+                    
                     </div>
                   </>
                 ): 
