@@ -70,8 +70,9 @@ export default function ShoppingCart() {
         async function getAllOrder() {
             var vari = await ProductService.getAllOrder();
 
-            setAvailableOrders(vari)
+            setAvailableOrders(Object.values(vari))
             setLoading(false)
+            console.log(JSON.stringify(vari))
         }
         getVariations();
         getCategories();
@@ -407,14 +408,31 @@ export default function ShoppingCart() {
                             {ordersVisible &&
                            <div>
                                 <h3 class="admin_focim">Összes rendelés</h3>
-                                <p>Elnézést, ez most nem elérhető!</p>
-                         {/*   {availalbeOrders.map(order => 
+                                {/*[{\"id\":1,\"order_date\":\"2022-12-17T18:44:51\",\"order_state\":0,\"payment_method\":1,\"payment_state\":0,\"delivery_method\":0,\"phone\":\"06203*/}
+                          
+                            {JSON.parse(availalbeOrders).map(order => 
                                 <>
-                                <p></p>
-                               
-                               
+                                <p>Azonosító: {order.id}</p>
+                                <p>Rendelés dátuma: {order.order_date}</p>
+                                <p>Rendelés állapota: {order.order_state}</p>
+                                <p>Fizetés módja: {order.payment_method}</p>
+                                <p>Fizetés állapota: {order.payment_state}</p>
+                                <p>Szállítás módja: {order.delivery_method}</p>
+                                <p>Telefonszám: {order.phone}</p>
+                                <p>Ország: {order.country}</p>
+                                <p>Megye: {order.country_1}</p>
+                                <p>Irányítószám: {order.post_code}</p>
+                                <p>Város: {order.city}</p>
+                                <p>Utca: {order.street}</p>
+                                <p>Házszám: {order.house_number}</p>
+                                <p>Egyéb info:{order.post_other}</p>
+                                <br></br>
+                                
                                 </>
-                         )}*/}
+                               
+                               
+                               
+                            )}
                            </div>
                             }
                           

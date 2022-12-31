@@ -85,10 +85,10 @@ const getOrders = () => {
   withCredentials: true
   })
   .then((response) => {
-    alert(response.data.message)
-    console.log(response.data)
+    //alert(response.data.message)
+    console.log(response.data.message)
    
-    return response.data;
+    return response.data.message;
   });
 
 }
@@ -97,7 +97,6 @@ const getOrders = () => {
 const getOrderProducts = (orderId) => {
   return axios
   .get(API_URL + "getOrderProducts",
-  {},
   {
   params: {
     orderId : orderId
@@ -105,13 +104,15 @@ const getOrderProducts = (orderId) => {
   withCredentials: true
   })
   .then((response) => {
-    alert(response.data.message)
-    console.log(response.data)
+   // alert(response.data.message)
+    console.log(response.data.message)
    
-    return response.data;
+    return response.data.message;
   });
 
 }
+
+
 
 
 const PayService = {
