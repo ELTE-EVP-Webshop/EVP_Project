@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
- * 
+ * Auth token szűrő, OncePerRequestFilter leszármazottja
  * @author BalazsPC
  *
  */
@@ -32,7 +32,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
   /**
    * Felülírt függvény
-   * Felhasználó kinyerése a tokenből
+   * Token kivétele a kérésből, majd felhasználó kinyerése a tokenből, felhasználó bejelentkeztetése
    */
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -61,7 +61,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
   }
 
   /**
-   * Token kinyerése
+   * Token kinyerése a http kérésből (request)
    * @param request HttpServletRequest
    * @return String, generált token
    */

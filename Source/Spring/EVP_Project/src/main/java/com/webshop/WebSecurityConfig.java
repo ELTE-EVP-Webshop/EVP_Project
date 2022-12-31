@@ -34,6 +34,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   private AuthEntryPointJwt unauthorizedHandler;
 
+  /**
+   * Bejelentkező token szűrő
+   * @return AuthTokenFilter
+   */
   @Bean
   public AuthTokenFilter authenticationJwtTokenFilter() {
     return new AuthTokenFilter();
@@ -47,12 +51,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
   }
 
+  /**
+   * Auth manager
+   */
   @Bean
   @Override
   public AuthenticationManager authenticationManagerBean() throws Exception {
     return super.authenticationManagerBean();
   }
-
+  
+  /**
+   * Jelszó hash-elő
+   * @return BCryptPasswordEncoder
+   */
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();

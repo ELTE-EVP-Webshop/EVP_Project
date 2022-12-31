@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * Felhasználó fő adatait visszaadó modell (csak megjeleníthető adatokat tartalmaz, jelszó nélkül)
+ * Long id, String username, String email, List<String> roles, String cookie
  * @author BalazsPC
  *
  */

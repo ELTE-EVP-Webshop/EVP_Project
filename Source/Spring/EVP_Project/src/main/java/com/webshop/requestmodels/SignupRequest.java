@@ -6,6 +6,7 @@ import javax.validation.constraints.*;
  
 /**
  * Regisztrációs modell
+ * String username (NotBlank, Size: min3, max20), String email (Email, NotBlank, Size: max50), private String password(NotBlank Size min6 max40), int gender
  * @author BalazsPC
  *
  */

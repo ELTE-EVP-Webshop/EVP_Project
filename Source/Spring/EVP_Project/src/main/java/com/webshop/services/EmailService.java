@@ -4,6 +4,7 @@ import com.webshop.Model.EmailDetails;
 
 /**
  * Email service interface
+ * Tartalmazza az EmailService osztály implementálni kívánt fejléceit
  * @author BalazsPC
  *
  */

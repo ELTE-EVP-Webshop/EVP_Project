@@ -6,6 +6,12 @@ import java.util.Set;
 import com.webshop.Orders;
 import com.webshop.Role;
 
+/**
+ * Adminisztrátorok számára a felhasználók lekérésére készült modell
+ * long userId, String username, String email, boolean mailConfirmed, List<Orders> userOrders, Set<Role>userRoles
+ * @author BalazsPC
+ *
+ */
 public class UserResponseModelForAdmin {
 	 long userId;
 	String username;
