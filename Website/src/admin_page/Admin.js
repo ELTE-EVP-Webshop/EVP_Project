@@ -46,9 +46,20 @@ export default function ShoppingCart() {
     const [varName, setVarName] = useState("");
     const [updateVariationVisible, setUpdateVariationVisible] = useState(false);
 
-    //Orders 
+    //Orders
+    var [orderId, setOrderId] = useState(0)
+    var [orderState, setOrderState] = useState(-1)
     const [ordersVisible, setOrdersVisible] = useState(false)
     const [availalbeOrders, setAvailableOrders] = useState()
+    const [UpdateOrderStateVisible, setUpdateOrderStateVisible] = useState(false);
+
+    //Users
+    const [availableUsers, setAvailableUsers] = useState([])
+    const [usersVisible, setUsersVisible] = useState(false)
+    const [userId, setUserId] = useState(0)
+    const [UpdateUserRightsVisible, setUpdateUserRightsVisible] = useState(false)
+    const [userRights, setUserRights] = useState([])
+
 
     useEffect(() => {
         // React advises to declare the async function directly inside useEffect
@@ -74,10 +85,19 @@ export default function ShoppingCart() {
             setLoading(false)
             console.log(JSON.stringify(vari))
         }
+
+        async function getAllUsers() {
+            var vari = await ProductService.getUsers();
+
+            setAvailableUsers(vari)
+            setLoading(false)
+            console.log(JSON.stringify(vari))
+        }
         getVariations();
         getCategories();
         getProducts();
         getAllOrder();
+        getAllUsers();
         
         }, []);
 
@@ -157,6 +177,9 @@ export default function ShoppingCart() {
                     case 'updateCatPrior':
                         setCatPrior(event.target.value)
                         break;
+                    case "ordnum":
+                        setOrderState(event.target.value)
+                        break;
 
             }
             
@@ -233,6 +256,9 @@ export default function ShoppingCart() {
         setAllProdVisible(false)
         setUpdateProductVisible(false)
         setOrdersVisible(false)
+        setUpdateOrderStateVisible(false)
+        setUsersVisible(false)
+        setUpdateUserRightsVisible(false)
     }
     const newProduct = () => {
         hideAll();
@@ -253,6 +279,16 @@ export default function ShoppingCart() {
 
         if(ordersVisible) {
             setOrdersVisible(false)
+        }
+
+    }
+
+    const getAllUsers = () => {
+        hideAll();
+        setUsersVisible(true);
+
+        if(usersVisible) {
+            setUsersVisible(false)
         }
 
     }
@@ -374,6 +410,43 @@ export default function ShoppingCart() {
         setCatDesc("");
        }
 
+    const updateOrderState = (orderid) => {
+        hideAll();
+        setOrdersVisible(true)
+        setUpdateOrderStateVisible(true)
+        setOrderId(orderid);
+        console.log(orderid)
+        if(UpdateOrderStateVisible) {
+            setUpdateOrderStateVisible(false)
+        }
+    }
+
+    const confirmOrderStateChange = () => {
+        hideAll();
+        if(orderId != 0 && orderState != -1 && orderState <= 4 && orderState >= 0) {
+            ProductService.updateOrderState(orderId, orderState)
+        } else {
+            alert("Hiba történt a rendelés állapotának módosítása során!")
+        }
+        setOrderId(0);
+        setOrderState(-1)
+    }
+
+    const updateUserRights = (userid) => {
+        hideAll();
+        setUsersVisible(true)
+        setUpdateUserRightsVisible(true)
+        setUserId(userid);
+        console.log(userid)
+        if(UpdateOrderStateVisible) {
+            setUpdateUserRightsVisible(false)
+        }
+    }
+
+    const confirmUpdateUserRights = () => {
+        hideAll();
+    }
+
        if(user.roles.includes('ROLE_ADMIN1') || user.roles.includes('ROLE_ADMIN2') ) {
         if(loading) {
             return (
@@ -387,6 +460,9 @@ export default function ShoppingCart() {
                         <div class="row gombtomb">
                         <div class="vl">
                         <div class="col gombkulso"> <button  onClick={() => getAllOrder()} type='button' className='btn btn-primary admingomb'>Rendelések megtekintése</button></div>
+                        </div>
+                        <div class="vl">
+                        <div class="col gombkulso"> <button  onClick={() => getAllUsers()} type='button' className='btn btn-primary admingomb'>Felhasználók megtekintése</button></div>
                         </div>
                         <div class="col gombkulso"><button  onClick={() => newProduct()} type='button' className='btn btn-primary admingomb'>Új termék létrehozása</button></div>
                         <div class="vl"></div>
@@ -427,14 +503,53 @@ export default function ShoppingCart() {
                                 <p>Házszám: {order.house_number}</p>
                                 <p>Egyéb info:{order.post_other}</p>
                                 <br></br>
-                                
+                                <button onClick={() => updateOrderState(order.id)} className='btn btn-success'>Rendelés állapotának módosítása</button>
                                 </>
-                               
+                              
                                
                                
                             )}
+                             {UpdateOrderStateVisible &&
+                            <>
+                               <label for="ordnum"> Rendelés új állapota(0-4 közötti érték megengedett): </label><input onChange={(e) => handleChange(e, "ordnum")} id="ordnum" type="number" required></input>
+                               <button className='btn btn-danger' onClick={() => confirmOrderStateChange()}>Rendelés állapotának megváltoztatása</button>
+                            
+                            </>
+                                
+                        }
                            </div>
                             }
+
+                            {usersVisible &&
+                            <div>
+                                <h3 class="admin_focim">Összes felhasználó</h3>
+                                {Object.values(availableUsers).map(user =>
+                                <>
+                                {/* {\"userId\":1,\"username\":\"Admin\",\"email\":\"Admin\",\"mailConfirmed\":true,\"userOrders\":[],\"userRoles\":[]}*/}
+                                    <p>Felhasználó azonosítója: {user.userId}</p>
+                                    <p>Felhasználónév: {user.username}</p>
+                                    <p>Email cím: {user.email}</p>
+                                    <p>Email megerősítve: {user.mailConfirmed}</p>
+                                    <p>Felhasználó rendelései: {user.userOrders}</p>
+                                    <p>Felhasználó jogai: {user.userRoles}</p>
+                                    <br></br>
+                                    <button onClick={() => updateUserRights(user.userId)} className='btn btn-success'>Felhasználó jogainak módosítása</button>
+                                    </>
+                                    )}
+                                
+
+                            </div>
+                            
+                            
+                            }
+
+                    {UpdateUserRightsVisible &&
+                            <>
+                               <label for="userRights"> Felhasználó jogköre: </label><input onChange={(e) => handleChange(e, "userRights")} id="userRights" type="text" required></input>
+                               <button className='btn btn-danger' onClick={() => confirmUpdateUserRights()}>Felhasználó jogainak frissítése</button>
+                            
+                            </>
+            }
                           
                         
                         {allProdVisible &&

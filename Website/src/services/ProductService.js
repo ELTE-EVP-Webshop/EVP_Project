@@ -354,13 +354,80 @@ const getAllOrder = () => {
   });
 }
 
+// updateOrderState
+
+const updateOrderState = (orderId, newState) => {
+  return axios
+  .post(PRODUCTS_REST_API_URL_ADMIN + "updateOrderState",
+  {},
+  {
+    params: {
+      orderId: orderId,
+      newState : newState
+    },
+    withCredentials: true
+  })
+  .then((response) => {
+    alert(response.data.message)
+    window.location.assign("/admin")
+    return response.data;
+  });
+}
+
+// getUsers
+
+const getUsers = () => { 
+  return axios
+  .get(PRODUCTS_REST_API_URL_ADMIN + "getUsers",
+  {},
+		{
+		  params:{
+
+		  },
+      withCredentials: true
+		})
+  .then((response) => {
+    
+    console.log(response.data);
+
+    return  response.data.message;
+  });
+}
+
+// updateAdminRights
+
+const updateAdminRights = (userId, rolesJson) => {
+  return axios
+  .post(PRODUCTS_REST_API_URL_ADMIN + "updateupdateAdminRightsOrderState",
+  {},
+  {
+    params: {
+      userId: userId,
+      rolesJson : rolesJson
+    },
+    withCredentials: true
+  })
+  .then((response) => {
+    alert(response.data.message)
+    window.location.assign("/admin")
+    return response.data;
+  });
+
+
+
+}
+
+
       const ProductService = {
         getProducts,
         getVariations,
         getCategories,
         addProduct,
         updateProduct,
+        getUsers,
+        updateAdminRights,
         getAllOrder,
+        updateOrderState,
         createCategory,
         createVariation,
         addProductToCategory,
