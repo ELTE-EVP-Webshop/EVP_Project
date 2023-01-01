@@ -2,6 +2,7 @@ package com.webshop;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -98,6 +99,28 @@ public class AppController {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(400).body("ERROR");
+		}
+	}
+	
+	/**
+	 * Kapott azonosítóval rendelkező tárgy visszaadása
+	 * @param prodId long, a keresett termék azonosítója
+	 * @return String, JSON formátumban ProductResponseModel
+	 */
+	@GetMapping("/getProductById")
+	public ResponseEntity<String> getProductById(long prodId) {
+		Optional<Product> p = productRepo.findById(prodId);
+		if(p.isEmpty())
+			return ResponseEntity.status(404).body("A keresett termék nem tlaálható!");
+		ProductResponseModel m = new ProductResponseModel(p.get());
+		m.setImages(productImagesRepo.findAllByProductid(p.get().getId()));
+		m.setVariations(productVariationsRepo.findAllByProductid(p.get().getId()));
+		m.setCategories(productCategoryRepo.findAllByProductid(p.get().getId()));
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			return ResponseEntity.ok().body(mapper.writeValueAsString(m));
+		} catch (JsonProcessingException e) {
+			return ResponseEntity.badRequest().body("Hiba lépett fel!");
 		}
 	}
 	
