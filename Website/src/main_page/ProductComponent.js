@@ -309,20 +309,7 @@ useEffect(() => {
     return (
      <>
       <header class="site-navbar" role="banner">
-      {showModeratorBoard && (
-        <li className="nav-item">
-          <Link to={"/mod"} class="nav-item">
-            <span>Moderator Board</span>
-          </Link>
-        </li>
-      )}
-      {showAdminBoard && (
-        <li className="nav-item">
-          <Link to={"/admin"} class="nav-item">
-            <span className="text-white">Admin Panel</span>
-          </Link>
-        </li>
-      )}
+      
 
       {currentUser ? (
         <div class="container">
@@ -390,7 +377,21 @@ useEffect(() => {
                     <ul class="dropdown arrow-top">
                       <li>
                         <a href="/profile">Profil</a>
-                      </li>
+                      </li> 
+                      {showModeratorBoard && (
+                        <li>
+                          <Link to={"/mod"} class="nav-item">
+                            Moderator Board
+                          </Link>
+                        </li>
+                      )}
+                      {showAdminBoard && (
+                        <li>
+                          <Link to={"/admin"} class="nav-item">
+                            Admin Panel
+                          </Link>
+                        </li>
+                      )}
                       <li>
                           <a href="/orders">Rendelések</a>
                         </li>

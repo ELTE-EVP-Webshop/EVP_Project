@@ -97,6 +97,20 @@ export default function Header() {
                         <li>
                           <a href="/profile">Profil</a>
                         </li>
+                        {showModeratorBoard && (
+                        <li>
+                          <Link to={"/mod"} class="nav-item">
+                            Moderator Board
+                          </Link>
+                        </li>
+                      )}
+                      {showAdminBoard && (
+                        <li>
+                          <Link to={"/admin"} class="nav-item">
+                            Admin Panel
+                          </Link>
+                        </li>
+                      )}
                         <li>
                           <a href="/orders">Rendelések</a>
                         </li>
