@@ -177,19 +177,32 @@ useEffect(() => {
 
 
 
-  function ModaliuszLeviosza (product, kepindex) {
+  function ModaliuszLeviosza (product) {
     if (!cartAddOne) {
-      var desc = product.p.description ? product.p.description : "Nincs leírás"
+      var desc = product.p.description ? product.p.description : "Nincs leírás";
+      var imagecounter=1;
+      var imagecounter2=1;
       var modal = document.getElementById("myModal2");
       modal.style.display = "block";
       document.getElementById("myModal2").innerHTML =
         "<div class='modal-inside'>" +
           "<span class='close' id='close' name='close'>&times;</span>" +
           "<div class='modal-content'>" +
-            "<img class='modalIMG' src='" +getMainImage(product) + "' alt='Easter egg' ></img>" +
-            "<div>"+product.images.map((p) =>
-              "<img class='modalIMG' src="+p.image_url+" alt='Ez egy fos'/>"
-            ) +"</div>"+
+          "<div class='slideshow-container'>"+
+            product.images.map((p) =>
+              "<div class='mySlides fade'>"+
+                "<div class='numbertext'>"+imagecounter++ +"/"+ product.images.length+"</div>"+
+                "<img src="+p.image_url+" class='modalIMG' style='width:100%'>"+
+              "</div>"
+            ).join(' ')+
+            "<div style='text-align:center'>"+
+            product.images.map((p) =>
+            "<span class='dot' onclick='currentSlide("+ imagecounter2++ +")'></span>"
+            ).join(' ')+
+            "</div>"+
+            "<a class='prev' onclick='plusSlides(-1)'>❮</a>"+
+            "<a class='next' onclick='plusSlides(1)'>❯</a>"+
+          "</div>"+
             "<div class='modal-content-detail'>" +
               "<p class='modalName'>" +product.p.name + "</p> " +
               "<p class='modalDesc'>" +desc  +"</p>" +
@@ -197,7 +210,7 @@ useEffect(() => {
               "<p class='modalNumberTag modalDesc'>Ennyit a kosárba:</p>" +
               "<div class='row modalNumDIV'>"+
               "<input type='number' id='cartAddMultipleNUM' class='modalNumberNum' value='1' min='0'></input>"+
-              "<div id='cartAddMultipleBTN'>"+
+              "<div id='cartAddMultipleBTN' class='modalNumberBTN'>"+
                 "<i class='fa-solid fa-check fa-2x'></i> "+
               "</div>"+
               "</div>"+
@@ -502,9 +515,9 @@ useEffect(() => {
             <div class="row justify-content-center text-center">
               <div class="col-md-8 col-lg-6">
                 <div class="header">
-                      {products.length > 0 && 
-                  <h2 class="new">Új termékek</h2>
-                }
+                    {products.length > 0 && 
+                      <h2 class="new">Új termékek</h2>
+                    }
                 </div>
                 {productLoading &&
                   <h1>Termékek betöltése...</h1>
@@ -539,8 +552,8 @@ useEffect(() => {
                  
               {products.map((product, index) => (
                 product.p ?
-                <div key={product.p.id} class="col-md-6 col-lg-4 col-xl-3">
-                  <div id={product.p.id} class="single-product">
+                <div key={product.p.id} class="col-md-6 col-lg-4 col-xl-3 single-product-card">
+                  <div id={product.p.id}  name="single-product" class="single-product">
                     <div
                       onClick={() => ModaliuszLeviosza(product, index)}
                       class="part-1"
@@ -566,8 +579,16 @@ useEffect(() => {
                           </li>
                         </ul>
                       )}
-
+                      {product.p.sale_price != product.p.price ?
+                      <>
+                      <h2 class="discount">Akciós</h2>
+                      </>
+                      :
+                      <>
                       <span class="new">Új</span>
+                      </>
+                    }
+                      
                      
                     
                     </div>
