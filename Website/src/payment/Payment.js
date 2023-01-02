@@ -314,7 +314,14 @@ export default function Payment() {
                 </div>
                 <div class="mt-4 mb-4 d-flex justify-content-between">
                   <span><a href="/cart">Vissza</a></span>
-                  <button class="btn btn-success px-3">Megrendelés</button>
+                  <button onClick={() => handlePay(phone,
+    country,
+    country2,
+    city,
+    street,
+    housenumber,
+    paymethod,
+    deliverymethod)} class="btn btn-success px-3">Megrendelés</button>
                 </div>
               </div>
               <div class="col-md-4">

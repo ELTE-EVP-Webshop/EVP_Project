@@ -398,7 +398,7 @@ const getUsers = () => {
 
 const updateAdminRights = (userId, rolesJson) => {
   return axios
-  .post(PRODUCTS_REST_API_URL_ADMIN + "updateupdateAdminRightsOrderState",
+  .post(PRODUCTS_REST_API_URL_ADMIN + "updateAdminRightsOrderState",
   {},
   {
     params: {
@@ -417,9 +417,83 @@ const updateAdminRights = (userId, rolesJson) => {
 
 }
 
+// getProductById
+
+const getProductById = (prodId) => {
+  return axios
+  .get(PRODUCTS_REST_API_URL + "getProductById",
+		{
+		  params:{
+			  prodId : prodId
+		  }
+		})
+  .then((response) => {
+    
+  //  console.log(response.data);
+
+    return response.data;
+  });
+}
+
+// removeProductFromCategory
+
+const removeProductFromCategory = (prodId, catId) => {
+  return axios
+  .delete(PRODUCTS_REST_API_URL_ADMIN + "removeProductFromCategory",
+		{
+		  params:{
+			  prodId : prodId,
+        catId : catId
+		  }
+		})
+  .then((response) => {
+    
+  //  console.log(response.data);
+
+    return response.data;
+  });
+}
+
+const addProductToVariation = ( prodId,  varId, desc) => {
+  return axios
+  .post(PRODUCTS_REST_API_URL_ADMIN + "addProductToVariation",
+  {},
+		{
+		  params:{
+			  prodId : prodId,
+        varId : varId,
+        desc : desc
+		  }
+		})
+  .then((response) => {
+    
+  //  console.log(response.data);
+
+    return response.data;
+  });
+}
+
+const removeProductFromVariation = ( prodId,  varId) => {
+  return axios
+  .delete(PRODUCTS_REST_API_URL_ADMIN + "removeProductFromVariation",
+		{
+		  params:{
+			  prodId : prodId,
+        varId : varId,
+		  }
+		})
+  .then((response) => {
+    
+  //  console.log(response.data);
+
+    return response.data;
+  });
+}
+
 
       const ProductService = {
         getProducts,
+        getProductById,
         getVariations,
         getCategories,
         addProduct,
@@ -431,12 +505,15 @@ const updateAdminRights = (userId, rolesJson) => {
         createCategory,
         createVariation,
         addProductToCategory,
+        addProductToVariation,
         updateCategory,
         updateVariation,
         findProductsByFilterText,
         findProductsByKeywordAny,
         findProductsByKeywordAll,
-        findProductsByCategory
+        findProductsByCategory,
+        removeProductFromCategory,
+        removeProductFromVariation
       }
 
       export default ProductService

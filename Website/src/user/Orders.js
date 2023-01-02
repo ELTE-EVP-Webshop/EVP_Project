@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import PayService from '../services/PayService'
+import ProductService from '../services/ProductService'
 
 export default function Orders() {
   const [orders, setOrders] = useState([])
+  const [productbyId, setProductById] = useState("")
   const [orderProducts, setOrderProducts] = useState([])
   const [orderProductsVisible, setOrderProductsVisible] = useState(false)
+  const [OtherProdInfoVisible, setOtherProdInfoVisible] = useState(false)
   async function  handleOrderProducts(orderid) {
 
 
@@ -24,6 +27,28 @@ export default function Orders() {
       }
       var getoproducts = await PayService.getOrderProducts(orderid)
      await setOrderProducts(JSON.parse(getoproducts))
+    
+    }
+  }
+
+  async function otherProdInfo(productId)  {
+    
+
+   
+    await getProductById(productId)
+  }
+  
+  async function getProductById(productid) {
+    if(productid != 0) {
+     
+      var getProductById = await ProductService.getProductById(productid)
+     await setProductById((getProductById))
+     if(OtherProdInfoVisible) {
+      setOtherProdInfoVisible(false)
+    } else {
+      setOtherProdInfoVisible(true)
+    }
+    console.log(getProductById)
     
     }
   } 
@@ -70,14 +95,33 @@ export default function Orders() {
                                   <h3>Rendeléshez tartozó termék(ek)</h3>
                                   
                                  {orderProducts.map(oproduct =>
-                                    <>
-                                        <p>Termék azonosító: {oproduct.product_id}</p>
+                                 <>
+                     
+                                    
+                                        
                                         <p>Mennyiség: {oproduct.count}</p>
                                         <p>Ár: {oproduct.price}</p>
                                         <p>Rendelési azonosító: {oproduct.order_id}</p>
+                                        <button onClick={() => otherProdInfo(oproduct.product_id)} className='btn btn-secondary'>Termék további adatai</button>
+                                       
                                         <br></br>
                                     </>
                                     )}
+                                     {OtherProdInfoVisible &&
+                                          <>
+                                          <div>Termék további adatai:</div>
+                                            
+                                                <>
+                                                  <p>Termék neve: {productbyId.p.name}</p>
+                                                  <p>Termék ára: {productbyId.p.price}</p>
+                                                  <p>Termék eladási ára: {productbyId.p.sale_price}</p>
+                                                  <p>Termék leírása: {!productbyId.p.description ? "Nincs" : productbyId.p.description}</p>
+                                                </>
+                                              
+                                             
+                                          </>
+                                        
+                                        }
                                      
                                    </>
                                  }

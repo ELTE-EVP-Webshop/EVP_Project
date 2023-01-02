@@ -12,6 +12,7 @@ export default function ShoppingCart() {
     const [categories, setCategoriesVisible] = useState(false);
     const [variations, setVariationsVisible] = useState(false);
     const [productToCategoryVisible, setProductToCategoryVisible] = useState(false)
+    const [productToVariationVisible, setProductToVariationVisible] = useState(false)
     const [availableVariations, setAvailableVariations] = useState()
     const [availableCategories, setAvailableCategories] = useState()
     const [availableProducts, setAvailableProducts] = useState()
@@ -45,6 +46,7 @@ export default function ShoppingCart() {
     const [varId, setVarId] = useState(1);
     const [varName, setVarName] = useState("");
     const [updateVariationVisible, setUpdateVariationVisible] = useState(false);
+    const [VariDesc, setVariDesc] = useState("")
 
     //Orders
     var [orderId, setOrderId] = useState(0)
@@ -64,41 +66,49 @@ export default function ShoppingCart() {
     useEffect(() => {
         // React advises to declare the async function directly inside useEffect
         async function getVariations() {
+            setLoading(true)
             var vari = await ProductService.getVariations();
-            setAvailableVariations(vari)
+            await setAvailableVariations(vari)
+           
         }
         async function getCategories() {
+            setLoading(true)
             var vari = await ProductService.getCategories();
-            setAvailableCategories(vari)
+            await setAvailableCategories(vari)
+            
         }
         async function getProducts() {
+            setLoading(true)
             var vari = await ProductService.getProducts();
 
-            setAvailableProducts(vari)
-            setLoading(false)
+            await setAvailableProducts(vari)
+            
         }
 
         async function getAllOrder() {
+            setLoading(true)
             var vari = await ProductService.getAllOrder();
 
-            setAvailableOrders(Object.values(vari))
-            setLoading(false)
-            console.log(JSON.stringify(vari))
+            await setAvailableOrders(Object.values(vari))
+           
+           // console.log(JSON.stringify(vari))
         }
 
         async function getAllUsers() {
+            setLoading(true)
             var vari = await ProductService.getUsers();
 
-            setAvailableUsers(vari)
-            setLoading(false)
+            await setAvailableUsers(vari)
+            
             console.log(JSON.stringify(vari))
         }
         getVariations();
         getCategories();
-        getProducts();
+        
         getAllOrder();
         getAllUsers();
-        
+        getProducts();
+        setLoading(false)
         }, []);
 
         async function handleChange (event, selected)  {
@@ -180,6 +190,9 @@ export default function ShoppingCart() {
                     case "ordnum":
                         setOrderState(event.target.value)
                         break;
+                    case "varidesc":
+                        setVariDesc(event.target.value)
+                        break;
 
             }
             
@@ -259,6 +272,8 @@ export default function ShoppingCart() {
         setUpdateOrderStateVisible(false)
         setUsersVisible(false)
         setUpdateUserRightsVisible(false)
+        setProductToVariationVisible(false)
+        
     }
     const newProduct = () => {
         hideAll();
@@ -325,7 +340,7 @@ export default function ShoppingCart() {
             setCategoryVisible(false)
         }
         
-       // console.log(availableCategories)
+        console.log(availableCategories)
         
     }
 
@@ -447,6 +462,48 @@ export default function ShoppingCart() {
         hideAll();
     }
 
+    const addProductToVariation = () => {
+        hideAll();
+        setProductToVariationVisible(true);
+
+        if(productVariationVisible) {
+            setProductToVariationVisible(false)
+    }
+
+}
+
+async function handleProdToVarSubmit(prodId) {
+    if(prodId != 0 && availVarId != 0 && VariDesc != "") {
+       await ProductService.addProductToVariation(prodId, availVarId, VariDesc)
+       alert("Sikeres hozzáadás")
+    } else {
+        alert("Kérlek minden adatot adj meg!")
+    }
+
+}
+
+     async function deleteCategory(prodid, catid)  {
+        if(prodid != 0 && catid != 0) {
+          await ProductService.removeProductFromCategory(prodid, catid)
+            alert("Sikeres törlés!")
+        } else {
+            alert("Sikertelen törlés!")
+        }
+
+     }
+
+     async function deleteVariation(prodid, varid)  {
+        if(prodid != 0 && varid != 0) {
+          await ProductService.removeProductFromVariation(prodid, varid)
+            alert("Sikeres törlés!")
+        } else {
+            alert("Sikertelen törlés!")
+        }
+
+     }
+
+
+
        if(user.roles.includes('ROLE_ADMIN1') || user.roles.includes('ROLE_ADMIN2') ) {
         if(loading) {
             return (
@@ -476,8 +533,11 @@ export default function ShoppingCart() {
                         <div class="vl"></div>
                         <div class="col gombkulso"> <button  onClick={() => getVariations()} type='button' className='btn btn-primary admingomb'>Variációk lekérése</button></div>
                         <div class="vl"></div>
-                        <div class="col gombkulso"> <button  onClick={() => addProductToCategory()} type='button' className='btn btn-primary admingomb'>Termék felvétele kategóriához</button></div>
+                        <div class="col gombkulso"> <button  onClick={() => addProductToCategory()} type='button' className='btn btn-primary admingomb'>Termék felvétele/törlése a kiválasztott kategóriához/ból</button></div>
+                        <div class="vl"></div>
+                        <div class="col gombkulso"> <button  onClick={() => addProductToVariation()} type='button' className='btn btn-primary admingomb'>Termék felvétele/törlése a kiválasztott variációhoz/ból</button></div>
                         </div>
+                        
                         <div class="kiirasok">
                             <div class="admin_doboz">
                             <div>
@@ -713,6 +773,7 @@ export default function ShoppingCart() {
                             availableCategories.map(cat =>
                                 <>
                                     <p>{cat.id} - {cat.category}</p><button onClick={() => updateCategory(cat.id)} type='button' className='btn btn-danger'>Módosítás</button>
+                                    
                                     </>
                                 )  
                                 
@@ -754,7 +815,7 @@ export default function ShoppingCart() {
                          }
                          {productToCategoryVisible && 
                             <div>
-                                 <h3 class="admin_focim">Termék felvétele kategóriához</h3>
+                                 <h3 class="admin_focim">Termék felvétele/törlése kategóriához/ból</h3>
                                 <label class="admin_cimke">Termék: </label>
                                 <select onChange={(e) => handleChange(e,"availProd")}>
                                     {availableProducts.map(prod =>
@@ -773,7 +834,36 @@ export default function ShoppingCart() {
                                 </select>
     
                                 <button onClick={() => handleProdToCatSubmit(prodId, catId)} className='btn btn-primary' type='button'>Termék felvétele a kiválasztott kategóriához</button>
+                                <button onClick={() => deleteCategory(prodId, catId)} className='btn btn-danger'>Termék törlése a kiválasztott kategóriából</button>
                             </div>
+                         
+                         }
+                         {productToVariationVisible &&
+                            <div>
+                            <h3 class="admin_focim">Termék felvétele/törlése variációhoz/ból</h3>
+                           <label class="admin_cimke">Termék: </label>
+                           <select onChange={(e) => handleChange(e,"availProd")}>
+                               {availableProducts.map(prod =>
+                               <>
+                               <option id={prod.p.id} value={prod.p.id}>{prod.p.name}</option>
+                               </>
+                               )};
+                           </select>
+                           <label class="admin_cimke">Variáció: </label>
+                           <select onChange={(e) => handleChange(e,"availVar")}>
+                               {availableVariations.map(vari =>
+                               <>
+                               <option id={vari.id} value={vari.id}>{vari.name}</option>
+                               </>
+                               )};
+                           </select>
+                           <label class="admin_cimke">Leírás: </label>
+                           <input onChange={(e)=> handleChange(e, "varidesc")} id="desc" type="text"></input>
+
+                           <button onClick={() => handleProdToVarSubmit(prodId, availVarId)} className='btn btn-primary' type='button'>Termék felvétele a kiválasztott variációhoz</button>
+                           <button onClick={() => deleteVariation(prodId, availVarId)} className='btn btn-danger'>Termék törlése a kiválasztott variációból</button>
+                       </div>
+                         
                          
                          }
                          </div>

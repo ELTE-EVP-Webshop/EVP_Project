@@ -22,7 +22,7 @@ export default function forgetPassword() {
     <div>
         <h3 className="text-center">Adja meg az email címét, hogy elküldhessük Önnek a fiókjához tartozó új jelszavát!</h3>
         <label for="email">Email cím:</label>
-        <input onChange={(e) => handleChange(e)} id="email" type="email" placeholder="sugaralexander@gmail.com"></input>
+        <input onChange={(e) => handleChange(e)} id="email" type="email" placeholder="incidens.kar@incidensmail.hu"></input>
         <button onClick={() => handleSubmit()} className="btn btn-success">Új jelszó generálása</button>
     </div>
   );
