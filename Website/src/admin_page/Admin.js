@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {user} from '../main_page/Header'
 import ProductService from '../services/ProductService';
-
+import $ from "jquery";
 
 
 export default function ShoppingCart() {
@@ -441,10 +441,13 @@ export default function ShoppingCart() {
         if(UpdateOrderStateVisible) {
             setUpdateOrderStateVisible(false)
         }
+        //EditModal();
     }
 
     const confirmOrderStateChange = () => {
         hideAll();
+        console.log("final id:" + orderId);
+        console.log("final orderstate:" + orderState);
         if(orderId != 0 && orderState != -1 && orderState <= 4 && orderState >= 0) {
             ProductService.updateOrderState(orderId, orderState)
         } else {
@@ -517,10 +520,50 @@ async function handleProdToVarSubmit(prodId) {
         } else {
             alert("Sikertelen törlés!")
         }
-
      }
 
-
+    {/*async function EditModal() {
+      // eeezzz ittt szaaaar
+      var modal = document.getElementById("myModal2");
+      modal.innerHTML =
+        "<div class='modal-inside'>" +
+        "<span class='close' id='close' name='close'>&times;</span>" +
+        "<div class='modal-content'>" +
+        "<label>Állapot módosítása: </label>" +
+        "<div class='editdiv'>" +
+        "<label  for='ordnum'>" +
+        " Rendelés új állapota(0-4 közötti érték megengedett): " +
+        "</label>" +
+        "<input  class='orderedit number ordnum' name='ordnum' id='ordnum'  type='number' required></input>" +
+        "<button class='orderedit savebtn'>Rendelés állapotának megváltoztatása</button>" +
+        "</div>" +
+        "</div>" +
+        "</div>";
+      modal.style.display = "block";
+      var _ = this;
+  
+      await $("#close").click(function () {
+        modal.style.display = "none";
+      });
+  
+      await $(".savebtn").click(function () {
+        modal.style.display = "none";
+        confirmOrderStateChange();
+      });
+  
+      await $("body").on("change", "#ordnum", async function (event) {
+        // eeezzz ittt szaaaar
+        await setOrderState(event.target.value);
+        await alert(orderState);
+        //await handleChange( event , "ordnum");
+      });
+  
+      await window.addEventListener("click", function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      });
+    }*/} 
 
        if(user.roles.includes('ROLE_ADMIN1') || user.roles.includes('ROLE_ADMIN2') ) {
         if(loading) {
@@ -557,102 +600,146 @@ async function handleProdToVarSubmit(prodId) {
                         <div class="kiirasok">
                             <div class="admin_doboz">
                             <div>
-                            {ordersVisible &&
-                           <div>
-                                <h3 class="admin_focim">Összes rendelés</h3>
+                            {ordersVisible && (
+                  <div>
+                    <h3 class="admin_focim">Összes rendelés</h3>
+                    <div class="row">
+                                <ul class="list-group">
                                 {/*[{\"id\":1,\"order_date\":\"2022-12-17T18:44:51\",\"order_state\":0,\"payment_method\":1,\"payment_state\":0,\"delivery_method\":0,\"phone\":\"06203*/}
-                          
-                            {JSON.parse(availalbeOrders).map(order => 
+
+                                {JSON.parse(availalbeOrders).map((order) => (
+                                    <>
+                                    <li class="list-group-item">
+                                        <p>Azonosító: {order.id}</p>
+                                        <p>Rendelés dátuma: {order.order_date}</p>
+                                        <p>
+                                        Rendelés állapota: {order.order_state}
+                                        </p>
+                                        <p>Fizetés módja: {order.payment_method}</p>
+                                        <p>
+                                        Fizetés állapota: {order.payment_state}
+                                        </p>
+                                        <p>
+                                        Szállítás módja: {order.delivery_method}
+                                        </p>
+                                        <p>Telefonszám: {order.phone}</p>
+                                        <p>Ország: {order.country}</p>
+                                        <p>Megye: {order.country_1}</p>
+                                        <p>Irányítószám: {order.post_code}</p>
+                                        <p>Város: {order.city}</p>
+                                        <p>Utca: {order.street}</p>
+                                        <p>Házszám: {order.house_number}</p>
+                                        <p>Egyéb info:{order.post_other}</p>
+                                        <br></br>
+                                        <button
+                                        onClick={() => updateOrderState(order.id)}
+                                        class="btn btn-success editgomb"
+                                        >
+                                        Rendelés állapotának módosítása
+                                        </button>
+                                    </li>
+                                    </>
+                                ))}
+                                <div id="myModal2" class="modal"></div>
+                                </ul>
+                       
+                               
+                                {UpdateOrderStateVisible && (
                                 <>
-                                <p>Azonosító: {order.id}</p>
-                                <p>Rendelés dátuma: {order.order_date}</p>
-                                <p>Rendelés állapota: {order.order_state}</p>
-                                <p>Fizetés módja: {order.payment_method}</p>
-                                <p>Fizetés állapota: {order.payment_state}</p>
-                                <p>Szállítás módja: {order.delivery_method}</p>
-                                <p>Telefonszám: {order.phone}</p>
-                                <p>Ország: {order.country}</p>
-                                <p>Megye: {order.country_1}</p>
-                                <p>Irányítószám: {order.post_code}</p>
-                                <p>Város: {order.city}</p>
-                                <p>Utca: {order.street}</p>
-                                <p>Házszám: {order.house_number}</p>
-                                <p>Egyéb info:{order.post_other}</p>
-                                <br></br>
-                                <button onClick={() => updateOrderState(order.id)} className='btn btn-success'>Rendelés állapotának módosítása</button>
+                                <div class="lebeg">
+                                    <div class="lebegContent">
+                                        <label for="ordnum" class="lebegLabel">
+                                        {" "}
+                                        Rendelés új állapota(0-4 közötti érték
+                                        megengedett):{" "}
+                                        </label>
+                                        <input class="lebegInput admin_bevitel"
+                                        onChange={(e) => handleChange(e, "ordnum")}
+                                        id="ordnum"
+                                        type="number"
+                                        required
+                                        ></input><br></br>
+                                        <button
+                                        className="btn btn-danger lebegBTN"
+                                        onClick={() => confirmOrderStateChange()}
+                                        >
+                                        Rendelés állapotának megváltoztatása
+                                        </button>
+                                    </div>
+                                    </div>
                                 </>
-                              
-                               
-                               
-                            )}
-                             {UpdateOrderStateVisible &&
-                            <>
-                               <label for="ordnum"> Rendelés új állapota(0-4 közötti érték megengedett): </label><input onChange={(e) => handleChange(e, "ordnum")} id="ordnum" type="number" required></input>
-                               <button className='btn btn-danger' onClick={() => confirmOrderStateChange()}>Rendelés állapotának megváltoztatása</button>
-                            
-                            </>
-                                
-                        }
-                           </div>
-                            }
+                                )}
+                           
+                    </div>
+                  </div>
+                )}
 
                             {usersVisible &&
                             <div>
                                 <h3 class="admin_focim">Összes felhasználó</h3>
+                                <ul class="list-group">
                                 {Object.values(availableUsers).map(user =>
                                 <>
-                                {/* {\"userId\":1,\"username\":\"Admin\",\"email\":\"Admin\",\"mailConfirmed\":true,\"userOrders\":[],\"userRoles\":[]}*/}
-                                    <p>Felhasználó azonosítója: {user.userId}</p>
-                                    <p>Felhasználónév: {user.username}</p>
-                                    <p>Email cím: {user.email}</p>
-                                    <p>Email megerősítve: {user.mailConfirmed ? "Igaz" : "Hamis"}</p>
-                                   
+                                <li class="list-group-item">
+                                    {/* {\"userId\":1,\"username\":\"Admin\",\"email\":\"Admin\",\"mailConfirmed\":true,\"userOrders\":[],\"userRoles\":[]}*/}
+                                        <p>Felhasználó azonosítója: {user.userId}</p>
+                                        <p>Felhasználónév: {user.username}</p>
+                                        <p>Email cím: {user.email}</p>
+                                        <p>Email megerősítve: {user.mailConfirmed ? "Igaz" : "Hamis"}</p>
+                                      
+                                        
+                                        {/*[{\"id\":21,\"order_date\":\"2022-12-26T23:59:50\",\"order_state\":0,\"payment_method\":2,\"payment_state\":0,\"delivery_method\":2,\"phone\":\"101234567\",\"country\":\"Magyarország\",\"country_1\":\"Győr-Moson Sopron\",\"city\":\"Sopron\",\"post_code\":1,\"street\":\"Teszt\",\"house_number\":\"1\",\"post_other\":\"1\",\"user_id\":19}] */}
                                     
-                                    {/*[{\"id\":21,\"order_date\":\"2022-12-26T23:59:50\",\"order_state\":0,\"payment_method\":2,\"payment_state\":0,\"delivery_method\":2,\"phone\":\"101234567\",\"country\":\"Magyarország\",\"country_1\":\"Győr-Moson Sopron\",\"city\":\"Sopron\",\"post_code\":1,\"street\":\"Teszt\",\"house_number\":\"1\",\"post_other\":\"1\",\"user_id\":19}] */}
-                                 
-                                    {/*<button onClick={() => userOrders()} class="btn btn-info">Felhasználó rendeléseinek megtekintése:</button> 
+                                        {/*<button onClick={() => userOrders()} class="btn btn-info">Felhasználó rendeléseinek megtekintése:</button> 
 
-                                    {userOrderVisible && 
-                                            user.userOrders.map(orders=>
-                                               <>
-                                                <p>Rendelés azonosítója : {orders.id}</p>
-                                                <p>Rendelés dátuma : {orders.order_date}</p>
-                                                <p>Rendelés állapota : {orders.order_state}</p>
-                                                <p>Fizetés mód : {orders.payment_state}</p>
-                                                <p>Szállítás mód : {orders.delivery_method}</p>
-                                                <p>Telefonszám : {orders.phone}</p>
-                                                <p>Ország: {orders.country}</p>
-                                                <p>Megye : {orders.country_1}</p>
-                                                <p>Város: {orders.city}</p>
-                                                <p>Irányítószám: {orders.post_code}</p>
-                                                <p>Utca: {orders.street}</p>
-                                                <p>Házszám: {orders.house_number}</p>
-                                                <p>Egyéb: {orders.post_other}</p>
-                                                <p>Felhasználó azonosítója: {orders.user_id}</p>
-                                             </>
-                                            )}*/}
-                                    <>
-                            <p>Felhasználó rendelései: </p>{user.userOrders.map(orders=>
-                                        <>
-                                        <p>Rendelés azonosítója : {orders.id}</p>
-                                        <p>Rendelés dátuma : {orders.order_date}</p>
-                                        <p>Rendelés állapota : {orders.order_state}</p>
-                                        <p>Fizetés mód : {orders.payment_state}</p>
-                                        <p>Szállítás mód : {orders.delivery_method}</p>
-                                        <p>Telefonszám : {orders.phone}</p>
-                                        <p>Ország: {orders.country}</p>
-                                        <p>Megye : {orders.country_1}</p>
-                                        <p>Város: {orders.city}</p>
-                                        <p>Irányítószám: {orders.post_code}</p>
-                                        <p>Utca: {orders.street}</p>
-                                        <p>Házszám: {orders.house_number}</p>
-                                        <p>Egyéb: {orders.post_other}</p>
-                                        <p>Felhasználó azonosítója: {orders.user_id}</p>
-                                        <br></br>
-                                        </>
-                                        )} {user.userOrders.length < 1 && "Nincs"}
-                                                
+                                        {userOrderVisible && 
+                                                user.userOrders.map(orders=>
+                                                  <>
+                                                    <p>Rendelés azonosítója : {orders.id}</p>
+                                                    <p>Rendelés dátuma : {orders.order_date}</p>
+                                                    <p>Rendelés állapota : {orders.order_state}</p>
+                                                    <p>Fizetés mód : {orders.payment_state}</p>
+                                                    <p>Szállítás mód : {orders.delivery_method}</p>
+                                                    <p>Telefonszám : {orders.phone}</p>
+                                                    <p>Ország: {orders.country}</p>
+                                                    <p>Megye : {orders.country_1}</p>
+                                                    <p>Város: {orders.city}</p>
+                                                    <p>Irányítószám: {orders.post_code}</p>
+                                                    <p>Utca: {orders.street}</p>
+                                                    <p>Házszám: {orders.house_number}</p>
+                                                    <p>Egyéb: {orders.post_other}</p>
+                                                    <p>Felhasználó azonosítója: {orders.user_id}</p>
                                                 </>
+                                                )}*/}
+                                               
+                                        <>
+                                        <ul class="list-group">
+                                            <p>Felhasználó rendelései: </p>{user.userOrders.map(orders=>
+                                            <>
+                                            <li class="list-group-item">
+                                            <p>Rendelés azonosítója : {orders.id}</p>
+                                            <p>Rendelés dátuma : {orders.order_date}</p>
+                                            <p>Rendelés állapota : {orders.order_state}</p>
+                                            <p>Fizetés mód : {orders.payment_state}</p>
+                                            <p>Szállítás mód : {orders.delivery_method}</p>
+                                            <p>Telefonszám : {orders.phone}</p>
+                                            <p>Ország: {orders.country}</p>
+                                            <p>Megye : {orders.country_1}</p>
+                                            <p>Város: {orders.city}</p>
+                                            <p>Irányítószám: {orders.post_code}</p>
+                                            <p>Utca: {orders.street}</p>
+                                            <p>Házszám: {orders.house_number}</p>
+                                            <p>Egyéb: {orders.post_other}</p>
+                                            <p>Felhasználó azonosítója: {orders.user_id}</p>
+                                            <br></br>
+                                            </li>
+                                            </>
+                                        
+                                        )} 
+                                        </ul>
+                                        {user.userOrders.length < 1 && "Nincs"}
+                                                
+                                        </>
                                      
 
                                     <p>Felhasználó jogai: {user.userRoles.map(roles => 
@@ -664,10 +751,12 @@ async function handleProdToVarSubmit(prodId) {
                                         )}{user.userRoles.length < 1 && "Nincs"}</p>
                                     <br></br>
                                     <button onClick={() => updateUserRights(user.userId)} className='btn btn-success'>Felhasználó jogainak módosítása</button>
+                                    </li>
                                     </>
+                                    
                                     )}
                                 
-
+                                </ul>
                             </div>
                             
                             
@@ -675,10 +764,10 @@ async function handleProdToVarSubmit(prodId) {
                 
                     {UpdateUserRightsVisible &&
                             <>
-                               <label for="userRights"> Felhasználó jogköre: </label>
+                                  <div class="lebeg">
+                                    <div class="lebegContent">
+                                    <label for="userRights"> Felhasználó jogköre: </label>
                                 {/*ROLE_ADMIN1 ROLE_ADMIN2 ROLE_CUSTOMER    ROLE_VIPCUSTOMER */}
-                            
-                                        
                                         <>
                                                 <label><input  onChange={(e) => {
                                        // add to list
@@ -745,41 +834,65 @@ async function handleProdToVarSubmit(prodId) {
                                        setRoleInfo(
                                            roleInfo.filter((c) => c !== e.target.checked),
                                        );
-                                       
                                        }
                                    }} type="checkbox" id="ROLE_VIPCUSTOMER" value="ROLE_VIPCUSTOMER"/> ROLE_VIPCUSTOMER</label>
                                         </>
-                                        
-      
-
-                               
-                               
                                <button className='btn btn-danger' onClick={() => confirmUpdateUserRights()}>Felhasználó jogainak frissítése</button>
+                                    </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              
                             
                             </>
             }
                           
                         
-                        {allProdVisible &&
-                            <div>
-                                <h3 class="admin_focim">Összes termék</h3>
-                                
-                                {availableProducts.map(product =>
-                                <>
-                                {/* prodName, prodDesc, availCatId, availCatName, availVarId, availVarName, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible)*/}
-                                    <p>Név: {product.p.name}</p>
-                                    <p>Leírás: {product.p.description}</p>
-                                    <p>Ár: {product.p.sale_price}</p>
-                                    <p>Raktár: {product.p.stock}</p>
-                                    <p>Termék láthatósága: {product.p.visible ? "Igaz" : "Hamis"}</p>
-                                    <button onClick={() => updateProduct(product.p.id)} type='button' className='btn btn-danger'>Módosítás</button>
-                                    </>
-                                    )}
+                          {allProdVisible && (
+                  <div>
+                    <h3 class="admin_focim">Összes termék</h3>
+                    <ul class="list-group">
+                      {availableProducts.map((product) => (
+                        <>
+                          {/* prodName, prodDesc, availCatId, availCatName, availVarId, availVarName, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible)*/}
 
-                            </div>
-                        
-                        
-                        }
+                          <li class="list-group-item">
+                            <p>Név: {product.p.name}</p>
+                            <p>Leírás: {product.p.description}</p>
+                            <p>Ár: {product.p.sale_price}</p>
+                            <p>Raktár: {product.p.stock}</p>
+                            <p>
+                              Termék láthatósága:{" "}
+                              {product.p.visible ? "Igaz" : "Hamis"}
+                            </p>
+                            <button
+                              onClick={() => updateProduct(product.p.id)}
+                              type="button"
+                              className="btn btn-danger"
+                            >
+                              Módosítás
+                            </button>
+                          </li>
+                        </>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
                         {productVisible && 
                             <div>
@@ -860,8 +973,8 @@ async function handleProdToVarSubmit(prodId) {
                                 <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" required></input><br></br>
                                 <label class="admin_cimke" for="prodStock">Termék Készlet: </label>
                                 <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" required></input><br></br>
-                                <label class="admin_cimke" for="prodImage">Képek 1/sör formátum URL "szóköz" prioritás</label>
-                                <textarea id="story" class="admin_bevitel" name="story" rows="5" cols="33" onChange={(e) => handleChange(e,"prodImage")}></textarea><br></br>
+                                <label class="admin_cimke" for="prodImage">Képek formátum: 1/"enter" sortörés URL, "szóköz" prioritás</label>
+                                <textarea id="story" placeholder="példa:&#10;https://api.hvg.hu/Img/7fcefbf8-ac48-4ee6-aef5-32203afa118c/5925235d-a6a9-4424-82fd-1a95a688e6cd.jpg 1&#10;https://media.makeameme.org/created/s-egy-csipetnyi.jpg 2 " class="admin_bevitel" name="story" rows="5" cols="33" onChange={(e) => handleChange(e,"prodImage")}></textarea><br></br>
                                 {/*<input class="admin_bevitel" onChange={(e) => handleChange(e,"prodImage")} id="prodImage" type="textarea" required></input><br></br>*/}
                                 <label class="admin_cimke" for="prodVisible">Termék láthatósága:</label>
                                 <select class="admin_bevitel" onChange={(e) => handleChange(e,"prodVisible")}>
@@ -874,16 +987,29 @@ async function handleProdToVarSubmit(prodId) {
                             
                             
                         }
-                        {productVariationVisible &&
-                            availableVariations.map(variation =>
-                                <>
-                                    <p>{variation.id} - {variation.name}</p><button onClick={() => updateVariation(varId)} type='button' className='btn btn-danger'>Módosítás</button>
-                                   
-                                    </>
-                                )
-                                
-
-                         }
+                         {productVariationVisible && (
+                  <div>
+                    <h3 class="admin_focim">Összes Variáció</h3>
+                    <ul class="list-group">
+                      {availableVariations.map((variation) => (
+                        <>
+                          <li class="list-group-item">
+                            <p>
+                              {variation.id} - {variation.name}
+                            </p>
+                            <button
+                              onClick={() => updateVariation(varId)}
+                              type="button"
+                              className="btn btn-danger"
+                            >
+                              Módosítás
+                            </button>
+                          </li>
+                        </>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                          {updateProductVisible &&
                                     <div>
                                         <h3 class="admin_focim">Termék Módosítása</h3>
@@ -900,8 +1026,8 @@ async function handleProdToVarSubmit(prodId) {
                                 <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" required></input><br></br>
                                 <label class="admin_cimke" for="prodStock">Termék Készlet: </label>
                                 <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" required></input><br></br>
-                                <label class="admin_cimke" for="prodImage">Képek 1/sör formátum URL "szóköz" prioritás</label>
-                                <textarea id="story" name="story" rows="5" cols="33" onChange={(e) => handleChange(e,"prodImage")}></textarea>
+                                <label class="admin_cimke" for="prodImage">Képek formátum: 1/"enter" sortörés URL, "szóköz" prioritás</label>
+                                <textarea placeholder="példa:&#10;https://api.hvg.hu/Img/7fcefbf8-ac48-4ee6-aef5-32203afa118c/5925235d-a6a9-4424-82fd-1a95a688e6cd.jpg 1&#10;https://media.makeameme.org/created/s-egy-csipetnyi.jpg 2 " class="admin_bevitel" id="story" name="story" rows="5" cols="33" onChange={(e) => handleChange(e,"prodImage")}></textarea>
                                 <label class="admin_cimke" for="prodVisible2">Termék láthatósága:</label>
                                 <select id ="prodVisible2" class="admin_bevitel" onChange={(e) => handleChange(e,"prodVisible2")}>
                                     <option id="prodVisible2" value="true">Igaz</option>
@@ -917,22 +1043,35 @@ async function handleProdToVarSubmit(prodId) {
                                         <button type="button" className='btn btn-info' onClick={() => updateVariationConfirm(varId, varName)}>Módosít</button>
                                         </>
                                     }
-                         {categoryVisible &&
-                            
-                            availableCategories.map(cat =>
-                                <>
-                                    <p>{cat.id} - {cat.category}</p><button onClick={() => updateCategory(cat.id)} type='button' className='btn btn-danger'>Módosítás</button>
-                                    
-                                    </>
-                                )  
-                                
-                         }
+                        {categoryVisible && (
+                  <div>
+                    <h3 class="admin_focim">Összes kategória</h3>
+                    <ul class="list-group">
+                      {availableCategories.map((cat) => (
+                        <>
+                          <li class="list-group-item">
+                            <p>
+                              {cat.id} - {cat.category}
+                            </p>
+                            <button
+                              onClick={() => updateCategory(cat.id)}
+                              type="button"
+                              className="btn btn-danger"
+                            >
+                              Módosítás
+                            </button>
+                          </li>
+                        </>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                          {updateCategoryVisible &&
                             <>
                                         <p>Kategória neve:</p>
-                                        <input class="admin_bevitel" className='mx-3' onChange={(e) => handleChange(e, "updateCatName")} id="updCatName" type="text" required></input>
+                                        <input class="admin_bevitel"  onChange={(e) => handleChange(e, "updateCatName")} id="updCatName" type="text" required></input>
                                         <p>Kategória leírása:</p>
-                                        <input class="admin_bevitel" className='mx-3' onChange={(e) => handleChange(e, "updateCatDesc")}  id="updCatDesc" type="text" required></input>
+                                        <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatDesc")}  id="updCatDesc" type="text" required></input>
                                         <p>Kategória prioritása:</p>
                                         <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatPrior")}  id="updCatPrior" type="text" required></input>
                                         <button type="button" className='btn btn-info' onClick={() => updateCategoryConfirm(catId, catName, catDesc, catPrior)}>Módosít</button>
@@ -962,59 +1101,104 @@ async function handleProdToVarSubmit(prodId) {
                             </div>
                                 
                          }
-                         {productToCategoryVisible && 
-                            <div>
-                                 <h3 class="admin_focim">Termék felvétele/törlése kategóriához/ból</h3>
-                                <label class="admin_cimke">Termék: </label>
-                                <select onChange={(e) => handleChange(e,"availProd")}>
-                                    {availableProducts.map(prod =>
-                                    <>
-                                    <option id={prod.p.id} value={prod.p.id}>{prod.p.name}</option>
-                                    </>
-                                    )};
-                                </select>
-                                <label class="admin_cimke">Kategória: </label>
-                                <select onChange={(e) => handleChange(e,"availCat2")}>
-                                    {availableCategories.map(cat =>
-                                    <>
-                                    <option id={cat.id} value={cat.id}>{cat.category}</option>
-                                    </>
-                                    )};
-                                </select>
-    
-                                <button onClick={() => handleProdToCatSubmit(prodId, catId)} className='btn btn-primary' type='button'>Termék felvétele a kiválasztott kategóriához</button>
-                                <button onClick={() => deleteCategory(prodId, catId)} className='btn btn-danger'>Termék törlése a kiválasztott kategóriából</button>
-                            </div>
-                         
-                         }
-                         {productToVariationVisible &&
-                            <div>
-                            <h3 class="admin_focim">Termék felvétele/törlése variációhoz/ból</h3>
-                           <label class="admin_cimke">Termék: </label>
-                           <select onChange={(e) => handleChange(e,"availProd")}>
-                               {availableProducts.map(prod =>
-                               <>
-                               <option id={prod.p.id} value={prod.p.id}>{prod.p.name}</option>
-                               </>
-                               )};
-                           </select>
-                           <label class="admin_cimke">Variáció: </label>
-                           <select onChange={(e) => handleChange(e,"availVar")}>
-                               {availableVariations.map(vari =>
-                               <>
-                               <option id={vari.id} value={vari.id}>{vari.name}</option>
-                               </>
-                               )};
-                           </select>
-                           <label class="admin_cimke">Leírás: </label>
-                           <input onChange={(e)=> handleChange(e, "varidesc")} id="desc" type="text"></input>
-
-                           <button onClick={() => handleProdToVarSubmit(prodId, availVarId)} className='btn btn-primary' type='button'>Termék felvétele a kiválasztott variációhoz</button>
-                           <button onClick={() => deleteVariation(prodId, availVarId)} className='btn btn-danger'>Termék törlése a kiválasztott variációból</button>
-                       </div>
-                         
-                         
-                         }
+                          {productToCategoryVisible && (
+                  <div>
+                    <h3 class="admin_focim">
+                      Termék felvétele/törlése kategóriához/ból
+                    </h3>
+                    <label class="admin_cimke">Termék: </label>
+                    <select class="admin_bevitel" onChange={(e) => handleChange(e, "availProd")}>
+                      {availableProducts.map((prod) => (
+                        <>
+                          <option id={prod.p.id} value={prod.p.id}>
+                            {prod.p.name}
+                          </option>
+                        </>
+                      ))}
+                      ;
+                    </select>
+                    <br></br>
+                    <label class="admin_cimke">Kategória: </label>
+                    <select class="admin_bevitel" onChange={(e) => handleChange(e, "availCat2")}>
+                      {availableCategories.map((cat) => (
+                        <>
+                          <option id={cat.id} value={cat.id}>
+                            {cat.category}
+                          </option>
+                        </>
+                      ))}
+                      ;
+                    </select>
+                    <br></br>
+                    <button
+                      onClick={() => handleProdToCatSubmit(prodId, catId)}
+                      className="btn btn-primary"
+                      type="button"
+                    >
+                      Termék felvétele a kiválasztott kategóriához
+                    </button>
+                    <br></br>
+                    <button
+                      onClick={() => deleteCategory(prodId, catId)}
+                      className="btn btn-danger"
+                    >
+                      Termék törlése a kiválasztott kategóriából
+                    </button>
+                  </div>
+                )}
+                         {productToVariationVisible && (
+                  <div>
+                    <h3 class="admin_focim">
+                      Termék felvétele/törlése variációhoz/ból
+                    </h3>
+                    <label class="admin_cimke">Termék: </label>
+                    <select class="admin_bevitel" onChange={(e) => handleChange(e, "availProd")}>
+                      {availableProducts.map((prod) => (
+                        <>
+                          <option id={prod.p.id} value={prod.p.id}>
+                            {prod.p.name}
+                          </option>
+                        </>
+                      ))}
+                      ;
+                    </select>
+                    <br></br>
+                    <label class="admin_cimke">Variáció: </label>
+                    <select class="admin_bevitel" onChange={(e) => handleChange(e, "availVar")}>
+                      {availableVariations.map((vari) => (
+                        <>
+                          <option id={vari.id} value={vari.id}>
+                            {vari.name}
+                          </option>
+                        </>
+                      ))}
+                      ;
+                    </select>
+                    <br></br>
+                    <label class="admin_cimke">Leírás: </label>
+                    <input
+                      onChange={(e) => handleChange(e, "varidesc")}
+                      class="admin_bevitel"
+                      id="desc"
+                      type="text"
+                    ></input>
+                    <br></br>
+                    <button
+                      onClick={() => handleProdToVarSubmit(prodId, availVarId)}
+                      className="btn btn-primary"
+                      type="button"
+                    >
+                      Termék felvétele a kiválasztott variációhoz
+                    </button>
+                    <br></br>
+                    <button
+                      onClick={() => deleteVariation(prodId, availVarId)}
+                      className="btn btn-danger"
+                    >
+                      Termék törlése a kiválasztott variációból
+                    </button>
+                  </div>
+                )}
                          </div>
                         </div>
                         </div>
