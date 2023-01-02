@@ -34,20 +34,7 @@ export default function Header() {
   };
   return (
     <header class="site-navbar" role="banner">
-      {showModeratorBoard && (
-        <li className="nav-item">
-          <Link to={"/mod"} class="nav-item">
-            <span>Moderator Board</span>
-          </Link>
-        </li>
-      )}
-      {showAdminBoard && (
-        <li className="nav-item">
-          <Link to={"/admin"} class="nav-item">
-            <span className="text-white">Admin Panel</span>
-          </Link>
-        </li>
-      )}
+     
 
       {currentUser ? (
         <div class="container">
