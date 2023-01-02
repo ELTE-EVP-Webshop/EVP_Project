@@ -62,6 +62,7 @@ export default function ShoppingCart() {
     const [UpdateUserRightsVisible, setUpdateUserRightsVisible] = useState(false)
     const [userRights, setUserRights] = useState([])
     var [userOrderVisible, setUserOrderVisible] = useState(false)
+    var [roleInfo, setRoleInfo] = useState([])
 
 
     useEffect(() => {
@@ -94,13 +95,14 @@ export default function ShoppingCart() {
            
            // console.log(JSON.stringify(vari))
         }
-
+        
         async function getAllUsers() {
             setLoading(true)
             var vari = await ProductService.getUsers();
 
             await setAvailableUsers(Object.values(vari))
             
+          
             console.log(JSON.stringify(vari))
         }
         getVariations();
@@ -108,6 +110,9 @@ export default function ShoppingCart() {
         
         getAllOrder();
         getAllUsers();
+        
+       
+          
         getProducts();
         setLoading(false)
         }, []);
@@ -667,10 +672,88 @@ async function handleProdToVarSubmit(prodId) {
                             
                             
                             }
-
+                
                     {UpdateUserRightsVisible &&
                             <>
-                               <label for="userRights"> Felhasználó jogköre: </label><input onChange={(e) => handleChange(e, "userRights")} id="userRights" type="text" required></input>
+                               <label for="userRights"> Felhasználó jogköre: </label>
+                                {/*ROLE_ADMIN1 ROLE_ADMIN2 ROLE_CUSTOMER    ROLE_VIPCUSTOMER */}
+                            
+                                        
+                                        <>
+                                                <label><input  onChange={(e) => {
+                                       // add to list
+                                       if (e.target.checked) {
+                                        
+                                       setRoleInfo([
+                                           ...roleInfo,
+                                           roleInfo.push(e.target.value)
+                                       ])
+                                       } else {
+                                       // remove from list
+                                       setRoleInfo(
+                                           roleInfo.filter((c) => c !== e.target.checked),
+                                       );
+                                       
+                                       }
+                                       console.log(roleInfo)
+                                   }} type="checkbox" id="ROLE_ADMIN1" value="ROLE_ADMIN1"/> ROLE_ADMIN1</label>
+
+                            <label><input  onChange={(e) => {
+                                       // add to list
+                                       if (e.target.checked) {
+                                        
+                                       setRoleInfo([
+                                           ...roleInfo,
+                                           roleInfo.push(e.target.value)
+                                       ])
+                                       } else {
+                                       // remove from list
+                                       setRoleInfo(
+                                           roleInfo.filter((c) => c !== e.target.checked),
+                                       );
+                                       
+                                       }
+                                   }} type="checkbox" id="ROLE_CUSTOMER" value="ROLE_CUSTOMER"/> ROLE_CUSTOMER</label>
+
+                                <label><input  onChange={(e) => {
+                                       // add to list
+                                       if (e.target.checked) {
+                                        
+                                       setRoleInfo([
+                                           ...roleInfo,
+                                           roleInfo.push(e.target.checked)
+                                       ])
+                                       } else {
+                                       // remove from list
+                                       setRoleInfo(
+                                           roleInfo.filter((c) => c !== e.target.checked),
+                                       );
+                                       
+                                       }
+                                   }} type="checkbox" id="ROLE_ADMIN2" value="ROLE_ADMIN2"/> ROLE_ADMIN2</label>
+
+                            <label><input  onChange={(e) => {
+                                       // add to list
+                                       if (e.target.checked) {
+                                        
+                                       setRoleInfo([
+                                           ...roleInfo,
+                                           roleInfo.push(e.target.checked)
+                                       ])
+                                       } else {
+                                       // remove from list
+                                       setRoleInfo(
+                                           roleInfo.filter((c) => c !== e.target.checked),
+                                       );
+                                       
+                                       }
+                                   }} type="checkbox" id="ROLE_VIPCUSTOMER" value="ROLE_VIPCUSTOMER"/> ROLE_VIPCUSTOMER</label>
+                                        </>
+                                        
+      
+
+                               
+                               
                                <button className='btn btn-danger' onClick={() => confirmUpdateUserRights()}>Felhasználó jogainak frissítése</button>
                             
                             </>
