@@ -653,9 +653,10 @@ async function handleProdToVarSubmit(prodId) {
                                     <p>Felhasználó jogai: {user.userRoles.map(roles => 
                                         <>
                                         {roles.name}, 
+                                        
                                         </>
                                         
-                                        )}</p>
+                                        )}{user.userRoles.length < 1 && "Nincs"}</p>
                                     <br></br>
                                     <button onClick={() => updateUserRights(user.userId)} className='btn btn-success'>Felhasználó jogainak módosítása</button>
                                     </>
