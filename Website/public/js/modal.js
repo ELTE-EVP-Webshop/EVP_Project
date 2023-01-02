@@ -28,8 +28,3 @@ function showSlides(n) {
   slides[slideIndex-1].style.display = "block";  
   dots[slideIndex-1].className += " IMGactive";
 }
-$(document).on('click', '.editgomb' , function(e) {
-  $( ".lebeg" ).ready(function() {
-    $(".lebeg").css({top: e.pageY, left: e.pageX, position:'absolute'});
-  });
-});
