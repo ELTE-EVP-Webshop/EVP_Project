@@ -6,6 +6,8 @@
   background-color: rgba(0, 68, 127, 0.285);
   margin-top: 20px;
   padding-top: 10px;
+  padding-bottom: 2%;
+  margin-bottom: 5%;
 }
 .pay-header h2 {
   font-size: 2.2rem;
@@ -54,7 +56,21 @@
   border-radius: 0px;
   border-bottom: 2px solid rgb(87, 136, 196) !important;
 }
-
+@media (min-width:2200px) {
+  .container-pay
+  {
+    transform: scale(1.2);
+   
+  }
+  .section-products-pay {
+    padding: 35px 0 100px;
+    min-height: 100ch;
+   
+}
+.pay-header h2 {
+  padding-bottom: 4rem;
+}
+}
 .inputbox {
   position: relative;
   margin-bottom: 20px;

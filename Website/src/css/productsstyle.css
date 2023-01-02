@@ -7,6 +7,118 @@
 }
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
 
+@media (min-width:2200px) {
+  .slideshow-container {
+    max-width: 1000px;
+    position: relative;
+    margin: auto;
+    transform: scale(1) !important;
+  }
+  .modal-content-detail
+  {
+    margin-top: 0 !important;
+    flex-direction: column;
+  }
+  .searchbar{
+    transform: scale(1.4);
+    }
+}
+@media (min-width:2600px) {
+  .slideshow-container {
+    max-width: 1000px;
+    position: relative;
+    margin: auto;
+    transform: scale(1.2) !important;
+  }
+  .modal-content-detail
+  {
+    margin-top: 2rem !important;
+    flex-direction: column;
+  }
+}
+
+@media (max-width:767px) {
+  .single-product-card
+  {
+    width: 50%;
+  }
+  .section-products .single-product .part-1 {
+    max-height: 230px !important;
+}
+.dot {
+  height: 10px !important;
+  width: 10px !important;
+}
+.close {
+  font-size: 60px !important;
+}
+.modalNumberBTN
+{
+  font-size: 15px;
+}
+}
+@media (max-width:600px) {
+  .section-products .single-product .part-1 {
+    max-height: 200px !important;
+}
+.dot {
+  height: 8px !important;
+  width: 8px !important;
+}
+.close {
+  font-size: 50px !important;
+}
+.modalNumberBTN
+{
+  font-size: 10px;
+}
+}
+
+
+@media (max-width:400px) {
+  .section-products .single-product .part-1 {
+    max-height: 150px !important;
+    
+}
+.dot {
+  height: 6px !important;
+  width: 6px !important;
+}
+.close {
+  font-size: 40px !important;
+}
+.modalNumberBTN
+{
+  font-size: 7px;
+}
+.modalNumberNum
+{
+  font-size: 10px;
+}
+}
+
+
+@media (max-width:300px) {
+  .section-products .single-product .part-1 {
+    max-height: 100px !important;
+}
+.dot {
+  height: 4px !important;
+  width: 4px !important;
+}
+.close {
+  font-size: 20px !important;
+}
+.modalNumberBTN
+{
+  font-size: 5px;
+}
+.modalNumberNum
+{
+  font-size: 10px;
+}
+}
+
 body {
     font-family: "Poppins", sans-serif;
     color: #162012;
@@ -191,7 +303,7 @@ a:hover {
   /* Modal Content */
   .modal-inside {
     
-    transform: translateY(15rem);
+    transform: translateY(20rem);
     display: block;
     background-color: #58df9c;
     margin: auto;
@@ -208,19 +320,17 @@ a:hover {
     margin-bottom: 3rem;
     width: 80%;
     border: none;
-    flex-direction: row;
+    flex-direction: column;
     text-size-adjust: auto;
   }
   .modalIMG
   {
-    width: 30%;
-    height: 30%;
+    width: 100%;
+    max-height: 20rem;
     margin-right: 4rem;
-    border-radius: 30%;
     border-width: 3px;
     border-color: #444444;
     border-style: solid;
-    margin-left: -1rem;
   }
   .modalName
   {
@@ -230,7 +340,7 @@ a:hover {
     margin-bottom: 5px;
     color: #001855;
     word-wrap: break-word;
-    width: 10em;
+    width: 100%;
   }
   .modalDesc
   {
@@ -239,7 +349,7 @@ a:hover {
     padding-bottom:10px;
     color: #25272c;
     word-wrap: break-word;
-    width: 15em;
+    width: 80%;
   }
   
   .modal-content-detail
@@ -271,7 +381,181 @@ a:hover {
     font-size: 60px;
     font-weight: bold;
   }
+.modalNumberBTN
+{
+  border-style: solid;
+  border-width: 2px;
+}
+  @media (min-width:850px) {
+    .modal-inside {
+      transform: translateY(12rem);
+      display: block;
+      background-color: #58df9c;
+      margin: auto;
+      padding: 20px;
+      border: 4px solid #888;
+      width: 50%;
+      border-radius: 5%;
+    }
+    .modalPrice
+    {
+      font-size: 30px;
+      font-size: 1.5vw;
+      font-weight: bold;
+      color: #000985;
+      word-wrap: break-word;
+      width: 11em;
+    }
+    .modalName
+  {
+    font-size: 30px;
+    font-size: 2.0vw;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #001855;
+    word-wrap: break-word;
+    width: 100%;
+  }
+  .modalDesc
+  {
+    font-size: 30px;
+    font-size: 1.0vw;
+    padding-bottom:10px;
+    color: #25272c;
+    word-wrap: break-word;
+    width: 80%;
+  }
+  .slideshow-container {
+    max-width: 1000px;
+    position: relative;
+    margin: auto;
+    transform: scale(0.8);
+  }
+  .modal-content-detail
+  {
+    margin-top: -2rem;
+    flex-direction: column;
+  }
+    
+  }
+  @media (min-width:2000px) {
+    .modal-inside {
+      transform: translateY(20rem);
+      display: block;
+      background-color: #58df9c;
+      margin: auto;
+      padding: 20px;
+      border: 4px solid #888;
+      width: 50%;
+      border-radius: 5%;
+    }
+  }
+
+  * {box-sizing: border-box}
+  body {font-family: Verdana, sans-serif; margin:0}
+  .mySlides {display: none}
+  img {vertical-align: middle;}
   
+  /* Slideshow container */
+  .slideshow-container {
+    max-width: 1000px;
+    position: relative;
+    margin: auto;
+  }
+  
+  /* Next & previous buttons */
+  .prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+  }
+  
+  /* Position the "next button" to the right */
+  .next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+  }
+  
+  /* On hover, add a black background color with a little bit see-through */
+  .prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+  }
+  
+  /* Caption text */
+  .IMGtext {
+    color: #f2f2f2;
+    font-size: 15px;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Number text (1/3 etc) */
+  .numbertext {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+  }
+  
+  /* The dots/bullets/indicators */
+  .dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+  }
+  
+  .IMGactive, .dot:hover { 
+    background-color: #717171;
+  }
+  
+  /* Fading animation */
+  .fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+  }
+  .fade:not(.show) {
+    opacity: 100;
+  }
+  
+  @keyframes fade {
+    from {opacity: .4} 
+    to {opacity: 1}
+  }
+  
+  /* On smaller screens, decrease text size */
+  @media only screen and (max-width: 300px) {
+    .prev, .next,.text {font-size: 11px}
+  }
+
+
+
+
+
+
+
+
+
+
+
+
   .close:hover,
   .close:focus {
     color: #000;
@@ -302,9 +586,9 @@ a:hover {
 
     .searchbar:hover > .search_input{
     padding: 0 10px;
-    width: 250px;
+    width: 50%;
     caret-color:red;
-    transition: width 0.2s linear;
+    transition: width 1s cubic-bezier(0.2, 0.7, 0.73, 0.63);
     
     }
 
