@@ -61,6 +61,7 @@ export default function ShoppingCart() {
     const [userId, setUserId] = useState(0)
     const [UpdateUserRightsVisible, setUpdateUserRightsVisible] = useState(false)
     const [userRights, setUserRights] = useState([])
+    var [userOrderVisible, setUserOrderVisible] = useState(false)
 
 
     useEffect(() => {
@@ -98,7 +99,7 @@ export default function ShoppingCart() {
             setLoading(true)
             var vari = await ProductService.getUsers();
 
-            await setAvailableUsers(vari)
+            await setAvailableUsers(Object.values(vari))
             
             console.log(JSON.stringify(vari))
         }
@@ -273,6 +274,7 @@ export default function ShoppingCart() {
         setUsersVisible(false)
         setUpdateUserRightsVisible(false)
         setProductToVariationVisible(false)
+        setUserOrderVisible(false)
         
     }
     const newProduct = () => {
@@ -464,12 +466,23 @@ export default function ShoppingCart() {
 
     const addProductToVariation = () => {
         hideAll();
+        
         setProductToVariationVisible(true);
 
         if(productVariationVisible) {
             setProductToVariationVisible(false)
     }
 
+}
+
+const userOrders = () => {
+    hideAll();
+    setUsersVisible(true)
+    setUserOrderVisible(true)
+
+    if(userOrderVisible) {
+        setUserOrderVisible(false)
+    }
 }
 
 async function handleProdToVarSubmit(prodId) {
@@ -581,15 +594,68 @@ async function handleProdToVarSubmit(prodId) {
                             {usersVisible &&
                             <div>
                                 <h3 class="admin_focim">Összes felhasználó</h3>
-                                {Object.values(availableUsers).map(user =>
+                                {JSON.parse(availableUsers).map(user =>
                                 <>
                                 {/* {\"userId\":1,\"username\":\"Admin\",\"email\":\"Admin\",\"mailConfirmed\":true,\"userOrders\":[],\"userRoles\":[]}*/}
                                     <p>Felhasználó azonosítója: {user.userId}</p>
                                     <p>Felhasználónév: {user.username}</p>
                                     <p>Email cím: {user.email}</p>
-                                    <p>Email megerősítve: {user.mailConfirmed}</p>
-                                    {/*<p>Felhasználó rendelései: {user.userOrders}</p>
-                                    <p>Felhasználó jogai: {user.userRoles}</p>*/}
+                                    <p>Email megerősítve: {user.mailConfirmed ? "Igaz" : "Hamis"}</p>
+                                   
+                                    
+                                    {/*[{\"id\":21,\"order_date\":\"2022-12-26T23:59:50\",\"order_state\":0,\"payment_method\":2,\"payment_state\":0,\"delivery_method\":2,\"phone\":\"101234567\",\"country\":\"Magyarország\",\"country_1\":\"Győr-Moson Sopron\",\"city\":\"Sopron\",\"post_code\":1,\"street\":\"Teszt\",\"house_number\":\"1\",\"post_other\":\"1\",\"user_id\":19}] */}
+                                 
+                                    {/*<button onClick={() => userOrders()} class="btn btn-info">Felhasználó rendeléseinek megtekintése:</button> 
+
+                                    {userOrderVisible && 
+                                            user.userOrders.map(orders=>
+                                               <>
+                                                <p>Rendelés azonosítója : {orders.id}</p>
+                                                <p>Rendelés dátuma : {orders.order_date}</p>
+                                                <p>Rendelés állapota : {orders.order_state}</p>
+                                                <p>Fizetés mód : {orders.payment_state}</p>
+                                                <p>Szállítás mód : {orders.delivery_method}</p>
+                                                <p>Telefonszám : {orders.phone}</p>
+                                                <p>Ország: {orders.country}</p>
+                                                <p>Megye : {orders.country_1}</p>
+                                                <p>Város: {orders.city}</p>
+                                                <p>Irányítószám: {orders.post_code}</p>
+                                                <p>Utca: {orders.street}</p>
+                                                <p>Házszám: {orders.house_number}</p>
+                                                <p>Egyéb: {orders.post_other}</p>
+                                                <p>Felhasználó azonosítója: {orders.user_id}</p>
+                                             </>
+                                            )}*/}
+                                    <>
+                            <p>Felhasználó rendelései: </p>{user.userOrders.map(orders=>
+                                        <>
+                                        <p>Rendelés azonosítója : {orders.id}</p>
+                                        <p>Rendelés dátuma : {orders.order_date}</p>
+                                        <p>Rendelés állapota : {orders.order_state}</p>
+                                        <p>Fizetés mód : {orders.payment_state}</p>
+                                        <p>Szállítás mód : {orders.delivery_method}</p>
+                                        <p>Telefonszám : {orders.phone}</p>
+                                        <p>Ország: {orders.country}</p>
+                                        <p>Megye : {orders.country_1}</p>
+                                        <p>Város: {orders.city}</p>
+                                        <p>Irányítószám: {orders.post_code}</p>
+                                        <p>Utca: {orders.street}</p>
+                                        <p>Házszám: {orders.house_number}</p>
+                                        <p>Egyéb: {orders.post_other}</p>
+                                        <p>Felhasználó azonosítója: {orders.user_id}</p>
+                                        <br></br>
+                                        </>
+                                        )} {user.userOrders.length < 1 && "Nincs"}
+                                                
+                                                </>
+                                     
+
+                                    <p>Felhasználó jogai: {user.userRoles.map(roles => 
+                                        <>
+                                        {roles.name}, 
+                                        </>
+                                        
+                                        )}</p>
                                     <br></br>
                                     <button onClick={() => updateUserRights(user.userId)} className='btn btn-success'>Felhasználó jogainak módosítása</button>
                                     </>
