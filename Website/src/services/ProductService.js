@@ -390,7 +390,7 @@ const getUsers = () => {
     
     console.log(response.data);
 
-    return  response.data.message;
+    return  response.data;
   });
 }
 

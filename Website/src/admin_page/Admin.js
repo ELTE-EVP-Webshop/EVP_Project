@@ -588,8 +588,8 @@ async function handleProdToVarSubmit(prodId) {
                                     <p>Felhasználónév: {user.username}</p>
                                     <p>Email cím: {user.email}</p>
                                     <p>Email megerősítve: {user.mailConfirmed}</p>
-                                    <p>Felhasználó rendelései: {user.userOrders}</p>
-                                    <p>Felhasználó jogai: {user.userRoles}</p>
+                                    {/*<p>Felhasználó rendelései: {user.userOrders}</p>
+                                    <p>Felhasználó jogai: {user.userRoles}</p>*/}
                                     <br></br>
                                     <button onClick={() => updateUserRights(user.userId)} className='btn btn-success'>Felhasználó jogainak módosítása</button>
                                     </>

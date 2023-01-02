@@ -577,10 +577,10 @@ public class AdminController {
 		try {
 			ObjectMapper mapper = config.getJacksonObjectMapper();
 			//mapper.registerModule();
-			return ResponseEntity.ok(new MessageResponse(mapper.writeValueAsString(responseList)));
+			return ResponseEntity.ok(mapper.writeValueAsString(responseList));
 		} catch (Exception e) {
 			System.out.println(e);
-			return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
+			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
 	
