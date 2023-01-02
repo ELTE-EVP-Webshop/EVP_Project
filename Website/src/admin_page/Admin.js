@@ -515,12 +515,10 @@ async function handleProdToVarSubmit(prodId) {
                     <div class="container-admin">
                          <h1 className='text-center admin_tx'>Admin panel</h1>
                         <div class="row gombtomb">
-                        <div class="vl">
                         <div class="col gombkulso"> <button  onClick={() => getAllOrder()} type='button' className='btn btn-primary admingomb'>Rendelések megtekintése</button></div>
-                        </div>
-                        <div class="vl">
+                        <div class="vl"></div>
                         <div class="col gombkulso"> <button  onClick={() => getAllUsers()} type='button' className='btn btn-primary admingomb'>Felhasználók megtekintése</button></div>
-                        </div>
+                        <div class="vl"></div>
                         <div class="col gombkulso"><button  onClick={() => newProduct()} type='button' className='btn btn-primary admingomb'>Új termék létrehozása</button></div>
                         <div class="vl"></div>
                         <div class="col gombkulso"> <button onClick={() => addCategory()} type='button' className='btn btn-primary admingomb'>Kategória létrehozása</button></div>
@@ -640,7 +638,7 @@ async function handleProdToVarSubmit(prodId) {
                                 <input class="admin_bevitel"onChange={(e) => handleChange(e,"prodName")} id="prodName" type="text" required></input><br></br>
                                 <label class="admin_cimke" for="prodDesc">Termék leírása: </label>
                                 <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodDesc")} id="prodDesc" type="text" required></input><br></br>
-                                <label class="admin_cimke" for="prodCategory">Termék kategória (lehet több is): </label>
+                                <label class="admin_cimke" for="prodCategory">Termék kategória (lehet több is): </label><br></br>
                                
                                 
                                     {availableCategories.map(cat => 
@@ -677,7 +675,7 @@ async function handleProdToVarSubmit(prodId) {
                                     </>
                                     )};
                                     </select>*/}
-                                <label class="admin_cimke" for="prodVariation">Termék variációja (lehet több is): </label>
+                                <br></br><label class="admin_cimke" for="prodVariation">Termék variációja (lehet több is): </label><br></br>
                                
                                 
                                {availableVariations.map(vari => 
@@ -713,13 +711,14 @@ async function handleProdToVarSubmit(prodId) {
                                 <label class="admin_cimke" for="prodStock">Termék Készlet: </label>
                                 <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" required></input><br></br>
                                 <label class="admin_cimke" for="prodImage">Képek 1/sör formátum URL "szóköz" prioritás</label>
-                                <textarea id="story" name="story" rows="5" cols="33" onChange={(e) => handleChange(e,"prodImage")}></textarea>
+                                <textarea id="story" class="admin_bevitel" name="story" rows="5" cols="33" onChange={(e) => handleChange(e,"prodImage")}></textarea><br></br>
                                 {/*<input class="admin_bevitel" onChange={(e) => handleChange(e,"prodImage")} id="prodImage" type="textarea" required></input><br></br>*/}
                                 <label class="admin_cimke" for="prodVisible">Termék láthatósága:</label>
                                 <select class="admin_bevitel" onChange={(e) => handleChange(e,"prodVisible")}>
                                     <option id="prodVisible" value="true">Igaz</option>
                                     <option  id="prodVisible" value="false">Hamis</option>
                                     </select>
+                                    <br></br>
                                     <br></br><button onClick={() => handleProdSubmit(prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible)} className='btn btn-primary' type='button'>Új termék felvétele</button>
                             </div>
                             
