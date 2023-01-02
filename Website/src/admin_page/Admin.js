@@ -562,7 +562,7 @@ async function handleProdToVarSubmit(prodId) {
                                 <h3 class="admin_focim">Összes rendelés</h3>
                                 {/*[{\"id\":1,\"order_date\":\"2022-12-17T18:44:51\",\"order_state\":0,\"payment_method\":1,\"payment_state\":0,\"delivery_method\":0,\"phone\":\"06203*/}
                           
-                            {JSON.parse(availalbeOrders).map(order => 
+                            {Object.values(availalbeOrders).map(order => 
                                 <>
                                 <p>Azonosító: {order.id}</p>
                                 <p>Rendelés dátuma: {order.order_date}</p>
@@ -599,7 +599,7 @@ async function handleProdToVarSubmit(prodId) {
                             {usersVisible &&
                             <div>
                                 <h3 class="admin_focim">Összes felhasználó</h3>
-                                {JSON.parse(availableUsers).map(user =>
+                                {Object.values(availableUsers).map(user =>
                                 <>
                                 {/* {\"userId\":1,\"username\":\"Admin\",\"email\":\"Admin\",\"mailConfirmed\":true,\"userOrders\":[],\"userRoles\":[]}*/}
                                     <p>Felhasználó azonosítója: {user.userId}</p>
