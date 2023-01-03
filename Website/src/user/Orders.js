@@ -66,6 +66,7 @@ export default function Orders() {
 
     }, []);
   return (
+    <div class="container-admin">
     <div class="kiirasok">
       <div  class="admin_doboz">
         <h3 class="admin_focim">Rendelési előzmények</h3>
@@ -130,6 +131,6 @@ export default function Orders() {
           </div>
       </div>
     </div>
-    
+  </div>
   )
 }
