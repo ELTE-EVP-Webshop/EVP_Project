@@ -36,7 +36,7 @@ const Profile = () => {
     } else {
       setDeliveryVisible(false)
     }
-    console.log(deliveryAddr)
+   // console.log(deliveryAddr)
   }
 
   async function updateDeliveryAddress() {
@@ -213,11 +213,7 @@ const Profile = () => {
                         }
                         
                       </div>
-                      <div class="col-sm-6">
-                        <p class="m-b-10 f-w-600">Email megerősítve</p>
-                        <h6 class="text-muted f-w-400">Igen</h6>
-                        <a href="/mailConfirm"><h6 class="text-muted f-w-400">Nem</h6></a>
-                      </div>
+                
                   
                     </div>
                     {/*

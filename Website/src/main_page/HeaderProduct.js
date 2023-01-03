@@ -46,7 +46,7 @@ export default function HeaderProduct() {
   }, []);
   const filterProductsByCat = (id) => {
     setSelectedCategory(id)
-    console.log(id)
+   // console.log(id)
   }
   const logOut = () => {
     AuthService.logout();
