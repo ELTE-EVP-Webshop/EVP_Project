@@ -19,6 +19,8 @@ export default function ShoppingCart() {
   //Form values (Getters & Setters)
   //Product
   const [prodId, setProdId] = useState(2)
+  const [productbyId, setProductById] = useState(0)
+  const [OtherProdInfoVisible, setOtherProdInfoVisible] = useState(false)
   const [prodName, setProdName] = useState("");
   const [prodDesc, setProdDesc] = useState("");
   const [availCatId, setAvailCatId] = useState(1);
@@ -62,7 +64,8 @@ export default function ShoppingCart() {
   const [userRights, setUserRights] = useState([])
   var [userOrderVisible, setUserOrderVisible] = useState(false)
   var [roleInfo, setRoleInfo] = useState([])
-
+  const [UserOrdersVis,setUserOrdersVis] = useState([])
+  var [userOrders2, setUserOrders] = useState([])
 
   useEffect(() => {
     // React advises to declare the async function directly inside useEffect
@@ -280,7 +283,7 @@ export default function ShoppingCart() {
       setUpdateUserRightsVisible(false)
       setProductToVariationVisible(false)
       setUserOrderVisible(false)
-      
+
   }
   const newProduct = () => {
       hideAll();
@@ -543,6 +546,57 @@ export default function ShoppingCart() {
     }
   }
 
+  async function getUserOrders(orderid) {
+    setOrderId(orderId);
+    setUserOrderVisible(true)
+    if(userOrderVisible) {
+      setUserOrderVisible(false)
+    }
+    if(OtherProdInfoVisible) {
+      setOtherProdInfoVisible(false)
+    }
+    
+    
+    //var orderproducts = await ProductService.getOrderProducts(orderid);
+    getUserOrdersOk(orderid)
+ 
+    //console.log(orderproducts)
+
+
+  }
+
+
+  async function getUserOrdersOk(orderid) {
+      var op = await ProductService.getOrderProducts(orderid);
+      await setUserOrders(JSON.parse(op))
+     // console.log(op)
+
+    }
+
+    async function otherProdInfo(productId)  {
+    
+
+   
+      await getProductById(productId)
+    }
+    
+    async function getProductById(productid) {
+      if(productid != 0) {
+       
+        var getProductById = await ProductService.getProductById(productid)
+       await setProductById((getProductById))
+       if(OtherProdInfoVisible) {
+        setOtherProdInfoVisible(false)
+      } else {
+        setOtherProdInfoVisible(true)
+      }
+     // console.log(getProductById)
+      
+      }
+    }
+
+  
+
   {/*async function EditModal() {
   // eeezzz ittt szaaaar
   var modal = document.getElementById("myModal2");
@@ -657,11 +711,48 @@ export default function ShoppingCart() {
                                 >
                                 Rendelés állapotának módosítása
                                 </button>
+                                <button onClick={() => getUserOrders(order.id)} className='btn btn-info'>Felhasználó rendeléseinek megtekintése</button>
                             </li>
                             </>
                         ))}
                         <div id="myModal2" class="modal"></div>
                       </ul>
+                      {userOrderVisible &&
+                                      <div>
+                                           {userOrders2.map(oproduct =>
+                                            <>
+                                
+                                                
+                                                    
+                                                    <p>Mennyiség: {oproduct.count}</p>
+                                                    <p>Ár: {oproduct.price}</p>
+                                                    <p>Rendelési azonosító: {oproduct.order_id}</p>
+                                                    <button onClick={() => otherProdInfo(oproduct.product_id)} className='btn btn-secondary'>Termék további adatai</button>
+                                                  
+                                                    <br></br>
+                                                </>
+                                                )}
+
+                                    {OtherProdInfoVisible &&
+                                          <>
+                                          <div>Termék további adatai:</div>
+                                            
+                                                <>
+                                                  <p>Termék neve: {productbyId.p.name}</p>
+                                                  <p>Termék ára: {productbyId.p.price}</p>
+                                                  <p>Termék eladási ára: {productbyId.p.sale_price}</p>
+                                                  <p>Termék leírása: {!productbyId.p.description ? "Nincs" : productbyId.p.description}</p>
+                                                </>
+                                              
+                                             
+                                          </>
+                                        
+                                        }
+
+
+                                      </div>
+                                      
+                                      }
               
                       {UpdateOrderStateVisible && (
                         <>
@@ -763,6 +854,7 @@ export default function ShoppingCart() {
                                           </li>
                                         </>
                                       )} 
+                                    
                                   </ul>
                                   {user.userOrders.length < 1 && "Nincs"}    
                                 </>
@@ -777,6 +869,7 @@ export default function ShoppingCart() {
                                 </p>
                                 <br></br>
                                 <button onClick={() => updateUserRights(user.userId)} className='btn btn-success'>Felhasználó jogainak módosítása</button>
+                                
                             </li>
                           </>
                         )}

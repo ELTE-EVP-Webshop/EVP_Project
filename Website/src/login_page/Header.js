@@ -20,7 +20,7 @@ export default function Header() {
 
   const filterProductsByCat = (id) => {
     //setSelectedCategory(id)
-    console.log(id)
+   // console.log(id)
   }
 
   return (

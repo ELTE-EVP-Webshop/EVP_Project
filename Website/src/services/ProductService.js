@@ -439,13 +439,33 @@ const getProductById = (prodId) => {
 		{
 		  params:{
 			  prodId : prodId
-		  }
+		  },
+      
 		})
   .then((response) => {
     
   //  console.log(response.data);
 
     return response.data;
+  });
+}
+
+//getOrderProducts
+
+const getOrderProducts = (orderId) => {
+  return axios
+  .get(PRODUCTS_REST_API_URL_ADMIN  + "getOrderProducts",
+		{
+		  params:{
+			  orderId : orderId
+		  },
+      withCredentials: true
+		})
+  .then((response) => {
+    
+  //  console.log(response.data);
+
+    return response.data.message;
   });
 }
 
@@ -515,6 +535,7 @@ const removeProductFromVariation = ( prodId,  varId) => {
         getUsers,
         updateAdminRights,
         getAllOrder,
+        getOrderProducts,
         updateOrderState,
         createCategory,
         createVariation,
