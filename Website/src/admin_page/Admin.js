@@ -622,80 +622,79 @@ export default function ShoppingCart() {
                   <div>
                     <h3 class="admin_focim">Összes rendelés</h3>
                     <div class="row">
-                                <ul class="list-group">
-                                {/*[{\"id\":1,\"order_date\":\"2022-12-17T18:44:51\",\"order_state\":0,\"payment_method\":1,\"payment_state\":0,\"delivery_method\":0,\"phone\":\"06203*/}
+                      <ul class="list-group">
+                        {/*[{\"id\":1,\"order_date\":\"2022-12-17T18:44:51\",\"order_state\":0,\"payment_method\":1,\"payment_state\":0,\"delivery_method\":0,\"phone\":\"06203*/}
 
-                              {JSON.parse(availalbeOrders).map((order) => (
-                                  <>
-                                  <li class="list-group-item">
-                                      <p>Azonosító: {order.id}</p>
-                                      <p>Rendelés dátuma: {order.order_date}</p>
-                                      <p>
-                                      Rendelés állapota: {order.order_state}
-                                      </p>
-                                      <p>Fizetés módja: {order.payment_method}</p>
-                                      <p>
-                                      Fizetés állapota: {order.payment_state}
-                                      </p>
-                                      <p>
-                                      Szállítás módja: {order.delivery_method}
-                                      </p>
-                                      <p>Telefonszám: {order.phone}</p>
-                                      <p>Ország: {order.country}</p>
-                                      <p>Megye: {order.country_1}</p>
-                                      <p>Irányítószám: {order.post_code}</p>
-                                      <p>Város: {order.city}</p>
-                                      <p>Utca: {order.street}</p>
-                                      <p>Házszám: {order.house_number}</p>
-                                      <p>Egyéb info:{order.post_other}</p>
-                                      <br></br>
-                                      <button
-                                      onClick={() => updateOrderState(order.id)}
-                                      class="btn btn-success editgomb"
-                                      >
-                                      Rendelés állapotának módosítása
-                                      </button>
-                                  </li>
-                                  </>
-                              ))}
-                              <div id="myModal2" class="modal"></div>
-                              </ul>
-                      
-                              
-                              {UpdateOrderStateVisible && (
-                                <>
-                                <div class="lebeg">
-                                    <div class="lebegContent">
-                                        <label for="ordnum" class="lebegLabel">
-                                        {" "}
-                                        {/*MEGRENDELVE((byte)0),
-                                                      FELDOLGOZVA((byte)1),
-                                                      CSOMAGOLVA((byte)2),
-                                                      ATADVA_FUTARNAK((byte)3),
-                                                      KEZBESITVE((byte)4); */}
-                                        Rendelés új állapota: <br></br>
-                                            0: MEGRENDELVE<br></br>
-                                            1: FELDOLGOZVA<br></br>
-                                            2: CSOMAGOLVA<br></br>
-                                            3: ÁTADVA A FUTÁRNAK<br></br>
-                                            4: KÉZBESÍTVE<br></br>
-                                        </label>
-                                        <input class="lebegInput admin_bevitel"
-                                        onChange={(e) => handleChange(e, "ordnum")}
-                                        id="ordnum"
-                                        type="number"
-                                        required
-                                        ></input><br></br>
-                                        <button
-                                        className="btn btn-danger lebegBTN"
-                                        onClick={() => confirmOrderStateChange()}
-                                        >
-                                        Rendelés állapotának megváltoztatása
-                                        </button>
-                                    </div>
-                                    </div>
-                                </>
-                              )}
+                        {JSON.parse(availalbeOrders).map((order) => (
+                            <>
+                            <li class="list-group-item">
+                                <p>Azonosító: {order.id}</p>
+                                <p>Rendelés dátuma: {order.order_date}</p>
+                                <p>
+                                Rendelés állapota: {order.order_state}
+                                </p>
+                                <p>Fizetés módja: {order.payment_method}</p>
+                                <p>
+                                Fizetés állapota: {order.payment_state}
+                                </p>
+                                <p>
+                                Szállítás módja: {order.delivery_method}
+                                </p>
+                                <p>Telefonszám: {order.phone}</p>
+                                <p>Ország: {order.country}</p>
+                                <p>Megye: {order.country_1}</p>
+                                <p>Irányítószám: {order.post_code}</p>
+                                <p>Város: {order.city}</p>
+                                <p>Utca: {order.street}</p>
+                                <p>Házszám: {order.house_number}</p>
+                                <p>Egyéb info:{order.post_other}</p>
+                                <br></br>
+                                <button
+                                onClick={() => updateOrderState(order.id)}
+                                class="btn btn-success editgomb"
+                                >
+                                Rendelés állapotának módosítása
+                                </button>
+                            </li>
+                            </>
+                        ))}
+                        <div id="myModal2" class="modal"></div>
+                      </ul>
+              
+                      {UpdateOrderStateVisible && (
+                        <>
+                        <div class="lebeg">
+                            <div class="lebegContent">
+                                <label for="ordnum" class="lebegLabel">
+                                {" "}
+                                {/*MEGRENDELVE((byte)0),
+                                              FELDOLGOZVA((byte)1),
+                                              CSOMAGOLVA((byte)2),
+                                              ATADVA_FUTARNAK((byte)3),
+                                              KEZBESITVE((byte)4); */}
+                                Rendelés új állapota: <br></br>
+                                    0: MEGRENDELVE<br></br>
+                                    1: FELDOLGOZVA<br></br>
+                                    2: CSOMAGOLVA<br></br>
+                                    3: ÁTADVA A FUTÁRNAK<br></br>
+                                    4: KÉZBESÍTVE<br></br>
+                                </label>
+                                <input class="lebegInput admin_bevitel"
+                                onChange={(e) => handleChange(e, "ordnum")}
+                                id="ordnum"
+                                type="number"
+                                required
+                                ></input><br></br>
+                                <button
+                                className="btn btn-danger lebegBTN"
+                                onClick={() => confirmOrderStateChange()}
+                                >
+                                Rendelés állapotának megváltoztatása
+                                </button>
+                            </div>
+                            </div>
+                        </>
+                      )}
                           
                     </div>
                   </div>
@@ -705,181 +704,183 @@ export default function ShoppingCart() {
                   <div>
                       <h3 class="admin_focim">Összes felhasználó</h3>
                       <ul class="list-group">
-                      {Object.values(availableUsers).map(user =>
-                      <>
-                      <li class="list-group-item">
-                          {/* {\"userId\":1,\"username\":\"Admin\",\"email\":\"Admin\",\"mailConfirmed\":true,\"userOrders\":[],\"userRoles\":[]}*/}
-                              <p>Felhasználó azonosítója: {user.userId}</p>
-                              <p>Felhasználónév: {user.username}</p>
-                              <p>Email cím: {user.email}</p>
-                              <p>Email megerősítve: {user.mailConfirmed ? "Igaz" : "Hamis"}</p>
-                            
-                              
-                              {/*[{\"id\":21,\"order_date\":\"2022-12-26T23:59:50\",\"order_state\":0,\"payment_method\":2,\"payment_state\":0,\"delivery_method\":2,\"phone\":\"101234567\",\"country\":\"Magyarország\",\"country_1\":\"Győr-Moson Sopron\",\"city\":\"Sopron\",\"post_code\":1,\"street\":\"Teszt\",\"house_number\":\"1\",\"post_other\":\"1\",\"user_id\":19}] */}
-                          
-                              {/*<button onClick={() => userOrders()} class="btn btn-info">Felhasználó rendeléseinek megtekintése:</button> 
+                        {Object.values(availableUsers).map(user =>
+                          <>
+                            <li class="list-group-item">
+                                {/* {\"userId\":1,\"username\":\"Admin\",\"email\":\"Admin\",\"mailConfirmed\":true,\"userOrders\":[],\"userRoles\":[]}*/}
+                                <p>Felhasználó azonosítója: {user.userId}</p>
+                                <p>Felhasználónév: {user.username}</p>
+                                <p>Email cím: {user.email}</p>
+                                <p>Email megerősítve: {user.mailConfirmed ? "Igaz" : "Hamis"}</p>
 
-                              {userOrderVisible && 
-                                      user.userOrders.map(orders=>
+                                    {/*[{\"id\":21,\"order_date\":\"2022-12-26T23:59:50\",\"order_state\":0,\"payment_method\":2,\"payment_state\":0,\"delivery_method\":2,\"phone\":\"101234567\",\"country\":\"Magyarország\",\"country_1\":\"Győr-Moson Sopron\",\"city\":\"Sopron\",\"post_code\":1,\"street\":\"Teszt\",\"house_number\":\"1\",\"post_other\":\"1\",\"user_id\":19}] */}
+                                
+                                    {/*<button onClick={() => userOrders()} class="btn btn-info">Felhasználó rendeléseinek megtekintése:</button> 
+
+                                    {userOrderVisible && 
+                                            user.userOrders.map(orders=>
+                                              <>
+                                                <p>Rendelés azonosítója : {orders.id}</p>
+                                                <p>Rendelés dátuma : {orders.order_date}</p>
+                                                <p>Rendelés állapota : {orders.order_state}</p>
+                                                <p>Fizetés mód : {orders.payment_state}</p>
+                                                <p>Szállítás mód : {orders.delivery_method}</p>
+                                                <p>Telefonszám : {orders.phone}</p>
+                                                <p>Ország: {orders.country}</p>
+                                                <p>Megye : {orders.country_1}</p>
+                                                <p>Város: {orders.city}</p>
+                                                <p>Irányítószám: {orders.post_code}</p>
+                                                <p>Utca: {orders.street}</p>
+                                                <p>Házszám: {orders.house_number}</p>
+                                                <p>Egyéb: {orders.post_other}</p>
+                                                <p>Felhasználó azonosítója: {orders.user_id}</p>
+                                            </>
+                                            )}*/}
+                                            
+                                <>
+                                  <ul class="list-group">
+                                      <p>Felhasználó rendelései: </p>
+                                      {user.userOrders.map(orders=>
                                         <>
-                                          <p>Rendelés azonosítója : {orders.id}</p>
-                                          <p>Rendelés dátuma : {orders.order_date}</p>
-                                          <p>Rendelés állapota : {orders.order_state}</p>
-                                          <p>Fizetés mód : {orders.payment_state}</p>
-                                          <p>Szállítás mód : {orders.delivery_method}</p>
-                                          <p>Telefonszám : {orders.phone}</p>
-                                          <p>Ország: {orders.country}</p>
-                                          <p>Megye : {orders.country_1}</p>
-                                          <p>Város: {orders.city}</p>
-                                          <p>Irányítószám: {orders.post_code}</p>
-                                          <p>Utca: {orders.street}</p>
-                                          <p>Házszám: {orders.house_number}</p>
-                                          <p>Egyéb: {orders.post_other}</p>
-                                          <p>Felhasználó azonosítója: {orders.user_id}</p>
-                                      </>
-                                      )}*/}
-                                      
-                              <>
-                              <ul class="list-group">
-                                  <p>Felhasználó rendelései: </p>{user.userOrders.map(orders=>
-                                  <>
-                                  <li class="list-group-item">
-                                  <p>Rendelés azonosítója : {orders.id}</p>
-                                  <p>Rendelés dátuma : {orders.order_date}</p>
-                                  <p>Rendelés állapota : {orders.order_state}</p>
-                                  <p>Fizetés mód : {orders.payment_state}</p>
-                                  <p>Szállítás mód : {orders.delivery_method}</p>
-                                  <p>Telefonszám : {orders.phone}</p>
-                                  <p>Ország: {orders.country}</p>
-                                  <p>Megye : {orders.country_1}</p>
-                                  <p>Város: {orders.city}</p>
-                                  <p>Irányítószám: {orders.post_code}</p>
-                                  <p>Utca: {orders.street}</p>
-                                  <p>Házszám: {orders.house_number}</p>
-                                  <p>Egyéb: {orders.post_other}</p>
-                                  <p>Felhasználó azonosítója: {orders.user_id}</p>
-                                  <br></br>
-                                  </li>
-                                  </>
-                              
-                              )} 
-                              </ul>
-                              {user.userOrders.length < 1 && "Nincs"}
-                                      
-                              </>
-                            
-
-                          <p>Felhasználó jogai: {user.userRoles.map(roles => 
-                              <>
-                              {roles.name}, 
-                              
-                              </>
-                              
-                              )}{user.userRoles.length < 1 && "Nincs"}</p>
-                          <br></br>
-                          <button onClick={() => updateUserRights(user.userId)} className='btn btn-success'>Felhasználó jogainak módosítása</button>
-                          </li>
+                                          <li class="list-group-item">
+                                            <p>Rendelés azonosítója : {orders.id}</p>
+                                            <p>Rendelés dátuma : {orders.order_date}</p>
+                                            <p>Rendelés állapota : {orders.order_state}</p>
+                                            <p>Fizetés mód : {orders.payment_state}</p>
+                                            <p>Szállítás mód : {orders.delivery_method}</p>
+                                            <p>Telefonszám : {orders.phone}</p>
+                                            <p>Ország: {orders.country}</p>
+                                            <p>Megye : {orders.country_1}</p>
+                                            <p>Város: {orders.city}</p>
+                                            <p>Irányítószám: {orders.post_code}</p>
+                                            <p>Utca: {orders.street}</p>
+                                            <p>Házszám: {orders.house_number}</p>
+                                            <p>Egyéb: {orders.post_other}</p>
+                                            <p>Felhasználó azonosítója: {orders.user_id}</p>
+                                            <br></br>
+                                          </li>
+                                        </>
+                                      )} 
+                                  </ul>
+                                  {user.userOrders.length < 1 && "Nincs"}    
+                                </>
+                                  
+                                <p>Felhasználó jogai: 
+                                  {user.userRoles.map(roles => 
+                                    <>
+                                      {roles.name}, 
+                                    </>
+                                  )}
+                                  {user.userRoles.length < 1 && "Nincs"}
+                                </p>
+                                <br></br>
+                                <button onClick={() => updateUserRights(user.userId)} className='btn btn-success'>Felhasználó jogainak módosítása</button>
+                            </li>
                           </>
-                          
-                          )}
-                      
+                        )}
                       </ul>
                   </div>
                 }
         
                 {UpdateUserRightsVisible &&(
                   <>
-                  
-                        <div class="lebeg">
-                          <div class="lebegContent">
+                      <div class="lebeg">
+                        <div class="lebegContent">
                           <label for="userRights"> Felhasználó jogköre: </label>
-                      {/*ROLE_ADMIN1 ROLE_ADMIN2 ROLE_CUSTOMER    ROLE_VIPCUSTOMER */}
-                              <>
-                                      <label><input  onChange={(e) => {
-                              // add to list
-                              if (e.target.checked) {
-                              
-                              setRoleInfo([
-                                  ...roleInfo,
-                                  roleInfo.push(e.target.value)
-                              ])
-                              } else {
-                              // remove from list
-                              setRoleInfo(
-                                  roleInfo.filter((c) => c !== e.target.value),
-                              );
-                            // console.log(roleInfo)
-                              }
-                              var arr = roleInfo.filter(x => isNaN(x));
-                              setRoleInfo(arr)
-                            
-                          }} type="checkbox" id="ROLE_ADMIN1" value="ROLE_ADMIN1"/> ROLE_ADMIN1</label>
+                          {/*ROLE_ADMIN1 ROLE_ADMIN2 ROLE_CUSTOMER    ROLE_VIPCUSTOMER */}
+                            <>
+                              <label>
+                                <input  onChange={(e) => {
+                                    // add to list
+                                    if (e.target.checked) {
+                                    
+                                    setRoleInfo([
+                                        ...roleInfo,
+                                        roleInfo.push(e.target.value)
+                                    ])
+                                    } else {
+                                    // remove from list
+                                    setRoleInfo(
+                                        roleInfo.filter((c) => c !== e.target.value),
+                                    );
+                                  // console.log(roleInfo)
+                                    }
+                                    var arr = roleInfo.filter(x => isNaN(x));
+                                    setRoleInfo(arr)
+                                
+                                }} type="checkbox" id="ROLE_ADMIN1" value="ROLE_ADMIN1"/>
+                                ROLE_ADMIN1
+                              </label>
 
-                  <label><input  onChange={(e) => {
-                              // add to list
-                              if (e.target.checked) {
-                              
-                              setRoleInfo([
-                                  ...roleInfo,
-                                  roleInfo.push(e.target.value)
-                              ])
-                              } else {
-                              // remove from list
-                              setRoleInfo(
-                                  roleInfo.filter((c) => c !== e.target.value),
-                              );
-                              
-                              }
-                              var arr = roleInfo.filter(x => isNaN(x));
-                              setRoleInfo(arr)
-                          }} type="checkbox" id="ROLE_CUSTOMER" value="ROLE_CUSTOMER"/> ROLE_CUSTOMER</label>
+                              <label>
+                                <input  onChange={(e) => {
+                                    // add to list
+                                    if (e.target.checked) {
+                                    
+                                    setRoleInfo([
+                                        ...roleInfo,
+                                        roleInfo.push(e.target.value)
+                                    ])
+                                    } else {
+                                      // remove from list
+                                      setRoleInfo(
+                                          roleInfo.filter((c) => c !== e.target.value),
+                                    );
+                                    
+                                    }
+                                    var arr = roleInfo.filter(x => isNaN(x));
+                                    setRoleInfo(arr)
+                                }} type="checkbox" id="ROLE_CUSTOMER" value="ROLE_CUSTOMER"/> 
+                                      ROLE_CUSTOMER
+                              </label>
 
-                      <label><input  onChange={(e) => {
-                              // add to list
-                              if (e.target.checked) {
-                              
-                              setRoleInfo([
-                                  ...roleInfo,
-                                  roleInfo.push(e.target.value)
-                              ])
-                              } else {
-                              // remove from list
-                              setRoleInfo(
-                                  roleInfo.filter((c) => c !== e.target.value),
-                              );
-                              
-                              }
-                              var arr = roleInfo.filter(x => isNaN(x));
-                              setRoleInfo(arr)
-                          }} type="checkbox" id="ROLE_ADMIN2" value="ROLE_ADMIN2"/> ROLE_ADMIN2</label>
+                              <label>
+                                <input  onChange={(e) => {
+                                      // add to list
+                                      if (e.target.checked) {
+                                      
+                                      setRoleInfo([
+                                          ...roleInfo,
+                                          roleInfo.push(e.target.value)
+                                      ])
+                                      } else {
+                                      // remove from list
+                                      setRoleInfo(
+                                          roleInfo.filter((c) => c !== e.target.value),
+                                      );
+                                      
+                                      }
+                                      var arr = roleInfo.filter(x => isNaN(x));
+                                      setRoleInfo(arr)
+                                }} type="checkbox" id="ROLE_ADMIN2" value="ROLE_ADMIN2"/>
+                                ROLE_ADMIN2
+                              </label>
 
-                  <label><input  onChange={(e) => {
-                              // add to list
-                              if (e.target.checked) {
-                              
-                              setRoleInfo([
-                                  ...roleInfo,
-                                  roleInfo.push(e.target.value)
-                              ])
-                              } else {
-                              // remove from list
-                              setRoleInfo(
-                                  roleInfo.filter((c) => c !== e.target.value),
-                              );
-                              
-                              }
-                              var arr = roleInfo.filter(x => isNaN(x));
-                              setRoleInfo(arr)
-                          }} type="checkbox" id="ROLE_VIPCUSTOMER" value="ROLE_VIPCUSTOMER"/> ROLE_VIPCUSTOMER</label>
-                              </>
-                      <button className='btn btn-danger' onClick={() => confirmUpdateUserRights()}>Felhasználó jogainak frissítése</button>
-                          </div>
-                          </div>
-
-
-
-
-
+                              <label>
+                                <input  onChange={(e) => {
+                                    // add to list
+                                    if (e.target.checked) {
+                                    
+                                    setRoleInfo([
+                                        ...roleInfo,
+                                        roleInfo.push(e.target.value)
+                                    ])
+                                    } else {
+                                    // remove from list
+                                    setRoleInfo(
+                                        roleInfo.filter((c) => c !== e.target.value),
+                                    );
+                                    
+                                    }
+                                    var arr = roleInfo.filter(x => isNaN(x));
+                                    setRoleInfo(arr)
+                                }} type="checkbox" id="ROLE_VIPCUSTOMER" value="ROLE_VIPCUSTOMER"/>
+                                  ROLE_VIPCUSTOMER
+                              </label>
+                            </>
+                            <button className='btn btn-danger' onClick={() => confirmUpdateUserRights()}>Felhasználó jogainak frissítése</button>
+                        </div>
+                      </div>
                   </>
                 )}
                   
@@ -923,30 +924,27 @@ export default function ShoppingCart() {
                         <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodDesc")} id="prodDesc" type="text" placeholder='Nagyon kakaós' required></input><br></br>
                         <label class="admin_cimke" for="prodCategory">Termék kategória (lehet több is): </label><br></br>
                         
-                        
-                            {availableCategories.map(cat => 
-                            
-                            <>
-                              <label><input  onChange={(e) => {
-                            // add to list
-                            if (e.target.checked) {
-                            setCatInfo([
-                                ...catInfo,
-                                catInfo.push(cat.id)
-                            ])
-                            } else {
-                            // remove from list
-                            setCatInfo(
-                                catInfo.filter((c) => c.id !== cat.id),
-                            );
-                            
-                            }
-                        }} type="checkbox" id={cat.id} value={cat.category}/> {cat.category}</label>
-                              </>
-                            )}
+                        {availableCategories.map(cat => 
+                          <>
+                            <label>
+                              <input  onChange={(e) => {
+                                  // add to list
+                                  if (e.target.checked) {
+                                    setCatInfo([
+                                        ...catInfo,
+                                        catInfo.push(cat.id)
+                                    ])
+                                  } else {
+                                  // remove from list
+                                    setCatInfo(
+                                        catInfo.filter((c) => c.id !== cat.id),
+                                    );
+                                  }
+                              }} type="checkbox" id={cat.id} value={cat.category}/> {cat.category}
+                            </label>
+                          </>
+                        )}
                     
-                  
-                        
                         {/* <br></br><label class="admin_cimke" for="prodVariation">Termék variációja: </label>
                         <select class="admin_bevitel" onChange={(e) => handleChange(e,"availVar")}>
                         <option id="nincs" value="none">Nincs</option>
@@ -958,35 +956,39 @@ export default function ShoppingCart() {
                             </>
                             )};
                             </select>*/}
-                        <br></br><label class="admin_cimke" for="prodVariation">Termék variációja (lehet több is): </label><br></br>
-                        
-                        
+                        <br></br>
+                        <label class="admin_cimke" for="prodVariation">Termék variációja (lehet több is): </label>
+                        <br></br>
+
                         {availableVariations.map(vari => 
-                            <>
-                            <label><input  onChange={(e) => {
+                          <>
+                            <label>
+                              <input  onChange={(e) => {
                                 // add to list
                                 if (e.target.checked) {
-                                setVarInfo([
-                                    ...varInfo,
-                                    {
-                                    id: vari.id,
-                                    name : vari.name
-                                    }
-                                ])
+                                  setVarInfo([
+                                      ...varInfo,
+                                      {
+                                      id: vari.id,
+                                      name : vari.name
+                                      }
+                                  ])
                                 } else {
                                 // remove from list
-                                setVarInfo(
-                                    varInfo.filter((c) => c.id !== vari.id),
-                                );
-                                
+                                  setVarInfo(
+                                      varInfo.filter((c) => c.id !== vari.id),
+                                  );
                                 }
-                              // console.log(varInfo)
-                            }}  type="checkbox" id={vari.id} value={vari.name}/> {vari.name}</label>
-                            </>
+                                // console.log(varInfo)
+                              }}  type="checkbox" id={vari.id} value={vari.name}/> 
+                              {vari.name}
+                            </label>
+                          </>
                         )}
                     
 
-                        <br></br><label class="admin_cimke" for="prodPrice">Termék ára: </label>
+                        <br></br>
+                        <label class="admin_cimke" for="prodPrice">Termék ára: </label>
                         <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodPrice")} id="prodPrice" type="number" placeholder='500' required></input><br></br>
                         <label class="admin_cimke" for="prodSalePrice">Termék eladási ára: </label>
                         <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" placeholder='450' required></input><br></br>
@@ -1001,7 +1003,8 @@ export default function ShoppingCart() {
                             <option  id="prodVisible" value="false">Hamis</option>
                             </select>
                             <br></br>
-                            <br></br><button onClick={() => handleProdSubmit(prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible)} className='btn btn-primary' type='button'>Új termék felvétele</button>
+                            <br></br>
+                            <button onClick={() => handleProdSubmit(prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible)} className='btn btn-primary' type='button'>Új termék felvétele</button>
                     </div> 
                 )}
 
@@ -1015,13 +1018,7 @@ export default function ShoppingCart() {
                                 <p>
                                   {variation.id} - {variation.name}
                                 </p>
-                                <button
-                                  onClick={() => updateVariation(varId, variation.name)}
-                                  type="button"
-                                  className="btn btn-danger"
-                                >
-                                  Módosítás
-                                </button>
+                                <button onClick={() => updateVariation(varId, variation.name)}type="button"className="btn btn-danger">Módosítás</button>
                               </li>
                             </>
                           ))}
@@ -1031,37 +1028,36 @@ export default function ShoppingCart() {
 
                 {updateProductVisible &&(
                   <div>
-                      <h3 class="admin_focim">Termék Módosítása</h3>
-              <label class="admin_cimke" for="prodName">Termék neve: </label>
-              <input class="admin_bevitel"onChange={(e) => handleChange(e,"prodName")} id="prodName" type="text" defaultValue={prodName} required></input><br></br>
-              <label class="admin_cimke" for="prodDesc">Termék leírása: </label>
-              <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodDesc")} id="prodDesc" type="text" defaultValue={prodDesc} required></input><br></br>
-
-          
-            
-              <br></br><label class="admin_cimke" for="prodPrice">Termék ára: </label>
-              <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodPrice")} id="prodPrice" type="number" defaultValue={prodPrice} placeholder='500' required></input><br></br>
-              <label class="admin_cimke" for="prodSalePrice">Termék eladási ára: </label>
-              <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" defaultValue={prodSalePrice} placeholder='450' required></input><br></br>
-              <label class="admin_cimke" for="prodStock">Termék Készlet: </label>
-              <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" defaultValue={prodStock} required></input><br></br>
-              <label class="admin_cimke" for="prodImage">Képek formátum: 1/"enter" sortörés URL, "szóköz" prioritás</label>
-              <textarea placeholder="példa:&#10;https://api.hvg.hu/Img/7fcefbf8-ac48-4ee6-aef5-32203afa118c/5925235d-a6a9-4424-82fd-1a95a688e6cd.jpg 1&#10;https://media.makeameme.org/created/s-egy-csipetnyi.jpg 2 " class="admin_bevitel" id="story" name="story" rows="5" cols="33" onChange={(e) => handleChange(e,"prodImage")}></textarea>
-              <label class="admin_cimke" for="prodVisible2">Termék láthatósága:</label>
-              <select id ="prodVisible2" class="admin_bevitel" onChange={(e) => handleChange(e,"prodVisible2")}>
-                  <option id="prodVisible2" value="true">Igaz</option>
-                  <option  id="prodVisible2" value="false">Hamis</option>
-                  </select>
-                  <br></br><button onClick={() => updateProductConfirm(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock,prodImage, prodVisible2)} className='btn btn-primary' type='button'>Termék módosítása</button>
+                    <h3 class="admin_focim">Termék Módosítása</h3>
+                    <label class="admin_cimke" for="prodName">Termék neve: </label>
+                    <input class="admin_bevitel"onChange={(e) => handleChange(e,"prodName")} id="prodName" type="text" defaultValue={prodName} required></input><br></br>
+                    <label class="admin_cimke" for="prodDesc">Termék leírása: </label>
+                    <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodDesc")} id="prodDesc" type="text" defaultValue={prodDesc} required></input><br></br>
+                    <br></br>
+                    <label class="admin_cimke" for="prodPrice">Termék ára: </label>
+                    <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodPrice")} id="prodPrice" type="number" defaultValue={prodPrice} placeholder='500' required></input><br></br>
+                    <label class="admin_cimke" for="prodSalePrice">Termék eladási ára: </label>
+                    <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" defaultValue={prodSalePrice} placeholder='450' required></input><br></br>
+                    <label class="admin_cimke" for="prodStock">Termék Készlet: </label>
+                    <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" defaultValue={prodStock} required></input><br></br>
+                    <label class="admin_cimke" for="prodImage">Képek formátum: 1/"enter" sortörés URL, "szóköz" prioritás</label>
+                    <textarea placeholder="példa:&#10;https://api.hvg.hu/Img/7fcefbf8-ac48-4ee6-aef5-32203afa118c/5925235d-a6a9-4424-82fd-1a95a688e6cd.jpg 1&#10;https://media.makeameme.org/created/s-egy-csipetnyi.jpg 2 " class="admin_bevitel" id="story" name="story" rows="5" cols="33" onChange={(e) => handleChange(e,"prodImage")}></textarea>
+                    <label class="admin_cimke" for="prodVisible2">Termék láthatósága:</label>
+                    <select id ="prodVisible2" class="admin_bevitel" onChange={(e) => handleChange(e,"prodVisible2")}>
+                        <option id="prodVisible2" value="true">Igaz</option>
+                        <option  id="prodVisible2" value="false">Hamis</option>
+                    </select>
+                    <br></br>
+                    <button onClick={() => updateProductConfirm(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock,prodImage, prodVisible2)} className='btn btn-primary' type='button'>Termék módosítása</button>
                   </div>
                 )}
 
                 {updateVariationVisible &&(
-                    <>
-                        <p class="admin_focim">Variáció neve:</p>
-                        <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateVarName")} type="text" defaultValue={varName} required></input>
-                        <button type="button" className='btn btn-info' onClick={() => updateVariationConfirm(varId, varName)}>Módosít</button>
-                    </>
+                  <>
+                    <p class="admin_focim">Variáció neve:</p>
+                    <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateVarName")} type="text" defaultValue={varName} required></input>
+                    <button type="button" className='btn btn-info' onClick={() => updateVariationConfirm(varId, varName)}>Módosít</button>
+                  </>
                 )}
 
                 {categoryVisible && (
@@ -1074,11 +1070,7 @@ export default function ShoppingCart() {
                               <p>
                                 ID: {cat.id} <br></br> Kategória neve: {cat.category} <br></br> Kategória leírása: {cat.description}  <br></br> Kategória prioritása:  {cat.priority}
                               </p>
-                              <button
-                                onClick={() => updateCategory(cat.id, cat.category, cat.description, cat.priority)}
-                                type="button"
-                                className="btn btn-danger"
-                              >
+                              <button onClick={() => updateCategory(cat.id, cat.category, cat.description, cat.priority)} type="button" className="btn btn-danger">
                                 Módosítás
                               </button>
                             </li>
@@ -1090,13 +1082,13 @@ export default function ShoppingCart() {
 
                   {updateCategoryVisible &&(
                     <>
-                                <p>Kategória neve:</p>
-                                <input class="admin_bevitel"  onChange={(e) => handleChange(e, "updateCatName")} id="updCatName" type="text" defaultValue={catName} required></input>
-                                <p>Kategória leírása:</p>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatDesc")}  id="updCatDesc" type="text" defaultValue={catDesc} required></input>
-                                <p>Kategória prioritása:</p>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatPrior")}  id="updCatPrior" type="number" defaultValue={catPrior} required></input>
-                                <button type="button" className='btn btn-info' onClick={() => updateCategoryConfirm(catId, catName, catDesc, catPrior)}>Módosít</button>
+                      <p>Kategória neve:</p>
+                      <input class="admin_bevitel"  onChange={(e) => handleChange(e, "updateCatName")} id="updCatName" type="text" defaultValue={catName} required></input>
+                      <p>Kategória leírása:</p>
+                      <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatDesc")}  id="updCatDesc" type="text" defaultValue={catDesc} required></input>
+                      <p>Kategória prioritása:</p>
+                      <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatPrior")}  id="updCatPrior" type="number" defaultValue={catPrior} required></input>
+                      <button type="button" className='btn btn-info' onClick={() => updateCategoryConfirm(catId, catName, catDesc, catPrior)}>Módosít</button>
                     </>
                   )}
 
@@ -1118,7 +1110,6 @@ export default function ShoppingCart() {
                         <h3 class="admin_focim">Új variáció adatai</h3>
                         <label class="admin_cimke" for="varName">Variáció neve: </label>
                         <input class="admin_bevitel" onChange={(e) => handleChange(e,"varName")} id="varName" type="text"  placeholder='Keserű' required></input>
-
                         <button onClick={() => handleVarSubmit(varName)} className='btn btn-primary' type='button'>Új variáció felvétele</button>
                     </div>  
                   )}
