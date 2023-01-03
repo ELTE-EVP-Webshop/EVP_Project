@@ -369,7 +369,7 @@ const updateOrderState = (orderId, newState) => {
   })
   .then((response) => {
     alert(response.data.message)
-    window.location.assign("/admin")
+  //  window.location.assign("/admin")
     return response.data;
   });
 }
@@ -400,10 +400,10 @@ const updateAdminRights = (userId, rolesJson) => {
   var bodyFormData = new FormData();
 
 
-  bodyFormData.append('userId', userId);
-  const rolesJsonArray = [];
+  
+  var rolesJsonArray = [];
   rolesJsonArray.push(rolesJson)
-
+  bodyFormData.append('rolesJson', JSON.stringify(rolesJsonArray.toString()));
   return axios({
     method: "post",
     url: PRODUCTS_REST_API_URL_ADMIN + "updateAdminRights",
@@ -411,7 +411,7 @@ const updateAdminRights = (userId, rolesJson) => {
     headers: { 'Content-Type': 'application/json' },
     params: {
       userId: userId,
-      rolesJson : JSON.stringify(rolesJsonArray)
+      //rolesJson : JSON.stringify(rolesJsonArray)
     },
     withCredentials: true
   })
@@ -419,12 +419,12 @@ const updateAdminRights = (userId, rolesJson) => {
       //handle success
       //console.log(response);
       alert("Sikeres módosítás")
-      window.location.assign("/admin")
+    //  window.location.assign("/admin")
     })
     .catch(function (response) {
       //handle error
       alert("Hiba lépett fel a módosítás során!")
-      window.location.assign("/admin")
+     // window.location.assign("/admin")
     });
 
 

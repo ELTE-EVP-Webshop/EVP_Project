@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {user} from '../main_page/Header'
 import ProductService from '../services/ProductService';
-import $ from "jquery";
 
 
 export default function ShoppingCart() {
@@ -77,7 +76,7 @@ export default function ShoppingCart() {
             setLoading(true)
             var vari = await ProductService.getCategories();
             await setAvailableCategories(vari)
-            
+            //console.log(vari)
         }
         async function getProducts() {
             setLoading(true)
@@ -103,7 +102,7 @@ export default function ShoppingCart() {
             await setAvailableUsers(Object.values(vari))
             
           
-            console.log(JSON.stringify(vari))
+            //console.log(JSON.stringify(vari))
         }
         getVariations();
         getCategories();
@@ -202,7 +201,7 @@ export default function ShoppingCart() {
 
             }
             
-           console.log(event.target.value)
+           //console.log(event.target.value)
            // console.log(availVarName)
            // console.log(availCatName)
           };
@@ -347,7 +346,7 @@ export default function ShoppingCart() {
             setCategoryVisible(false)
         }
         
-        console.log(availableCategories)
+      // console.log(availableCategories)
         
     }
 
@@ -380,11 +379,12 @@ export default function ShoppingCart() {
         }
     }
 
-    const updateVariation = (varId) => {
+    const updateVariation = (varId, varName) => {
         hideAll();
         setUpdateVariationVisible(true)
         //setProductVariationVisible(true)
         setVarId(varId)
+        setVarName(varName)
         if(updateVariationVisible) {
             setUpdateVariationVisible(false)
         }
@@ -393,10 +393,16 @@ export default function ShoppingCart() {
 
     }
 
-    const updateProduct = (prodId) => {
+    const updateProduct = (prodId, prodName, prodDesc, prodPrice,prodSalePrice, prodStock, prodVisible) => {
         hideAll();
         setUpdateProductVisible(true)
         setProdId(prodId)
+        setProdName(prodName)
+        setProdDesc(prodDesc)
+        setProdPrice(prodPrice)
+        setProdSalePrice(prodSalePrice)
+        setProdVisible(prodVisible)
+        setProdStock(prodStock)
         if(updateProductVisible) {
             setProductVisible(false)
         }
@@ -412,10 +418,13 @@ export default function ShoppingCart() {
     setVarName("");
    }
 
-    const updateCategory = (id) => {
+    const updateCategory = (id, catname, catdesc, catprior) => {
         hideAll();
         setUpdateCategoryVisible(true)
         setCatId(id);
+        setCatName(catname)
+        setCatDesc(catdesc)
+        setCatPrior(catprior)
         if(updateCategoryVisible) {
             setUpdateCategoryVisible(false)
         }
@@ -437,7 +446,7 @@ export default function ShoppingCart() {
         setOrdersVisible(true)
         setUpdateOrderStateVisible(true)
         setOrderId(orderid);
-        console.log(orderid)
+       // console.log(orderid)
         if(UpdateOrderStateVisible) {
             setUpdateOrderStateVisible(false)
         }
@@ -446,8 +455,8 @@ export default function ShoppingCart() {
 
     const confirmOrderStateChange = () => {
         hideAll();
-        console.log("final id:" + orderId);
-        console.log("final orderstate:" + orderState);
+       // console.log("final id:" + orderId);
+       // console.log("final orderstate:" + orderState);
         if(orderId != 0 && orderState != -1 && orderState <= 4 && orderState >= 0) {
             ProductService.updateOrderState(orderId, orderState)
         } else {
@@ -462,16 +471,16 @@ export default function ShoppingCart() {
         setUsersVisible(true)
         setUpdateUserRightsVisible(true)
         setUserId(userid);
-        console.log(userid)
-        if(UpdateOrderStateVisible) {
+       // console.log(userid)
+        if(UpdateUserRightsVisible) {
             setUpdateUserRightsVisible(false)
         }
     }
 
     async function confirmUpdateUserRights() {
         hideAll();
-        console.log(userId)
-        console.log(roleInfo.length)
+       // console.log(userId)
+     //   console.log(roleInfo.length)
         if(userId != 0 && roleInfo.length > 0) {
           await ProductService.updateAdminRights(userId, roleInfo)
           setRoleInfo([])
@@ -892,7 +901,7 @@ async function handleProdToVarSubmit(prodId) {
                               {product.p.visible ? "Igaz" : "Hamis"}
                             </p>
                             <button
-                              onClick={() => updateProduct(product.p.id)}
+                              onClick={() => updateProduct(product.p.id, product.p.name, product.p.description, product.p.sale_price, product.p.visible, product.p.stock)}
                               type="button"
                               className="btn btn-danger"
                             >
@@ -972,7 +981,7 @@ async function handleProdToVarSubmit(prodId) {
                                     );
                                     
                                     }
-                                    console.log(varInfo)
+                                   // console.log(varInfo)
                                 }}  type="checkbox" id={vari.id} value={vari.name}/> {vari.name}</label>
                                 </>
                               )}
@@ -1009,7 +1018,7 @@ async function handleProdToVarSubmit(prodId) {
                               {variation.id} - {variation.name}
                             </p>
                             <button
-                              onClick={() => updateVariation(varId)}
+                              onClick={() => updateVariation(varId, variation.name)}
                               type="button"
                               className="btn btn-danger"
                             >
@@ -1025,18 +1034,18 @@ async function handleProdToVarSubmit(prodId) {
                                     <div>
                                         <h3 class="admin_focim">Termék Módosítása</h3>
                                 <label class="admin_cimke" for="prodName">Termék neve: </label>
-                                <input class="admin_bevitel"onChange={(e) => handleChange(e,"prodName")} id="prodName" type="text" placeholder='Sós pufi' required></input><br></br>
+                                <input class="admin_bevitel"onChange={(e) => handleChange(e,"prodName")} id="prodName" type="text" defaultValue={prodName} required></input><br></br>
                                 <label class="admin_cimke" for="prodDesc">Termék leírása: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodDesc")} id="prodDesc" type="text" placeholder='Ha n+1-et eszel belőle, akkor bereped a szád széle' required></input><br></br>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodDesc")} id="prodDesc" type="text" defaultValue={prodDesc} required></input><br></br>
     
                             
                              
                                 <br></br><label class="admin_cimke" for="prodPrice">Termék ára: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodPrice")} id="prodPrice" type="number" placeholder='500' required></input><br></br>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodPrice")} id="prodPrice" type="number" defaultValue={prodPrice} placeholder='500' required></input><br></br>
                                 <label class="admin_cimke" for="prodSalePrice">Termék eladási ára: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" placeholder='450' required></input><br></br>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" defaultValue={prodSalePrice} placeholder='450' required></input><br></br>
                                 <label class="admin_cimke" for="prodStock">Termék Készlet: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" placeholder='69' required></input><br></br>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" defaultValue={prodStock} required></input><br></br>
                                 <label class="admin_cimke" for="prodImage">Képek formátum: 1/"enter" sortörés URL, "szóköz" prioritás</label>
                                 <textarea placeholder="példa:&#10;https://api.hvg.hu/Img/7fcefbf8-ac48-4ee6-aef5-32203afa118c/5925235d-a6a9-4424-82fd-1a95a688e6cd.jpg 1&#10;https://media.makeameme.org/created/s-egy-csipetnyi.jpg 2 " class="admin_bevitel" id="story" name="story" rows="5" cols="33" onChange={(e) => handleChange(e,"prodImage")}></textarea>
                                 <label class="admin_cimke" for="prodVisible2">Termék láthatósága:</label>
@@ -1050,7 +1059,7 @@ async function handleProdToVarSubmit(prodId) {
                           {updateVariationVisible &&
                                     <>
                                         <p class="admin_focim">Variáció neve:</p>
-                                        <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateVarName")} type="text" required></input>
+                                        <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateVarName")} type="text" defaultValue={varName} required></input>
                                         <button type="button" className='btn btn-info' onClick={() => updateVariationConfirm(varId, varName)}>Módosít</button>
                                         </>
                                     }
@@ -1062,10 +1071,10 @@ async function handleProdToVarSubmit(prodId) {
                         <>
                           <li class="list-group-item">
                             <p>
-                              {cat.id} - {cat.category}
+                              ID: {cat.id} <br></br> Kategória neve: {cat.category} <br></br> Kategória leírása: {cat.description}  <br></br> Kategória prioritása:  {cat.priority}
                             </p>
                             <button
-                              onClick={() => updateCategory(cat.id)}
+                              onClick={() => updateCategory(cat.id, cat.category, cat.description, cat.priority)}
                               type="button"
                               className="btn btn-danger"
                             >
@@ -1080,11 +1089,11 @@ async function handleProdToVarSubmit(prodId) {
                          {updateCategoryVisible &&
                             <>
                                         <p>Kategória neve:</p>
-                                        <input class="admin_bevitel"  onChange={(e) => handleChange(e, "updateCatName")} id="updCatName" type="text" placeholder='Tej' required></input>
+                                        <input class="admin_bevitel"  onChange={(e) => handleChange(e, "updateCatName")} id="updCatName" type="text" defaultValue={catName} required></input>
                                         <p>Kategória leírása:</p>
-                                        <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatDesc")}  id="updCatDesc" type="text" placeholder='Ezt issza a macska' required></input>
+                                        <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatDesc")}  id="updCatDesc" type="text" defaultValue={catDesc} required></input>
                                         <p>Kategória prioritása:</p>
-                                        <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatPrior")}  id="updCatPrior" type="number" placeholder='1' required></input>
+                                        <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatPrior")}  id="updCatPrior" type="number" defaultValue={catPrior} required></input>
                                         <button type="button" className='btn btn-info' onClick={() => updateCategoryConfirm(catId, catName, catDesc, catPrior)}>Módosít</button>
                             </>
                          
