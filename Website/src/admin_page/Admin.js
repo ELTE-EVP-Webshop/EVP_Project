@@ -705,54 +705,51 @@ export default function ShoppingCart() {
                                 <p>Házszám: {order.house_number}</p>
                                 <p>Egyéb info:{order.post_other}</p>
                                 <br></br>
-                                <button
-                                onClick={() => updateOrderState(order.id)}
-                                class="btn btn-success editgomb"
-                                >
-                                Rendelés állapotának módosítása
+                                <button onClick={() => updateOrderState(order.id)} class="btn btn-success editgomb">
+                                  Rendelés állapotának módosítása
                                 </button>
-                                <button onClick={() => getUserOrders(order.id)} className='btn btn-info'>Felhasználó rendeléseinek megtekintése</button>
+                                <button onClick={() => getUserOrders(order.id)} className='btn btn-info editgomb'>Felhasználó rendeléseinek megtekintése</button>
                             </li>
                             </>
                         ))}
                         <div id="myModal2" class="modal"></div>
                       </ul>
                       {userOrderVisible &&
-                                      <div>
-                                           {userOrders2.map(oproduct =>
-                                            <>
-                                
-                                                
-                                                    
-                                                    <p>Mennyiség: {oproduct.count}</p>
-                                                    <p>Ár: {oproduct.price}</p>
-                                                    <p>Rendelési azonosító: {oproduct.order_id}</p>
-                                                    <button onClick={() => otherProdInfo(oproduct.product_id)} className='btn btn-secondary'>Termék további adatai</button>
-                                                  
-                                                    <br></br>
-                                                </>
-                                                )}
-
-                                    {OtherProdInfoVisible &&
-                                          <>
+                          <div class="orders">
+                            <div class="lebeg">
+                              <div class="lebegContent">
+                                <label for="ordnum" class="lebegLabel"></label>
+                                  <ul class="list-group">
+                                    {userOrders2.map(oproduct =>
+                                      <>
+                                      <li class="list-group-item">
+                                            <p>Mennyiség: {oproduct.count} db.</p>
+                                            <p>Ár: {oproduct.price} Ft.</p>
+                                            <p>Rendelési azonosító: {oproduct.order_id}</p>
+                                            <button onClick={() => otherProdInfo(oproduct.product_id)} className='btn btn-secondary'>Termék további adatai</button>
+                                            <br></br>
+                                            </li>
+                                      </>
+                                    )}
+                                  </ul>
+                                  {OtherProdInfoVisible &&
+                                      <>
+                                        <div class="detailedOrder">
                                           <div>Termék további adatai:</div>
-                                            
-                                                <>
-                                                  <p>Termék neve: {productbyId.p.name}</p>
-                                                  <p>Termék ára: {productbyId.p.price}</p>
-                                                  <p>Termék eladási ára: {productbyId.p.sale_price}</p>
-                                                  <p>Termék leírása: {!productbyId.p.description ? "Nincs" : productbyId.p.description}</p>
-                                                </>
-                                              
-                                             
+                                          <>
+                                            <p>Termék neve: {productbyId.p.name}</p>
+                                            <p>Termék ára: {productbyId.p.price} Ft.</p>
+                                            <p>Termék eladási ára: {productbyId.p.sale_price} Ft.</p>
+                                            <p>Termék leírása: {!productbyId.p.description ? "Nincs" : productbyId.p.description}</p>
                                           </>
-                                        
-                                        }
-
-
-                                      </div>
-                                      
-                                      }
+                                              
+                                        </div>
+                                      </>
+                                  }
+                              </div>
+                            </div>
+                          </div>            
+                      }
               
                       {UpdateOrderStateVisible && (
                         <>
