@@ -112,6 +112,15 @@
   margin-top: 10px;
   margin-bottom: 0 !important;
 }
+.list-group
+{
+  list-style-type: disc;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+  columns: 2;
+  list-style-position: inside;
+}
+
 .list-group-item
 {
 background-color: rgb(13, 98, 143);
@@ -170,6 +179,8 @@ color: black;
 {
   margin-left: 30px;
   margin-right: 30px;
+  display: flex;
+  flex-direction: column;
 }
 .lebeg
 {
@@ -177,11 +188,27 @@ color: black;
   position: absolute;
   margin-left: auto;
   margin-right: auto;
-  width: 30%;
+  width: 20%;
   height:fit-content;
   padding-bottom: 20px;
   top: 35rem;
   background-color: indianred;
+}
+@media (max-width:640px) {
+  .lebeg
+  {
+  
+    width:50%;
+  }
+  .lebegLabel
+  {
+    font-size: 12px;
+    word-wrap: break-word
+  }
+  .lebegBTN
+  {
+    font-size: 12px;
+  }
 }
 .number
 {

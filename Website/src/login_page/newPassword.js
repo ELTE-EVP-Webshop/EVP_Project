@@ -34,11 +34,19 @@ export default function newPassword() {
 
     }
   return (
-    <div>
-        <h3 className="text-center">Adja meg a fiókhoz tartozó új jelszavát!</h3>
-        <label for="password">Új jelszó:</label>
-        <input onChange={(e) => handleChange(e)} id="password" type="password" placeholder="passwordstoredasnumeric" required></input>
-        <button onClick={() => handleSubmit()} className="btn btn-success">Új jelszó generálása</button>
+    <div class="container-product">
+    <div class="conatiner-forget">
+        <img src="/images/forgotpw.png" class="forgotimg"></img>
+        <h3 class="forgotH">Adja meg a fiókhoz tartozó új jelszavát!</h3>
+        <div class="row emailsor">
+            <label class="forgotLB" for="email">
+                <i class="fa-solid fa-lock"></i>
+            </label>
+            <input class="forgotTX" onChange={(e) => handleChange(e)} id="password" type="password"  placeholder="Jelszó"></input><br></br>
+        </div>
+        <button class="forgotBTN" onClick={() => handleSubmit()} >Új jelszó generálása</button>
     </div>
+</div>
+   
   );
 }

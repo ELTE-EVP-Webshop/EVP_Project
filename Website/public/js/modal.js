@@ -30,6 +30,6 @@ function showSlides(n) {
 }
 $(document).on('click', '.editgomb' , function(e) {
   $( ".lebeg" ).ready(function() {
-    $(".lebeg").css({top: e.pageY, left: e.pageX, position:'absolute'});
+    $(".lebeg").css({top: e.pageY, left: window.innerWidth / 2, position:'absolute'});
   });
 });

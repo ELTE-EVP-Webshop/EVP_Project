@@ -404,7 +404,16 @@ iframe {
 [ Responsive ]*/
 @media (max-width: 576px) {
   .login100-form {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    padding-top: 130px !important;
   }
+  .registerspace
+{
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+.container-login100-form-btn {
+  margin-top: 10px;
+}
 }

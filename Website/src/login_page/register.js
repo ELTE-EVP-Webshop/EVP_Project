@@ -158,7 +158,7 @@ const Register = (props) => {
                 </button>
             </div>
 
-            <div class="flex-col-c p-t-170 p-b-40">
+            <div class="flex-col-c p-t-170 p-b-40 registerspace">
                 <span class="txt1 p-b-9">
                     Van már fiókja?
                 </span>

@@ -19,7 +19,38 @@
 .m-r-0 {
   margin-right: 0px;
 }
-
+.userTX
+{
+  border-bottom: 2px solid rgb(8, 17, 195);
+  margin-bottom: 10px;
+}
+.userShippingBTN
+{
+  width: fit-content;
+  padding: 3px;
+  color: black;
+  background-color: rgb(77, 170, 187);
+  border-style: solid;
+  border-width: 1.5px;
+  border-color: rgb(52, 60, 213);
+}
+.userShippingBTN:hover
+{
+  background-color: rgb(13, 189, 19);
+}
+.pwresetbtn
+{
+  width: fit-content;
+  padding: 3px;
+  background-color: rgb(230, 126, 131);
+  border-style: solid;
+  border-width: 1.5px;
+  border-color: rgb(52, 60, 213);
+}
+.pwresetbtn:hover
+{
+  background-color: rgb(255, 0, 0);
+}
 .m-l-0 {
   margin-left: 0px;
 }
