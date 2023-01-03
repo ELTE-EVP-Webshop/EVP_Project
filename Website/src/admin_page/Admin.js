@@ -85,7 +85,7 @@ export default function ShoppingCart() {
         var vari = await ProductService.getProducts();
 
         await setAvailableProducts(vari)
-        
+        await setLoading(false)
     }
 
     async function getAllOrder() {
@@ -112,7 +112,7 @@ export default function ShoppingCart() {
     getAllOrder();
     getAllUsers();
     getProducts();
-    setLoading(false)
+    
 
   }, []);
 
@@ -213,7 +213,7 @@ export default function ShoppingCart() {
     }
     else {
         alert("Lehetőleg valós adatokat adjon meg!")
-        console.log(prodName, prodDesc, prodPrice, prodSalePrice)
+        //console.log(prodName, prodDesc, prodPrice, prodSalePrice)
     }
     hideAll();
   }
@@ -454,17 +454,19 @@ export default function ShoppingCart() {
       //EditModal();
   }
 
-  const confirmOrderStateChange = () => {
+  async function confirmOrderStateChange()  {
       hideAll();
       // console.log("final id:" + orderId);
       // console.log("final orderstate:" + orderState);
       if(orderId != 0 && orderState != -1 && orderState <= 4 && orderState >= 0) {
-          ProductService.updateOrderState(orderId, orderState)
+         await ProductService.updateOrderState(orderId, orderState)
+          
       } else {
           alert("Hiba történt a rendelés állapotának módosítása során!")
       }
       setOrderId(0);
       setOrderState(-1)
+      
   }
 
   const updateUserRights = (userid) => {

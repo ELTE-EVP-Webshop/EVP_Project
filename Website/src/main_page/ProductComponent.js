@@ -116,7 +116,7 @@ useEffect(() => {
     setProductFilter(true)
     var prodByCat =  await ProductService.findProductsByCategory(event);
     await setProducts(prodByCat)
-    console.log(products)
+    //console.log(products)
     setProductFilter(false)
   
 }

@@ -48,7 +48,7 @@ export default function Orders() {
     } else {
       setOtherProdInfoVisible(true)
     }
-    console.log(getProductById)
+   // console.log(getProductById)
     
     }
   } 
