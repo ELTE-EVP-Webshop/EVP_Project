@@ -166,38 +166,32 @@ const Profile = () => {
   
                       <div class="col-sm-6">
                         <p onClick={() => getDeliveryAddress()} class="userShippingBTN">Szállítási adatok megtekintése</p>
-                       {deliveryVisible &&
-                       <>
 
-                                <p>Telefon: {DeliveryAddress.phone ? DeliveryAddress.phone : "Nincs megadva!"}</p>
-                                <p>Ország: {DeliveryAddress.country ? DeliveryAddress.country : "Nincs megadva!"}</p>
-                                <p> Megye: {DeliveryAddress.country_l ? DeliveryAddress.country_l : "Nincs megadva!"}</p>
-                               <p>Ir.szám: : {DeliveryAddress.post_other ? DeliveryAddress.post_other : "Nincs megadva!"}</p> 
-                               <p>Város: {DeliveryAddress.city ? DeliveryAddress.city: "Nincs megadva!"}</p> 
-                                <p>Házszám: {DeliveryAddress.house_number ? DeliveryAddress.house_number : "Nincs megadva!"}</p>
-                                <p>Utca: {DeliveryAddress.street ? DeliveryAddress.street : "Nincs megadva!"}</p>
-                                <button onClick={() => updateDeliveryAddress()} className="btn btn-info">Frissítés</button>
-                          </>
-    
-                       
+                    {deliveryVisible &&
+                      <>
+
+                              <p>Telefon: {DeliveryAddress.phone ? DeliveryAddress.phone : "Nincs megadva!"}</p>
+                              <p>Ország: {DeliveryAddress.country ? DeliveryAddress.country : "Nincs megadva!"}</p>
+                              <p> Megye: {DeliveryAddress.country_l ? DeliveryAddress.country_l : "Nincs megadva!"}</p>
+                              <p>Ir.szám: : {DeliveryAddress.post_other ? DeliveryAddress.post_other : "Nincs megadva!"}</p> 
+                              <p>Város: {DeliveryAddress.city ? DeliveryAddress.city: "Nincs megadva!"}</p> 
+                              <p>Házszám: {DeliveryAddress.house_number ? DeliveryAddress.house_number : "Nincs megadva!"}</p>
+                              <p>Utca: {DeliveryAddress.street ? DeliveryAddress.street : "Nincs megadva!"}</p>
+                              <button onClick={() => updateDeliveryAddress()} className="btn btn-info">Frissítés</button>
+                      </>
                     }
                     {updateDeliveryVisible &&
-                       <>
-
-                       <p>Telefon: <input class="userTX" placeholder="+36..." onChange={(e) => handleChange(e, "phone")} type="number"></input></p>
-                       <p>Ország:  <input class="userTX" onChange={(e) => handleChange(e, "country")} type="text"></input></p>
-                       <p> Megye:  <input class="userTX" onChange={(e) => handleChange(e, "country_l")} type="text"></input></p>
-                      <p>Ir.szám: :  <input class="userTX" onChange={(e) => handleChange(e, "postother")} type="number"></input></p> 
-                      <p>Város:  <input class="userTX" onChange={(e) => handleChange(e, "city")} type="text"></input></p> 
-                       <p>Házszám:  <input  class="userTX" onChange={(e) => handleChange(e, "housenumber")} type="number"></input></p>
-                       <p>Utca:  <input class="userTX" onChange={(e) => handleChange(e, "street")} type="text"></input></p>
-                       <button onClick={() => updateDeliveryAddressConfirm()} className="btn btn-info">Frissítés</button>
-                 </>
-                    
-                    
+                      <>
+                        <p>Telefon: <input class="userTX" placeholder="+36..." onChange={(e) => handleChange(e, "phone")} type="number"></input></p>
+                        <p>Ország:  <input class="userTX" onChange={(e) => handleChange(e, "country")} type="text"></input></p>
+                        <p> Megye:  <input class="userTX" onChange={(e) => handleChange(e, "country_l")} type="text"></input></p>
+                        <p>Ir.szám: :  <input class="userTX" onChange={(e) => handleChange(e, "postother")} type="number"></input></p> 
+                        <p>Város:  <input class="userTX" onChange={(e) => handleChange(e, "city")} type="text"></input></p> 
+                        <p>Házszám:  <input  class="userTX" onChange={(e) => handleChange(e, "housenumber")} type="number"></input></p>
+                        <p>Utca:  <input class="userTX" onChange={(e) => handleChange(e, "street")} type="text"></input></p>
+                        <button onClick={() => updateDeliveryAddressConfirm()} className="btn btn-info">Frissítés</button>
+                      </>
                     }
-
-                       
                       </div>
                     </div>
                     <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">
@@ -210,12 +204,10 @@ const Profile = () => {
                         <a href="#" onClick={() => setChangePass(true)}><h6 class="pwresetbtn">Megváltoztatás</h6></a>
                         }
                          
-                        
-                        
                         {changePass &&
-                        <>
-                          <input onChange={(e)=> handleChange(e,"oldPass")} type="password" class="pwresetTX" placeholder="régijelszó"></input>
-                          <input onChange={(e)=> handleChange(e,"newPass")} type="password" class="pwresetTX" placeholder="újjelszó"></input>
+                          <>
+                          <input onChange={(e)=> handleChange(e,"oldPass")} type="password" class="userTX" placeholder="régijelszó"></input>
+                          <input onChange={(e)=> handleChange(e,"newPass")} type="password" class="userTX" placeholder="újjelszó"></input>
                           <button onClick = {()=> handleSubmit()} class="pwresetbtn">Jelszó megváltoztatása</button>
                           </>
                         }
