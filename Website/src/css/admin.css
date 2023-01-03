@@ -194,6 +194,34 @@ color: black;
   top: 35rem;
   background-color: indianred;
 }
+.orders .lebeg
+{
+  z-index: 2;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+  height:fit-content;
+  padding-bottom: 20px;
+  top: 35rem;
+  background-color: rgb(57, 218, 86);
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+}
+.orders .lebeg p
+{
+  color: black;
+}
+.detailedOrder
+{
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  padding-left: 4px;
+  padding-right: 2px;
+  background-color: rgb(40, 151, 60);
+}
 @media (max-width:640px) {
   .lebeg
   {

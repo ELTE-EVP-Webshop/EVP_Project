@@ -66,65 +66,70 @@ export default function Orders() {
 
     }, []);
   return (
-    <>
-    <h1 className='text-center'>Rendelési előzmények</h1>
-    {orders.map(order =>
-      <>
-                                <p>Azonosító: {order.id}</p>
-                                <p>Rendelés dátuma: {order.order_date}</p>
-                                <p>Rendelés állapota: {order.order_state}</p>
-                                <p>Fizetés módja: {order.payment_method}</p>
-                                <p>Fizetés állapota: {order.payment_state}</p>
-                                <p>Szállítás módja: {order.delivery_method}</p>
-                                <p>Telefonszám: {order.phone}</p>
-                                <p>Ország: {order.country}</p>
-                                <p>Megye: {order.country_1}</p>
-                                <p>Irányítószám: {order.post_code}</p>
-                                <p>Város: {order.city}</p>
-                                <p>Utca: {order.street}</p>
-                                <p>Házszám: {order.house_number}</p>
-                                <p>Egyéb info:{order.post_other}</p>
-                                <button onClick={()=> handleOrderProducts(order.id)} className='btn btn-success'>Rendeléshez tartozó termékek megtekintése</button>
-                                <br></br>
-                                
-
-      </>
-      )}
-      {orderProductsVisible && 
-                                  <>
+    <div class="kiirasok">
+      <div  class="admin_doboz">
+        <h3 class="admin_focim">Rendelési előzmények</h3>
+          <div class="row">
+            <ul class="list-group">
+                {orders.map(order =>
+                  <>
+                    <li class="list-group-item">
+                      <p>Azonosító: {order.id}</p>
+                      <p>Rendelés dátuma: {order.order_date}</p>
+                      <p>Rendelés állapota: {order.order_state}</p>
+                      <p>Fizetés módja: {order.payment_method}</p>
+                      <p>Fizetés állapota: {order.payment_state}</p>
+                      <p>Szállítás módja: {order.delivery_method}</p>
+                      <p>Telefonszám: {order.phone}</p>
+                      <p>Ország: {order.country}</p>
+                      <p>Megye: {order.country_1}</p>
+                      <p>Irányítószám: {order.post_code}</p>
+                      <p>Város: {order.city}</p>
+                      <p>Utca: {order.street}</p>
+                      <p>Házszám: {order.house_number}</p>
+                      <p>Egyéb info:{order.post_other}</p>
+                      <button onClick={()=> handleOrderProducts(order.id)} className='btn btn-success editgomb'>Rendeléshez tartozó termékek megtekintése</button>
+                      <br></br>
+                    </li>
+                  </>
+                )}
+            </ul>
+       
+            {orderProductsVisible && (
+                <div class="orders">
+                      <div class="lebeg">
+                            <div class="lebegContent">
+                                <label for="ordnum" class="lebegLabel"></label>
                                   <h3>Rendeléshez tartozó termék(ek)</h3>
                                   
                                  {orderProducts.map(oproduct =>
-                                 <>
-                     
-                                    
-                                        
-                                        <p>Mennyiség: {oproduct.count}</p>
-                                        <p>Ár: {oproduct.price}</p>
-                                        <p>Rendelési azonosító: {oproduct.order_id}</p>
-                                        <button onClick={() => otherProdInfo(oproduct.product_id)} className='btn btn-secondary'>Termék további adatai</button>
-                                       
-                                        <br></br>
+                                    <>
+                                      <p>Mennyiség: {oproduct.count} db.</p>
+                                      <p>Ár: {oproduct.price} Ft.</p>
+                                      <p>Rendelési azonosító: {oproduct.order_id}</p>
+                                      <button onClick={() => otherProdInfo(oproduct.product_id)} className='btn btn-secondary'>Termék további adatai</button>
+                                      
+                                      <br></br>
                                     </>
-                                    )}
-                                     {OtherProdInfoVisible &&
-                                          <>
-                                          <div>Termék további adatai:</div>
-                                            
-                                                <>
-                                                  <p>Termék neve: {productbyId.p.name}</p>
-                                                  <p>Termék ára: {productbyId.p.price}</p>
-                                                  <p>Termék eladási ára: {productbyId.p.sale_price}</p>
-                                                  <p>Termék leírása: {!productbyId.p.description ? "Nincs" : productbyId.p.description}</p>
-                                                </>
-                                              
-                                             
-                                          </>
-                                        
-                                        }
-                                     
-                                   </>
-                                 }
-      </>
+                                  )}
+                                  {OtherProdInfoVisible &&
+                                      <div class="detailedOrder">
+                                      <div>Termék további adatai:</div>
+                                            <>
+                                              <p>Termék neve: {productbyId.p.name}</p>
+                                              <p>Termék ára: {productbyId.p.price} Ft.</p>
+                                              <p>Termék eladási ára: {productbyId.p.sale_price} Ft.</p>
+                                              <p>Termék leírása: {!productbyId.p.description ? "Nincs" : productbyId.p.description}</p>
+                                            </>
+                                      </div>
+                                    }
+                       </div>
+                    </div>               
+                </div>
+            )}
+          </div>
+      </div>
+    </div>
+    
   )
 }
