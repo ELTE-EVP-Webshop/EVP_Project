@@ -468,8 +468,17 @@ export default function ShoppingCart() {
         }
     }
 
-    const confirmUpdateUserRights = () => {
+    async function confirmUpdateUserRights() {
         hideAll();
+        console.log(userId)
+        console.log(roleInfo.length)
+        if(userId != 0 && roleInfo.length > 0) {
+          await ProductService.updateAdminRights(userId, roleInfo)
+          setRoleInfo([])
+        } else {
+          alert("Hiba történt a felhasználó jogainak módosítása során!")
+        }
+        
     }
 
     const addProductToVariation = () => {
@@ -650,8 +659,13 @@ async function handleProdToVarSubmit(prodId) {
                                     <div class="lebegContent">
                                         <label for="ordnum" class="lebegLabel">
                                         {" "}
-                                        Rendelés új állapota(0-4 közötti érték
-                                        megengedett):{" "}
+                                        {/*MEGRENDELVE((byte)0),
+                                                      FELDOLGOZVA((byte)1),
+                                                      CSOMAGOLVA((byte)2),
+                                                      ATADVA_FUTARNAK((byte)3),
+                                                      KEZBESITVE((byte)4); */}
+                                        Rendelés új állapota(0: MEGRENDELVE, 1 : FELDOLGOZVA, 2: CSOMAGOLVA, 3:  ATADVA_FUTARNAK, 4: KEZBESITVE
+                                        szám megengedett):{" "}
                                         </label>
                                         <input class="lebegInput admin_bevitel"
                                         onChange={(e) => handleChange(e, "ordnum")}
@@ -763,7 +777,9 @@ async function handleProdToVarSubmit(prodId) {
                             }
                 
                     {UpdateUserRightsVisible &&
+                    
                             <>
+                            
                                   <div class="lebeg">
                                     <div class="lebegContent">
                                     <label for="userRights"> Felhasználó jogköre: </label>
@@ -780,11 +796,13 @@ async function handleProdToVarSubmit(prodId) {
                                        } else {
                                        // remove from list
                                        setRoleInfo(
-                                           roleInfo.filter((c) => c !== e.target.checked),
+                                           roleInfo.filter((c) => c !== e.target.value),
                                        );
-                                       
+                                      // console.log(roleInfo)
                                        }
-                                       console.log(roleInfo)
+                                       var arr = roleInfo.filter(x => isNaN(x));
+                                       setRoleInfo(arr)
+                                      
                                    }} type="checkbox" id="ROLE_ADMIN1" value="ROLE_ADMIN1"/> ROLE_ADMIN1</label>
 
                             <label><input  onChange={(e) => {
@@ -798,10 +816,12 @@ async function handleProdToVarSubmit(prodId) {
                                        } else {
                                        // remove from list
                                        setRoleInfo(
-                                           roleInfo.filter((c) => c !== e.target.checked),
+                                           roleInfo.filter((c) => c !== e.target.value),
                                        );
                                        
                                        }
+                                       var arr = roleInfo.filter(x => isNaN(x));
+                                       setRoleInfo(arr)
                                    }} type="checkbox" id="ROLE_CUSTOMER" value="ROLE_CUSTOMER"/> ROLE_CUSTOMER</label>
 
                                 <label><input  onChange={(e) => {
@@ -810,15 +830,17 @@ async function handleProdToVarSubmit(prodId) {
                                         
                                        setRoleInfo([
                                            ...roleInfo,
-                                           roleInfo.push(e.target.checked)
+                                           roleInfo.push(e.target.value)
                                        ])
                                        } else {
                                        // remove from list
                                        setRoleInfo(
-                                           roleInfo.filter((c) => c !== e.target.checked),
+                                           roleInfo.filter((c) => c !== e.target.value),
                                        );
                                        
                                        }
+                                       var arr = roleInfo.filter(x => isNaN(x));
+                                       setRoleInfo(arr)
                                    }} type="checkbox" id="ROLE_ADMIN2" value="ROLE_ADMIN2"/> ROLE_ADMIN2</label>
 
                             <label><input  onChange={(e) => {
@@ -827,14 +849,17 @@ async function handleProdToVarSubmit(prodId) {
                                         
                                        setRoleInfo([
                                            ...roleInfo,
-                                           roleInfo.push(e.target.checked)
+                                           roleInfo.push(e.target.value)
                                        ])
                                        } else {
                                        // remove from list
                                        setRoleInfo(
-                                           roleInfo.filter((c) => c !== e.target.checked),
+                                           roleInfo.filter((c) => c !== e.target.value),
                                        );
+                                       
                                        }
+                                       var arr = roleInfo.filter(x => isNaN(x));
+                                       setRoleInfo(arr)
                                    }} type="checkbox" id="ROLE_VIPCUSTOMER" value="ROLE_VIPCUSTOMER"/> ROLE_VIPCUSTOMER</label>
                                         </>
                                <button className='btn btn-danger' onClick={() => confirmUpdateUserRights()}>Felhasználó jogainak frissítése</button>
@@ -845,20 +870,6 @@ async function handleProdToVarSubmit(prodId) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-                              
-                            
                             </>
             }
                           
@@ -898,9 +909,9 @@ async function handleProdToVarSubmit(prodId) {
                             <div>
                                 <h3 class="admin_focim">Új termék adatai</h3>
                                 <label class="admin_cimke" for="prodName">Termék neve: </label>
-                                <input class="admin_bevitel"onChange={(e) => handleChange(e,"prodName")} id="prodName" type="text" required></input><br></br>
+                                <input class="admin_bevitel"onChange={(e) => handleChange(e,"prodName")} id="prodName" type="text" placeholder='Kakós csiga' required></input><br></br>
                                 <label class="admin_cimke" for="prodDesc">Termék leírása: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodDesc")} id="prodDesc" type="text" required></input><br></br>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodDesc")} id="prodDesc" type="text" placeholder='Nagyon kakaós' required></input><br></br>
                                 <label class="admin_cimke" for="prodCategory">Termék kategória (lehet több is): </label><br></br>
                                
                                 
@@ -968,11 +979,11 @@ async function handleProdToVarSubmit(prodId) {
                            
 
                                 <br></br><label class="admin_cimke" for="prodPrice">Termék ára: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodPrice")} id="prodPrice" type="number" required></input><br></br>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodPrice")} id="prodPrice" type="number" placeholder='500' required></input><br></br>
                                 <label class="admin_cimke" for="prodSalePrice">Termék eladási ára: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" required></input><br></br>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" placeholder='450' required></input><br></br>
                                 <label class="admin_cimke" for="prodStock">Termék Készlet: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" required></input><br></br>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" placeholder='69' required></input><br></br>
                                 <label class="admin_cimke" for="prodImage">Képek formátum: 1/"enter" sortörés URL, "szóköz" prioritás</label>
                                 <textarea id="story" placeholder="példa:&#10;https://api.hvg.hu/Img/7fcefbf8-ac48-4ee6-aef5-32203afa118c/5925235d-a6a9-4424-82fd-1a95a688e6cd.jpg 1&#10;https://media.makeameme.org/created/s-egy-csipetnyi.jpg 2 " class="admin_bevitel" name="story" rows="5" cols="33" onChange={(e) => handleChange(e,"prodImage")}></textarea><br></br>
                                 {/*<input class="admin_bevitel" onChange={(e) => handleChange(e,"prodImage")} id="prodImage" type="textarea" required></input><br></br>*/}
@@ -1014,18 +1025,18 @@ async function handleProdToVarSubmit(prodId) {
                                     <div>
                                         <h3 class="admin_focim">Termék Módosítása</h3>
                                 <label class="admin_cimke" for="prodName">Termék neve: </label>
-                                <input class="admin_bevitel"onChange={(e) => handleChange(e,"prodName")} id="prodName" type="text" required></input><br></br>
+                                <input class="admin_bevitel"onChange={(e) => handleChange(e,"prodName")} id="prodName" type="text" placeholder='Sós pufi' required></input><br></br>
                                 <label class="admin_cimke" for="prodDesc">Termék leírása: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodDesc")} id="prodDesc" type="text" required></input><br></br>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodDesc")} id="prodDesc" type="text" placeholder='Ha n+1-et eszel belőle, akkor bereped a szád széle' required></input><br></br>
     
                             
                              
                                 <br></br><label class="admin_cimke" for="prodPrice">Termék ára: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodPrice")} id="prodPrice" type="number" required></input><br></br>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodPrice")} id="prodPrice" type="number" placeholder='500' required></input><br></br>
                                 <label class="admin_cimke" for="prodSalePrice">Termék eladási ára: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" required></input><br></br>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" placeholder='450' required></input><br></br>
                                 <label class="admin_cimke" for="prodStock">Termék Készlet: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" required></input><br></br>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" placeholder='69' required></input><br></br>
                                 <label class="admin_cimke" for="prodImage">Képek formátum: 1/"enter" sortörés URL, "szóköz" prioritás</label>
                                 <textarea placeholder="példa:&#10;https://api.hvg.hu/Img/7fcefbf8-ac48-4ee6-aef5-32203afa118c/5925235d-a6a9-4424-82fd-1a95a688e6cd.jpg 1&#10;https://media.makeameme.org/created/s-egy-csipetnyi.jpg 2 " class="admin_bevitel" id="story" name="story" rows="5" cols="33" onChange={(e) => handleChange(e,"prodImage")}></textarea>
                                 <label class="admin_cimke" for="prodVisible2">Termék láthatósága:</label>
@@ -1069,11 +1080,11 @@ async function handleProdToVarSubmit(prodId) {
                          {updateCategoryVisible &&
                             <>
                                         <p>Kategória neve:</p>
-                                        <input class="admin_bevitel"  onChange={(e) => handleChange(e, "updateCatName")} id="updCatName" type="text" required></input>
+                                        <input class="admin_bevitel"  onChange={(e) => handleChange(e, "updateCatName")} id="updCatName" type="text" placeholder='Tej' required></input>
                                         <p>Kategória leírása:</p>
-                                        <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatDesc")}  id="updCatDesc" type="text" required></input>
+                                        <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatDesc")}  id="updCatDesc" type="text" placeholder='Ezt issza a macska' required></input>
                                         <p>Kategória prioritása:</p>
-                                        <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatPrior")}  id="updCatPrior" type="text" required></input>
+                                        <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatPrior")}  id="updCatPrior" type="number" placeholder='1' required></input>
                                         <button type="button" className='btn btn-info' onClick={() => updateCategoryConfirm(catId, catName, catDesc, catPrior)}>Módosít</button>
                             </>
                          
@@ -1082,11 +1093,11 @@ async function handleProdToVarSubmit(prodId) {
                             <div>
                                 <h3 class="admin_focim">Új kategória adatai</h3>
                                 <label class="admin_cimke" for="catName">Kategória neve: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"catName")} id="catName" type="text" required></input>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"catName")} id="catName" type="text" placeholder='Felvágott' required></input>
                                 <label class="admin_cimke" for="catDesc">Kategória leírása: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"catDesc")} id="catDesc" type="text" required></input>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"catDesc")} id="catDesc" type="text" placeholder='Fel szokták vágni' required></input>
                                 <label class="admin_cimke" for="catPrior">Kategória prioritása: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"catPrior")} id="prodDesc" type="number" required></input>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"catPrior")} id="prodDesc" type="number" placeholder='1' required></input>
                                 <button onClick={() => handleCatSubmit(catName, catDesc, catPrior)} className='btn btn-primary' type='button'>Új kategória felvétele</button>
                             </div>
                                 
@@ -1095,7 +1106,7 @@ async function handleProdToVarSubmit(prodId) {
                             <div>
                                 <h3 class="admin_focim">Új variáció adatai</h3>
                                 <label class="admin_cimke" for="varName">Variáció neve: </label>
-                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"varName")} id="varName" type="text" required></input>
+                                <input class="admin_bevitel" onChange={(e) => handleChange(e,"varName")} id="varName" type="text"  placeholder='Keserű' required></input>
     
                                 <button onClick={() => handleVarSubmit(varName)} className='btn btn-primary' type='button'>Új variáció felvétele</button>
                             </div>

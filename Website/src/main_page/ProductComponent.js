@@ -580,7 +580,7 @@ useEffect(() => {
                           </li>
                         </ul>
                       )}
-                      {product.p.sale_price != product.p.price ?
+                      {product.p.sale_price != product.p.price  ?
                       <>
                       <h2 class="discount">Akciós</h2>
                       </>
@@ -593,14 +593,14 @@ useEffect(() => {
                      
                     
                     </div>
-                    {product.p.sale_price != product.p.price &&
+                    {product.p.sale_price != product.p.price && 
                         <div>AKCIÓS TERMÉK!</div>
                       }
                     <div class="part-2">
                     
                       <h3 class="product-title">{product.p.name}</h3>
                       
-                      {product.p.sale_price != product.p.price ?
+                      {product.p.sale_price != product.p.price && product.p.sale_price < product.p.price ?
                       <>
                       <h4 class="product-price">{product.p.price} Ft helyett: </h4>
                       <h4> {product.p.sale_price} Ft.</h4>

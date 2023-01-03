@@ -397,21 +397,35 @@ const getUsers = () => {
 // updateAdminRights
 
 const updateAdminRights = (userId, rolesJson) => {
-  return axios
-  .post(PRODUCTS_REST_API_URL_ADMIN + "updateAdminRightsOrderState",
-  {},
-  {
+  var bodyFormData = new FormData();
+
+
+  bodyFormData.append('userId', userId);
+  const rolesJsonArray = [];
+  rolesJsonArray.push(rolesJson)
+
+  return axios({
+    method: "post",
+    url: PRODUCTS_REST_API_URL_ADMIN + "updateAdminRights",
+    data: bodyFormData,
+    headers: { 'Content-Type': 'application/json' },
     params: {
       userId: userId,
-      rolesJson : rolesJson
+      rolesJson : JSON.stringify(rolesJsonArray)
     },
     withCredentials: true
   })
-  .then((response) => {
-    alert(response.data.message)
-    window.location.assign("/admin")
-    return response.data;
-  });
+    .then(function (response) {
+      //handle success
+      //console.log(response);
+      alert("Sikeres módosítás")
+      window.location.assign("/admin")
+    })
+    .catch(function (response) {
+      //handle error
+      alert("Hiba lépett fel a módosítás során!")
+      window.location.assign("/admin")
+    });
 
 
 
