@@ -8,7 +8,7 @@ import com.webshop.dbModels.Role;
 
 /**
  * Adminisztrátorok számára a felhasználók lekérésére készült modell
- * long userId, String username, String email, boolean mailConfirmed, List<Orders> userOrders, Set<Role>userRoles
+ * long userId, String username, String email, boolean mailConfirmed, {@literal List<Orders> } userOrders, {@literal Set<Role>userRoles }
  * @author BalazsPC
  *
  */

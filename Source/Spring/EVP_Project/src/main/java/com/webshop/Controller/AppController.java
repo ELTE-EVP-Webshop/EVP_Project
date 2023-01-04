@@ -232,7 +232,7 @@ public class AppController {
 	/**
 	 * Speciális keresés kulcsszavakkal - A megadott kulcsszavak bármelyike szerepel egy tárgynál kulcsszóként
 	 * Pl.: "nagyi friss" -> Azokat a termékeket adja vissza, melyeknek a kulcsszavai között szerepel a nagyi, VAGY a friss 
-	 * @param keywordText
+	 * @param keywordText A keresett kulcsszó / kulcsszavak szóközzel elválasztva
 	 * @return String, JSON formátumban Product lista, melyek megfelelnek a keresésnek
 	 */
 	@GetMapping("findProductsByKeywordAny")
@@ -277,7 +277,7 @@ public class AppController {
 	/**
 	 * Speciális keresés kulcsszavakkal - A megadott kulcsszavak mindegyike szerepel egy tárgynál kulcsszóként
 	 * Pl.: "nagyi friss" -> Azokat a termékeket adja vissza, melyeknek a kulcsszavai között szerepel a nagyi, ÉS a friss IS
-	 * @param keywordText
+	 * @param keywordText A keresett kulcsszó / kulcsszavak szóközzel elválasztva
 	 * @return String, JSON formátumban Product lista, melyek megfelelnek a keresésnek
 	 */
 	@GetMapping("findProductsByKeywordAll")

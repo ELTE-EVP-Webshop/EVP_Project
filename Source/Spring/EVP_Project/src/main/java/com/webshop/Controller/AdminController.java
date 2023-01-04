@@ -47,10 +47,10 @@ import com.webshop.idModels.*;
 import com.webshop.Model.*;
 
 /**
- * 
- * @author BalazsPC
  * Admin controller: Csak bejelentkezés után ROLE_ADMIN1, ROLE_ADMIN2 jogosultsággal érhető el
  * Összes repo elérhető belőle
+ * @author BalazsPC
+ * 
  */
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600, allowCredentials = "true")
 @RestController
@@ -351,7 +351,7 @@ public class AdminController {
 	 * Csak a termékcsoport neve módosítható. Keresés elsődleges kulcs(id) alapján
 	 * @param id long, A termékcsoport egyedi azonosítója, nem módosítható
 	 * @param variation String, a termékcsoport új neve
-	 * @return
+	 * @return MessageResponse, a módisítás eredménye
 	 */
 	@PostMapping("updateVariation")
 	public ResponseEntity<MessageResponse> updateVariation(long id, String variation) {
@@ -501,8 +501,8 @@ public class AdminController {
 	
 	/**
 	 * Rendelés keresése azonosító alapján - Admin
-	 * @param ordeId
-	 * @return
+	 * @param ordeId long, a rendelés azonosítója
+	 * @return {@literal ResponseEntity<?> }, A keresés eredménye, ha nincs akkor értesítés
 	 */
 	@GetMapping("findOrderById")
 	public ResponseEntity<?> findOrderById(long ordeId) {
@@ -567,7 +567,7 @@ public class AdminController {
 	
 	/**
 	 * Felhasználók, és hozzájuk tartozó rendelések, jogosultságok listázása
-	 * @return
+	 * @return {@literal ResponseEntity<?> } A felhasználók JSON formátumban
 	 */
 	@GetMapping("getUsers")
 	public ResponseEntity<?> getUsers() {

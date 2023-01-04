@@ -37,7 +37,7 @@ public class UserDetailsImpl implements UserDetails {
    * @param username String, felhasználónév (unique)
    * @param email String, a fiókhoz tartozó email (unique)
    * @param password String, a felhasználó jelszava
-   * @param authorities Collection<? extends GrantedAuthority>, Gyűjtemény, a felhasználó jogosultságai
+   * @param authorities {@literal Collection<? extends GrantedAuthority> }, Gyűjtemény, a felhasználó jogosultságai
    */
   public UserDetailsImpl(Long id, String username, String email, String password,
       Collection<? extends GrantedAuthority> authorities) {
@@ -68,7 +68,7 @@ public class UserDetailsImpl implements UserDetails {
 
   /**
    * Getter a felhasználó jogosultságaihoz
-   * @return authorities Collection<? extends GrantedAuthority>, a felhasználó jogosultságai
+   * @return authorities {@literal Collection<? extends GrantedAuthority> }, a felhasználó jogosultságai
    */
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

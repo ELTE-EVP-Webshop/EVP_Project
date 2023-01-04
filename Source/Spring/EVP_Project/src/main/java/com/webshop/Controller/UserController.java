@@ -402,7 +402,7 @@ public class UserController {
 	/**
 	 * Felhasználó rendelés előzményeinek lekérése
 	 * Minden felhasználó csak a saját rendeléseit éri el
-	 * @return MessageResponse, tartalma siker esetén a rendelések JSON formátumban (List<Orders>), ha nem volt még rendelés, akkor üzenet, hiba esetén hiba leírás
+	 * @return MessageResponse, tartalma siker esetén a rendelések JSON formátumban ({@literal List<Orders> }), ha nem volt még rendelés, akkor üzenet, hiba esetén hiba leírás
 	 */
 	@GetMapping("getOrders")
 	public ResponseEntity<?> getOrders() {

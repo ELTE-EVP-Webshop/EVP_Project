@@ -39,7 +39,7 @@ public class pdfService {
 	 * Rendeléshez tartozó számla kiállítása
 	 * A kiállított számlát a főkönyvtáron belüli receipts mappában találjuk, neve rendeles_"azonosító"_szamla.pdf
 	 * @param orderId A rendelés azonosítója (szerepel a számlán is)
-	 * @param products List<Basket> a kosárban lévő termékek(Meghíváskor már a rendelésekhez áthelyezve, biztos van mindenből, nem léphet fel hiba, ami miatt nem teljesül a rendelés)
+	 * @param products {@literal List<Basket>} a kosárban lévő termékek(Meghíváskor már a rendelésekhez áthelyezve, biztos van mindenből, nem léphet fel hiba, ami miatt nem teljesül a rendelés)
 	 * @param userName String, a felhasználó neve (szerepel a számlán)
 	 * @param paymentMethod short, Fizetési mód értéke (Szerepel a számlán)
 	 * @return boolean, sikeres/sikertelen létrehozás, eltárolás

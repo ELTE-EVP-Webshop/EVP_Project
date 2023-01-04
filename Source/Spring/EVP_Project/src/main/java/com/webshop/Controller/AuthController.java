@@ -76,8 +76,8 @@ public class AuthController {
   /**
    * Bejelentkezés
    * Felhasználó beléptetése, token generálása (id, felhasználónév, email, jogosultságok alapján)
-   * @param loginRequest
-   * @return ResponseEntity<?>, bejelentkezés eredmény, siker esetén token küldése sütikben, vagy sikertelen bejelentkezés oka. 
+   * @param loginRequest LoginRequest, RequestBody-ból kinyerve a bejelentkezési adatok
+   * @return ResponseEntity{@literal <?>}, bejelentkezés eredmény, siker esetén token küldése sütikben, vagy sikertelen bejelentkezés oka. 
    */
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -100,7 +100,7 @@ public class AuthController {
    * Felhasnzáló regisztrálása a rendszerben. Felhasználónév / Email unique adattag, ellenőrzés, adatok eltárolása.
    * Megerősítő email kiküldése, szükséges token generálása.
    * @param signUpRequest SignUpReques, a regisztrációs adatok RequestBody-ból.
-   * @return ResponseEntity<?> Regisztráció eredmény. Sikertelen regisztráció esetén a sikertelenség oka.
+   * @return ResponseEntity{@literal <?>} Regisztráció eredmény. Sikertelen regisztráció esetén a sikertelenség oka.
    */
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
@@ -193,7 +193,7 @@ public class AuthController {
   
   /**
    * Kijelentkezés
-   * @return ResponseEntity<?>, kijelentkezés eredménye
+   * @return ResponseEntity{@literal <?>}, kijelentkezés eredménye
    */
   @PostMapping("/signout")
   public ResponseEntity<?> logoutUser() {
@@ -202,6 +202,11 @@ public class AuthController {
         .body(new MessageResponse("You've been signed out!"));
   }
   
+  /**
+   * Email küldés a felhasznáónak új jelszó beállításhoz
+   * @param email String, a felhasználófiókhoz tartozó mail cím
+   * @return ResponseEntity{@literal <?>} A művelet eredménye (Siker / Sikertelen miért)
+   */
   @GetMapping("askNewPasswordMail")
   public ResponseEntity<?> askNewPasswordMail(String email) {
 	  Optional<User> u = userRepository.findByEmail(email);

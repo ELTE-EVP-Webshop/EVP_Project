@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Termék hozzáadásához, listázásához készült modell (admin)
- * String name, String description, int price, int salePrice, int stock, boolean visible, List<Integer> categories, String images, List<String> keywords, List<VariationReqRepModel> variations
+ * String name, String description, int price, int salePrice, int stock, boolean visible, {@literal List<int>} categories, String images, {@literal List<String>} keywords, {@literal List<VariationReqRepModel>} variations
  * @author BalazsPC
  *
  */

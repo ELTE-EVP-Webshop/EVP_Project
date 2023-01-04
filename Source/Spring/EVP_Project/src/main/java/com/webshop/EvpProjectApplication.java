@@ -7,19 +7,23 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * Spring applikáció main függvény
+ * Spring applikáció main class
  * @author BalazsPC
  *
  */
 @SpringBootApplication
 public class EvpProjectApplication{
+	/**
+	 * Spring app main függvény, belépési pont
+	 * @param args indisítási paraméterek (nincs)
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(EvpProjectApplication.class, args);
 	}
 	
 	/**
 	 * CORS konfigurálás REACT-hoz
-	 * @return
+	 * @return WebMvcConfigurer, a konfigurált példány. 
 	 */
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
