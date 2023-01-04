@@ -20,10 +20,10 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.webshop.Basket;
-import com.webshop.Product;
-import com.webshop.ProductRepository;
 import com.webshop.Model.paymentMethods;
+import com.webshop.dbModels.Basket;
+import com.webshop.dbModels.Product;
+import com.webshop.repos.ProductRepository;
 
 /**
  * PDF létrehozó funkciók

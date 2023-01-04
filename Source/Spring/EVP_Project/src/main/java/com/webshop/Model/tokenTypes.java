@@ -14,4 +14,8 @@ public enum tokenTypes {
 	private tokenTypes (int type) {
 		this.type = type;
 	}
+	
+	public int getType() {
+		return this.type;
+	}
 }

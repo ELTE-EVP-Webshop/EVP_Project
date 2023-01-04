@@ -3,8 +3,8 @@ package com.webshop.responsemodels;
 import java.util.List;
 import java.util.Set;
 
-import com.webshop.Orders;
-import com.webshop.Role;
+import com.webshop.dbModels.Orders;
+import com.webshop.dbModels.Role;
 
 /**
  * Adminisztrátorok számára a felhasználók lekérésére készült modell

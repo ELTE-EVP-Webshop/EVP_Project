@@ -17,6 +17,14 @@ import org.springframework.test.annotation.Rollback;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.webshop.dbModels.Product;
+import com.webshop.dbModels.User;
+import com.webshop.repos.ProductCategoryRepository;
+import com.webshop.repos.ProductImagesRepository;
+import com.webshop.repos.ProductRepository;
+import com.webshop.repos.ProductVariationsRepository;
+import com.webshop.repos.UserRepository;
+import com.webshop.responsemodels.ProductResponseModel;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)

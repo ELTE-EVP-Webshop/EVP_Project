@@ -20,6 +20,10 @@ public enum deliveryMethods {
         this.type = type;
     }
 	
+	public short getType() {
+		return this.type;
+	}
+	
 	public static boolean isValidDeliveryMethod(short value) {
 		if(value >= 1 && value <= 6) {
 			return true;

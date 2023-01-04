@@ -15,6 +15,10 @@ public enum paymentMethods {
         this.type = type;
     }
 	
+	public short getType() {
+		return this.type;
+	}
+	
 	public static boolean isValidPaymentMethod(short value) {
 		if(value >= 1 && value <= 3) {
 			return true;

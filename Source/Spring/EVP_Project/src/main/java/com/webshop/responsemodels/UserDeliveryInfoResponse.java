@@ -1,6 +1,6 @@
 package com.webshop.responsemodels;
 
-import com.webshop.User;
+import com.webshop.dbModels.User;
 
 /**
  * Felhasználó szállítási adatainak lekérdezéséhez / módosításához készült modell

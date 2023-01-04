@@ -6,8 +6,8 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.webshop.Tokens;
-import com.webshop.TokensRepository;
+import com.webshop.dbModels.Tokens;
+import com.webshop.repos.TokensRepository;
 
 import net.bytebuddy.utility.RandomString;
 
