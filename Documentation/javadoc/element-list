@@ -1,9 +1,0 @@
-com.webshop
-com.webshop.Controller
-com.webshop.dbModels
-com.webshop.idModels
-com.webshop.Model
-com.webshop.repos
-com.webshop.requestmodels
-com.webshop.responsemodels
-com.webshop.services
