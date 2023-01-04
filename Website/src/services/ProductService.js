@@ -96,6 +96,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
             //handle success
             console.log(response);
             alert(response.data.message)
+            window.location.reload()
           })
           .catch(function (response) {
             //handle error
@@ -156,7 +157,7 @@ bodyFormData.append('visible', true);
       .catch(function (response) {
         //handle error
         alert("Hiba lépett fel a módosítás során!")
-        window.location.assign("/admin")
+        window.location.reload()
       });
 
  
@@ -179,7 +180,7 @@ bodyFormData.append('visible', true);
         })
         .then((response) => {
           alert(response.data.message)
-
+          window.location.reload()
           return response.data;
         });
 
@@ -200,7 +201,7 @@ bodyFormData.append('visible', true);
         })
         .then((response) => {
           alert(response.data.message)
-
+          window.location.reload()
           return response.data;
         });
       }
@@ -218,7 +219,7 @@ bodyFormData.append('visible', true);
           })
           .then((response) => {
             alert(response.data.message)
-  
+            window.location.reload()
             return response.data;
           });
 
@@ -239,7 +240,7 @@ bodyFormData.append('visible', true);
           })
           .then((response) => {
             alert(response.data.message)
-  
+            window.location.reload()
             return response.data;
           });
         }
@@ -257,7 +258,7 @@ bodyFormData.append('visible', true);
           })
           .then((response) => {
             alert(response.data.message)
-  
+            window.location.reload()
             return response.data;
           });
         }
@@ -369,7 +370,7 @@ const updateOrderState = (orderId, newState) => {
   })
   .then((response) => {
     alert(response.data.message)
-  //  window.location.assign("/admin")
+    window.location.assign()
     return response.data;
   });
 }
@@ -424,7 +425,7 @@ const updateAdminRights = (userId, rolesJson) => {
     .catch(function (response) {
       //handle error
       alert("Hiba lépett fel a módosítás során!")
-     // window.location.assign("/admin")
+      window.location.assign()
     });
 
 

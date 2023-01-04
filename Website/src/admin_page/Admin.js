@@ -89,6 +89,7 @@ export default function ShoppingCart() {
 
         await setAvailableProducts(vari)
         await setLoading(false)
+        
     }
 
     async function getAllOrder() {
@@ -221,10 +222,10 @@ export default function ShoppingCart() {
     hideAll();
   }
 
-  const updateProductConfirm = (prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock) => {
+  const updateProductConfirm = (prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodImage) => {
     
     if(prodName != "" && prodDesc != "" && prodSalePrice > 0 && prodPrice > 0 && prodStock >= 0) {
-        
+        // prodId, prodName, prodDesc, prodPrice,prodSalePrice, prodVisible, prodStock, productImage
         ProductService.updateProduct(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodImage)
         // console.log(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodVisible)
         hideAll();
@@ -397,7 +398,7 @@ export default function ShoppingCart() {
 
   }
 
-  const updateProduct = (prodId, prodName, prodDesc, prodPrice,prodSalePrice, prodStock, prodVisible) => {
+  const updateProduct = (prodId, prodName, prodDesc, prodPrice,prodSalePrice, prodVisible, prodStock, productImage ) => {
       hideAll();
       setUpdateProductVisible(true)
       setProdId(prodId)
@@ -407,12 +408,13 @@ export default function ShoppingCart() {
       setProdSalePrice(prodSalePrice)
       setProdVisible(prodVisible)
       setProdStock(prodStock)
+      //console.log(productImage)
       if(updateProductVisible) {
           setProductVisible(false)
       }
   }
 
-  const updateVariationConfirm = (varId, varName) => {
+  const updateVariationConfirm = (varid, varName) => {
   hideAll();
   if(varName != "") {
   ProductService.updateVariation(varId, varName)
@@ -437,7 +439,7 @@ export default function ShoppingCart() {
   const updateCategoryConfirm = (id,  category, smallDesc,  priority) => {
       hideAll();
       if(category != "" && smallDesc != "") {
-      ProductService.updateCategory(id, category, smallDesc, priority)
+      ProductService.updateCategory(catId, category, smallDesc, priority)
       } else {
           alert("Kérlek töltsd ki az új kategória adatait!")
       }
@@ -989,12 +991,13 @@ export default function ShoppingCart() {
                             <p>Leírás: {product.p.description}</p>
                             <p>Ár: {product.p.sale_price}</p>
                             <p>Raktár: {product.p.stock}</p>
+                        
                             <p>
                               Termék láthatósága:{" "}
                               {product.p.visible ? "Igaz" : "Hamis"}
                             </p>
                             <button
-                              onClick={() => updateProduct(product.p.id, product.p.name, product.p.description, product.p.sale_price, product.p.visible, product.p.stock)}
+                              onClick={() => updateProduct(product.p.id, product.p.name, product.p.description, product.p.sale_price, product.p.visible, product.p.stock, product.images)}
                               type="button"
                               className="btn btn-danger"
                             >
@@ -1110,7 +1113,7 @@ export default function ShoppingCart() {
                                 <p>
                                   {variation.id} - {variation.name}
                                 </p>
-                                <button onClick={() => updateVariation(varId, variation.name)}type="button"className="btn btn-danger">Módosítás</button>
+                                <button onClick={() => updateVariation(variation.id, variation.name)}type="button"className="btn btn-danger">Módosítás</button>
                               </li>
                             </>
                           ))}
@@ -1118,7 +1121,7 @@ export default function ShoppingCart() {
                   </div>
                 )}
 
-                {updateProductVisible &&(
+{updateProductVisible &&(
                   <div>
                     <h3 class="admin_focim">Termék Módosítása</h3>
                     <label class="admin_cimke" for="prodName">Termék neve: </label>
