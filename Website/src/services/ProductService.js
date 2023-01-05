@@ -281,7 +281,9 @@ const findProductsByFilterText = (filterText) => {
     //console.log(response.data);
 	
     return response.data;
-  });
+  }) .catch(function (error) {
+    alert("Hoppácska, nincs találat!");
+  });;
 };
 
 // findProductsByKeywordAny
@@ -298,7 +300,10 @@ const findProductsByKeywordAny = (filterText) => {
   //  console.log(response.data);
 
     return response.data;
-  });
+  }) .catch(function (error) {
+    alert("Hoppácska, nincs találat!");
+    
+  });;
 };
 
 // findProductsByKeywordAll
@@ -316,7 +321,10 @@ const findProductsByKeywordAny = (filterText) => {
   //  console.log(response.data);
 
     return  response.data;
+  })  .catch(function (error) {
+    alert("Hoppácska, nincs találat!");
   });
+ 
 };
 
 // Find product by category id

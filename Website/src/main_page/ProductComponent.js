@@ -35,21 +35,22 @@ const logOut = () => {
 };
 
 useEffect(() => {
+  async function getCategories() {
+    var cat = await ProductService.getCategories();
+    await setCategories(cat)
+    //alert(AuthService.getCookie('ikwebshopToken'))
+    //console.log(categories)
+}
+
+
+getCategories();
   if (user) {
 
 
 
     setCurrentUser(user);
     setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
-    async function getCategories() {
-      var cat = await ProductService.getCategories();
-      await setCategories(cat)
-      //alert(AuthService.getCookie('ikwebshopToken'))
-      //console.log(categories)
-  }
-
-
-  getCategories();
+ 
     setShowAdminBoard(
       user.roles.includes("ROLE_ADMIN1") || user.roles.includes("ROLE_ADMIN2")
     );
@@ -222,10 +223,18 @@ useEffect(() => {
         modal.style.display = "none";
         CatKick();
       });
+      {currentUser != null &&
       $("#cartAddMultipleBTN").click(function () {
         modal.style.display = "none";
        addToCart(product.p.id, $( "#cartAddMultipleNUM" ).val())
       });
+    }
+    {currentUser == null &&
+      $("#cartAddMultipleBTN").click(function () {
+        modal.style.display = "none";
+        alert("Ez a funkció csak bejelentkezve elérhető!")
+      });
+    }
       var modal = document.getElementById("myModal2");
       window.addEventListener("click", function (event) {
         if (event.target == modal) {
@@ -446,7 +455,7 @@ useEffect(() => {
                    { categories.map(cat =>
                     
                       <li key={cat.id} value={cat.id}>
-                         <button value={cat.id}  onClick={(e) => prodByCat(e.target.value)}>{cat.category}</button>
+                        <button value={cat.id}  onClick={(e) => prodByCat(e.target.value)}>{cat.category}</button>
                       </li>
                       )}
                       </>
@@ -516,7 +525,7 @@ useEffect(() => {
             <div class="row justify-content-center text-center">
               <div class="col-md-8 col-lg-6">
                 <div class="header">
-                    {products.length > 0 && 
+                    {products && products.length > 0 && 
                       <h2 class="new">Új termékek</h2>
                     }
                 </div>
@@ -544,14 +553,14 @@ useEffect(() => {
                     tárgynál)
                   </option>
                 </select>*/}
-                {products.length < 1 && !productLoading && !productFilter &&
+                {products && products.length < 1 && !productLoading && !productFilter &&
                   <h1>Nincsenek elérhető termékek!</h1>
                 }
               </div>
             </div>
             <div class="row">
                  
-              {products.map((product, index) => (
+              {products && products.map((product, index) => (
                 product.p ?
                 <div key={product.p.id} class="col-md-6 col-lg-4 col-xl-3 single-product-card">
                   <div id={product.p.id}  name="single-product" class="single-product">
