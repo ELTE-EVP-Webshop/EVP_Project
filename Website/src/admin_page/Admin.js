@@ -222,7 +222,7 @@ export default function ShoppingCart() {
     hideAll();
   }
 
-  const updateProductConfirm = (prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodImage) => {
+  const updateProductConfirm = (prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodImage, asd) => {
     
     if(prodName != "" && prodDesc != "" && prodSalePrice > 0 && prodPrice > 0 && prodStock >= 0) {
         // prodId, prodName, prodDesc, prodPrice,prodSalePrice, prodVisible, prodStock, productImage
@@ -398,7 +398,7 @@ export default function ShoppingCart() {
 
   }
 
-  const updateProduct = (prodId, prodName, prodDesc, prodPrice,prodSalePrice, prodVisible, prodStock, productImage ) => {
+  const updateProduct = (prodId, prodName, prodDesc, prodPrice,prodSalePrice, prodVisible, prodStock ) => {
       hideAll();
       setUpdateProductVisible(true)
       setProdId(prodId)
@@ -408,6 +408,7 @@ export default function ShoppingCart() {
       setProdSalePrice(prodSalePrice)
       setProdVisible(prodVisible)
       setProdStock(prodStock)
+      setProdImage(prodImage)
       //console.log(productImage)
       if(updateProductVisible) {
           setProductVisible(false)
@@ -997,7 +998,8 @@ export default function ShoppingCart() {
                               {product.p.visible ? "Igaz" : "Hamis"}
                             </p>
                             <button
-                              onClick={() => updateProduct(product.p.id, product.p.name, product.p.description, product.p.sale_price, product.p.visible, product.p.stock, product.images)}
+                            // (prodId, prodName, prodDesc, prodPrice,prodSalePrice, prodVisible, prodStock
+                              onClick={() => updateProduct(product.p.id, product.p.name, product.p.description, product.p.price, product.p.sale_price, product.p.visible, product.p.stock)}
                               type="button"
                               className="btn btn-danger"
                             >
@@ -1130,9 +1132,9 @@ export default function ShoppingCart() {
                     <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodDesc")} id="prodDesc" type="text" defaultValue={prodDesc} required></input><br></br>
                     <br></br>
                     <label class="admin_cimke" for="prodPrice">Termék ára: </label>
-                    <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodPrice")} id="prodPrice" type="number" defaultValue={prodPrice} placeholder='500' required></input><br></br>
+                    <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodPrice")} id="prodPrice" type="number" defaultValue={prodPrice}required></input><br></br>
                     <label class="admin_cimke" for="prodSalePrice">Termék eladási ára: </label>
-                    <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" defaultValue={prodSalePrice} placeholder='450' required></input><br></br>
+                    <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodSalePrice")} id="prodSalePrice" type="number" defaultValue={prodSalePrice}  required></input><br></br>
                     <label class="admin_cimke" for="prodStock">Termék Készlet: </label>
                     <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" defaultValue={prodStock} required></input><br></br>
                     <label class="admin_cimke" for="prodImage">Képek formátum: 1/"enter" sortörés URL, "szóköz" prioritás</label>
@@ -1144,7 +1146,7 @@ export default function ShoppingCart() {
                     </select>
                     <br></br>
                     <button onClick={() => updateProductConfirm(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock,prodImage, prodVisible2)} className='btn btn-primary' type='button'>Termék módosítása</button>
-                  </div>
+                  </div>                   
                 )}
 
                 {updateVariationVisible &&(
