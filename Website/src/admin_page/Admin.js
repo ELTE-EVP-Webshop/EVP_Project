@@ -868,7 +868,7 @@ export default function ShoppingCart() {
                                   {user.userRoles.length < 1 && "Nincs"}
                                 </p>
                                 <br></br>
-                                <button onClick={() => updateUserRights(user.userId)} className='btn btn-success'>Felhasználó jogainak módosítása</button>
+                                <button onClick={() => updateUserRights(user.userId)} className='btn btn-success editgomb'>Felhasználó jogainak módosítása</button>
                                 
                             </li>
                           </>
