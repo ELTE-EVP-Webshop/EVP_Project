@@ -174,14 +174,47 @@ useEffect(() => {
       )[0].image_url;
     return "https://thumbs.dreamstime.com/b/error-not-found-symbol-logo-design-vector-232023001.jpg";
   };
+  function sliderimage(product) {
+    if (product && product.images.length > 0)
+    {
+      var imagecounter=1;
+      var imagecounter2=1;
+      return(
+        product.images.map((p) =>
+            "<div class='mySlides fade'>"+
+              "<div class='numbertext'>"+imagecounter++ +"/"+ product.images.length+"</div>"+
+              "<img src="+p.image_url+" class='modalIMG' style='width:100%'>"+
+            "</div>"
+        ).join(' ')+
+        "<div style='text-align:center'>"+
+            product.images.map((p) =>
+                "<span class='dot' onclick='currentSlide("+ imagecounter2++ +")'></span>"
+            ).join(' ')+
+        "</div>"+
+        "<a class='prev' onclick='plusSlides(-1)'>❮</a>"+
+        "<a class='next' onclick='plusSlides(1)'>❯</a>"
+      )
+    }
+    else
+    {
+      return(
+        "<div class='mySlides fade'>"+
+            "<div class='numbertext'>"+1 +"/"+ 1+"</div>"+
+            "<img src='https://thumbs.dreamstime.com/b/error-not-found-symbol-logo-design-vector-232023001.jpg' class='modalIMG' style='width:100%'>"+
+        "</div>"+
+        "<div style='text-align:center'>"+
+            "<span class='dot' onclick='currentSlide("+ 1 +")'></span>"+
+        "</div>"
+      )
+    }
+    
+  }
 
 
 
   function ModaliuszLeviosza (product) {
     if (!cartAddOne) {
       var desc = product.p.description ? product.p.description : "Nincs leírás";
-      var imagecounter=1;
-      var imagecounter2=1;
       var modal = document.getElementById("myModal2");
       modal.style.display = "block";
       document.getElementById("myModal2").innerHTML =
@@ -189,19 +222,7 @@ useEffect(() => {
           "<span class='close' id='close' name='close'>&times;</span>" +
           "<div class='modal-content'>" +
           "<div class='slideshow-container'>"+
-            product.images.map((p) =>
-              "<div class='mySlides fade'>"+
-                "<div class='numbertext'>"+imagecounter++ +"/"+ product.images.length+"</div>"+
-                "<img src="+p.image_url+" class='modalIMG' style='width:100%'>"+
-              "</div>"
-            ).join(' ')+
-            "<div style='text-align:center'>"+
-            product.images.map((p) =>
-            "<span class='dot' onclick='currentSlide("+ imagecounter2++ +")'></span>"
-            ).join(' ')+
-            "</div>"+
-            "<a class='prev' onclick='plusSlides(-1)'>❮</a>"+
-            "<a class='next' onclick='plusSlides(1)'>❯</a>"+
+            sliderimage(product)+
           "</div>"+
             "<div class='modal-content-detail'>" +
               "<p class='modalName'>" +product.p.name + "</p> " +
