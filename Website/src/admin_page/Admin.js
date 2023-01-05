@@ -1123,7 +1123,7 @@ export default function ShoppingCart() {
                   </div>
                 )}
 
-{updateProductVisible &&(
+                {updateProductVisible &&(
                   <div>
                     <h3 class="admin_focim">Termék Módosítása</h3>
                     <label class="admin_cimke" for="prodName">Termék neve: </label>
@@ -1177,90 +1177,44 @@ export default function ShoppingCart() {
                   </div>
                 )}
 
-                  {updateCategoryVisible &&(
-                    <>
-                      <p>Kategória neve:</p>
-                      <input class="admin_bevitel"  onChange={(e) => handleChange(e, "updateCatName")} id="updCatName" type="text" defaultValue={catName} required></input>
-                      <p>Kategória leírása:</p>
-                      <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatDesc")}  id="updCatDesc" type="text" defaultValue={catDesc} required></input>
-                      <p>Kategória prioritása:</p>
-                      <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatPrior")}  id="updCatPrior" type="number" defaultValue={catPrior} required></input>
-                      <button type="button" className='btn btn-info' onClick={() => updateCategoryConfirm(catId, catName, catDesc, catPrior)}>Módosít</button>
-                    </>
-                  )}
+                {updateCategoryVisible &&(
+                  <>
+                    <p class="admin_cimke">Kategória neve:</p>
+                    <input class="admin_bevitel"  onChange={(e) => handleChange(e, "updateCatName")} id="updCatName" type="text" defaultValue={catName} required></input>
+                    <p class="admin_cimke">Kategória leírása:</p>
+                    <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatDesc")}  id="updCatDesc" type="text" defaultValue={catDesc} required></input>
+                    <p class="admin_cimke">Kategória prioritása:</p>
+                    <input class="admin_bevitel" onChange={(e) => handleChange(e, "updateCatPrior")}  id="updCatPrior" type="number" defaultValue={catPrior} required></input>
+                    <button type="button" className='btn btn-info' onClick={() => updateCategoryConfirm(catId, catName, catDesc, catPrior)}>Módosít</button>
+                  </>
+                )}
 
-                  {categories &&(
-                    <div>
-                        <h3 class="admin_focim">Új kategória adatai</h3>
-                        <label class="admin_cimke" for="catName">Kategória neve: </label>
-                        <input class="admin_bevitel" onChange={(e) => handleChange(e,"catName")} id="catName" type="text" placeholder='Felvágott' required></input>
-                        <label class="admin_cimke" for="catDesc">Kategória leírása: </label>
-                        <input class="admin_bevitel" onChange={(e) => handleChange(e,"catDesc")} id="catDesc" type="text" placeholder='Fel szokták vágni' required></input>
-                        <label class="admin_cimke" for="catPrior">Kategória prioritása: </label>
-                        <input class="admin_bevitel" onChange={(e) => handleChange(e,"catPrior")} id="prodDesc" type="number" placeholder='1' required></input>
-                        <button onClick={() => handleCatSubmit(catName, catDesc, catPrior)} className='btn btn-primary' type='button'>Új kategória felvétele</button>
-                    </div>
-                  )}
+                {categories &&(
+                  <div>
+                      <h3 class="admin_focim">Új kategória adatai</h3>
+                      <label class="admin_cimke" for="catName">Kategória neve: </label>
+                      <input class="admin_bevitel" onChange={(e) => handleChange(e,"catName")} id="catName" type="text" placeholder='Felvágott' required></input>
+                      <label class="admin_cimke" for="catDesc">Kategória leírása: </label>
+                      <input class="admin_bevitel" onChange={(e) => handleChange(e,"catDesc")} id="catDesc" type="text" placeholder='Fel szokták vágni' required></input>
+                      <label class="admin_cimke" for="catPrior">Kategória prioritása: </label>
+                      <input class="admin_bevitel" onChange={(e) => handleChange(e,"catPrior")} id="prodDesc" type="number" placeholder='1' required></input>
+                      <button onClick={() => handleCatSubmit(catName, catDesc, catPrior)} className='btn btn-primary' type='button'>Új kategória felvétele</button>
+                  </div>
+                )}
 
-                  {variations &&(
-                    <div>
-                        <h3 class="admin_focim">Új variáció adatai</h3>
-                        <label class="admin_cimke" for="varName">Variáció neve: </label>
-                        <input class="admin_bevitel" onChange={(e) => handleChange(e,"varName")} id="varName" type="text"  placeholder='Keserű' required></input>
-                        <button onClick={() => handleVarSubmit(varName)} className='btn btn-primary' type='button'>Új variáció felvétele</button>
-                    </div>  
-                  )}
+                {variations &&(
+                  <div>
+                      <h3 class="admin_focim">Új variáció adatai</h3>
+                      <label class="admin_cimke" for="varName">Variáció neve: </label>
+                      <input class="admin_bevitel" onChange={(e) => handleChange(e,"varName")} id="varName" type="text"  placeholder='Keserű' required></input>
+                      <button onClick={() => handleVarSubmit(varName)} className='btn btn-primary' type='button'>Új variáció felvétele</button>
+                  </div>  
+                )}
 
-                  {productToCategoryVisible && (
-                    <div>
-                      <h3 class="admin_focim">
-                        Termék felvétele/törlése kategóriához/ból
-                      </h3>
-                      <label class="admin_cimke">Termék: </label>
-                      <select class="admin_bevitel" onChange={(e) => handleChange(e, "availProd")}>
-                        {availableProducts.map((prod) => (
-                          <>
-                            <option id={prod.p.id} value={prod.p.id}>
-                              {prod.p.name}
-                            </option>
-                          </>
-                        ))}
-                        ;
-                      </select>
-                      <br></br>
-                      <label class="admin_cimke">Kategória: </label>
-                      <select class="admin_bevitel" onChange={(e) => handleChange(e, "availCat2")}>
-                        {availableCategories.map((cat) => (
-                          <>
-                            <option id={cat.id} value={cat.id}>
-                              {cat.category}
-                            </option>
-                          </>
-                        ))}
-                        ;
-                      </select>
-                      <br></br>
-                      <button
-                        onClick={() => handleProdToCatSubmit(prodId, catId)}
-                        className="btn btn-primary"
-                        type="button"
-                      >
-                        Termék felvétele a kiválasztott kategóriához
-                      </button>
-                      <br></br>
-                      <button
-                        onClick={() => deleteCategory(prodId, catId)}
-                        className="btn btn-danger"
-                      >
-                        Termék törlése a kiválasztott kategóriából
-                      </button>
-                    </div>
-                  )}
-
-                  {productToVariationVisible && (
+                {productToCategoryVisible && (
                   <div>
                     <h3 class="admin_focim">
-                      Termék felvétele/törlése variációhoz/ból
+                      Termék felvétele/törlése kategóriához/ból
                     </h3>
                     <label class="admin_cimke">Termék: </label>
                     <select class="admin_bevitel" onChange={(e) => handleChange(e, "availProd")}>
@@ -1274,41 +1228,87 @@ export default function ShoppingCart() {
                       ;
                     </select>
                     <br></br>
-                    <label class="admin_cimke">Variáció: </label>
-                    <select class="admin_bevitel" onChange={(e) => handleChange(e, "availVar")}>
-                      {availableVariations.map((vari) => (
+                    <label class="admin_cimke">Kategória: </label>
+                    <select class="admin_bevitel" onChange={(e) => handleChange(e, "availCat2")}>
+                      {availableCategories.map((cat) => (
                         <>
-                          <option id={vari.id} value={vari.id}>
-                            {vari.name}
+                          <option id={cat.id} value={cat.id}>
+                            {cat.category}
                           </option>
                         </>
                       ))}
                       ;
                     </select>
                     <br></br>
-                    <label class="admin_cimke">Leírás: </label>
-                    <input
-                      onChange={(e) => handleChange(e, "varidesc")}
-                      class="admin_bevitel"
-                      id="desc"
-                      type="text"
-                    ></input>
-                    <br></br>
                     <button
-                      onClick={() => handleProdToVarSubmit(prodId, availVarId)}
+                      onClick={() => handleProdToCatSubmit(prodId, catId)}
                       className="btn btn-primary"
                       type="button"
                     >
-                      Termék felvétele a kiválasztott variációhoz
+                      Termék felvétele a kiválasztott kategóriához
                     </button>
                     <br></br>
                     <button
-                      onClick={() => deleteVariation(prodId, availVarId)}
+                      onClick={() => deleteCategory(prodId, catId)}
                       className="btn btn-danger"
                     >
-                      Termék törlése a kiválasztott variációból
+                      Termék törlése a kiválasztott kategóriából
                     </button>
                   </div>
+                )}
+
+                {productToVariationVisible && (
+                <div>
+                  <h3 class="admin_focim">
+                    Termék felvétele/törlése variációhoz/ból
+                  </h3>
+                  <label class="admin_cimke">Termék: </label>
+                  <select class="admin_bevitel" onChange={(e) => handleChange(e, "availProd")}>
+                    {availableProducts.map((prod) => (
+                      <>
+                        <option id={prod.p.id} value={prod.p.id}>
+                          {prod.p.name}
+                        </option>
+                      </>
+                    ))}
+                    ;
+                  </select>
+                  <br></br>
+                  <label class="admin_cimke">Variáció: </label>
+                  <select class="admin_bevitel" onChange={(e) => handleChange(e, "availVar")}>
+                    {availableVariations.map((vari) => (
+                      <>
+                        <option id={vari.id} value={vari.id}>
+                          {vari.name}
+                        </option>
+                      </>
+                    ))}
+                    ;
+                  </select>
+                  <br></br>
+                  <label class="admin_cimke">Leírás: </label>
+                  <input
+                    onChange={(e) => handleChange(e, "varidesc")}
+                    class="admin_bevitel"
+                    id="desc"
+                    type="text"
+                  ></input>
+                  <br></br>
+                  <button
+                    onClick={() => handleProdToVarSubmit(prodId, availVarId)}
+                    className="btn btn-primary"
+                    type="button"
+                  >
+                    Termék felvétele a kiválasztott variációhoz
+                  </button>
+                  <br></br>
+                  <button
+                    onClick={() => deleteVariation(prodId, availVarId)}
+                    className="btn btn-danger"
+                  >
+                    Termék törlése a kiválasztott variációból
+                  </button>
+                </div>
                 )}
               </div>
             </div>
