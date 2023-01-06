@@ -32,7 +32,7 @@ export default function ShoppingCart() {
   const [prodStock, setProdStock] = useState(0);
   const [prodImage, setProdImage] = useState("");
   const [prodVisible, setProdVisible] = useState("")
-  var [prodVisible2, setProdVisible2] = useState("")
+  var [prodVisible2, setProdVisible2] = useState(false)
   const [allProdVisible, setAllProdVisible] = useState(false)
   const [updateProductVisible, setUpdateProductVisible] = useState(false)
   //Category
@@ -162,8 +162,8 @@ export default function ShoppingCart() {
                   
                   break;
                   case 'prodVisible2':
-                  
-                    await setProdVisible2(event.target.value)
+                      console.log(event.target.value === 'true')
+                    await setProdVisible2(event.target.value === 'true')
                   
                   break;
               case 'catName':
@@ -222,13 +222,25 @@ export default function ShoppingCart() {
     hideAll();
   }
 
+  const getProductUpdateImageFormat = (prdImg) => {
+    if(Array.isArray(prdImg)){
+      //console.log(prdImg);
+      let prodUpdateBackText = ""
+      prdImg.forEach((limg)=>{
+        prodUpdateBackText = prodUpdateBackText + limg.image_url + " " + limg.priority + "\n"
+      })
+      return prodUpdateBackText
+    }
+  }
+
   const updateProductConfirm = (prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodImage, asd) => {
     
     if(prodName != "" && prodDesc != "" && prodSalePrice > 0 && prodPrice > 0 && prodStock >= 0) {
         // prodId, prodName, prodDesc, prodPrice,prodSalePrice, prodVisible, prodStock, productImage
-        ProductService.updateProduct(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodImage)
+        ProductService.updateProduct(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodImage, asd)
         // console.log(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodVisible)
         hideAll();
+        //console.log(prodName+"\n"+prodImage + " \n\n" + asd);
     } else {
         alert("Valós adatokat adj meg!")
     }
@@ -398,7 +410,7 @@ export default function ShoppingCart() {
 
   }
 
-  const updateProduct = (prodId, prodName, prodDesc, prodPrice,prodSalePrice, prodVisible, prodStock ) => {
+  const updateProduct = (prodId, prodName, prodDesc, prodPrice,prodSalePrice, prodVisible, prodStock,  prodImage) => {
       hideAll();
       setUpdateProductVisible(true)
       setProdId(prodId)
@@ -408,8 +420,8 @@ export default function ShoppingCart() {
       setProdSalePrice(prodSalePrice)
       setProdVisible(prodVisible)
       setProdStock(prodStock)
-      setProdImage(prodImage)
-      //console.log(productImage)
+      setProdImage(getProductUpdateImageFormat(prodImage))
+      console.log(prodImage)
       if(updateProductVisible) {
           setProductVisible(false)
       }
@@ -999,7 +1011,9 @@ export default function ShoppingCart() {
                             </p>
                             <button
                             // (prodId, prodName, prodDesc, prodPrice,prodSalePrice, prodVisible, prodStock
-                              onClick={() => updateProduct(product.p.id, product.p.name, product.p.description, product.p.price, product.p.sale_price, product.p.visible, product.p.stock)}
+                              onClick={() => 
+                                updateProduct(product.p.id, product.p.name, product.p.description, product.p.price, product.p.sale_price, product.p.visible, product.p.stock, product.images)
+                              }
                               type="button"
                               className="btn btn-danger"
                             >
@@ -1138,11 +1152,11 @@ export default function ShoppingCart() {
                     <label class="admin_cimke" for="prodStock">Termék Készlet: </label>
                     <input class="admin_bevitel" onChange={(e) => handleChange(e,"prodStock")} id="prodStock" type="number" defaultValue={prodStock} required></input><br></br>
                     <label class="admin_cimke" for="prodImage">Képek formátum: 1/"enter" sortörés URL, "szóköz" prioritás</label>
-                    <textarea placeholder="példa:&#10;https://api.hvg.hu/Img/7fcefbf8-ac48-4ee6-aef5-32203afa118c/5925235d-a6a9-4424-82fd-1a95a688e6cd.jpg 1&#10;https://media.makeameme.org/created/s-egy-csipetnyi.jpg 2 " class="admin_bevitel" id="story" name="story" rows="5" cols="33" onChange={(e) => handleChange(e,"prodImage")}></textarea>
+                    <textarea placeholder="példa:&#10;https://api.hvg.hu/Img/7fcefbf8-ac48-4ee6-aef5-32203afa118c/5925235d-a6a9-4424-82fd-1a95a688e6cd.jpg 1&#10;https://media.makeameme.org/created/s-egy-csipetnyi.jpg 2 " value={prodImage} class="admin_bevitel" id="story" name="story" rows="5" cols="33" onChange={(e) => handleChange(e,"prodImage")}></textarea>
                     <label class="admin_cimke" for="prodVisible2">Termék láthatósága:</label>
-                    <select id ="prodVisible2" class="admin_bevitel" onChange={(e) => handleChange(e,"prodVisible2")}>
-                        <option id="prodVisible2" value="true">Igaz</option>
-                        <option  id="prodVisible2" value="false">Hamis</option>
+                    <select id ="prodVisible2" class="admin_bevitel" defaultValue={ prodVisible ? 'true' : 'false'} onChange={(e) => handleChange(e,"prodVisible2")}>
+                        <option id="prodVisible2" value="true" >Igaz</option>
+                        <option  id="prodVisible2" value="false" >Hamis</option>
                     </select>
                     <br></br>
                     <button onClick={() => updateProductConfirm(prodId, prodName, prodDesc, prodPrice, prodSalePrice, prodStock,prodImage, prodVisible2)} className='btn btn-primary' type='button'>Termék módosítása</button>

@@ -77,8 +77,8 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
        const images = [];
         var lines = prodImage.split('\n');
         for(var i = 0;i < lines.length;i++){
-          if(lines[i].includes(";"))
-            images.push(new prodImgClass(lines[i].split(';')[0], lines[i].split(';')[1]));
+          if(lines[i].includes(" "))
+            images.push(new prodImgClass(lines[i].split(' ')[0], lines[i].split(' ')[1]));
         }
 
         bodyFormData.append('images', JSON.stringify(images));
@@ -105,7 +105,7 @@ const PRODUCTS_REST_API_URL_ADMIN = 'http://localhost:8080/api/admin/';
       };
 // Admin feature : Update product
 
-const updateProduct = (productId,prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodImage) => {
+const updateProduct = (productId,prodName, prodDesc, prodPrice, prodSalePrice, prodStock, prodImage, prodVisible) => {
   var bodyFormData = new FormData();
 
 
@@ -114,7 +114,7 @@ bodyFormData.append('description', prodDesc);
 bodyFormData.append('price', prodPrice);
 bodyFormData.append('salePrice', prodSalePrice);
 bodyFormData.append('stock', prodStock);
-bodyFormData.append('visible', true);
+bodyFormData.append('visible', prodVisible);
 
    // prodCatJSON = {"variation": prodCategoryId, "description": prodCategoryName}
 
@@ -130,11 +130,12 @@ bodyFormData.append('visible', true);
    if(prodImage != "Nincs") {
     bodyFormData.append('images',imgArray);
    } */}
+   console.log(prodImage);
    const images = [];
    var lines = prodImage.split('\n');
    for(var i = 0;i < lines.length;i++){
-     if(lines[i].includes(";"))
-       images.push(new prodImgClass(lines[i].split(';')[0], lines[i].split(';')[1]));
+     if(lines[i].includes(" "))
+       images.push(new prodImgClass(lines[i].split(' ')[0], lines[i].split(' ')[1]));
    }
 
    bodyFormData.append('images', JSON.stringify(images));

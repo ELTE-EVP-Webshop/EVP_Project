@@ -582,7 +582,7 @@ getCategories();
             <div class="row">
                  
               {products && products.map((product, index) => (
-                product.p ?
+                product.p && product.p.visible ?
                 <div key={product.p.id} class="col-md-6 col-lg-4 col-xl-3 single-product-card">
                   <div id={product.p.id}  name="single-product" class="single-product">
                     <div
